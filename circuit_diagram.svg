@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1850" height="1700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
   <defs>
-    <symbol id="AND3" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm268.8 96c.2 6 .2 12 0 18H496v-18H284.8zM16 247v18h150v-18H16zm0 96v18h150v-18H16z"/>
+    <symbol id="NOT1" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 105,111.3 V 400.7 L 365.5,256 Z M 16,247 v 18 h 150 v -18 z m 320,-14 c -12.8,0 -23,10.2 -23,23 0,12.8 10.2,23 23,23 12.8,0 23,-10.2 23,-23 0,-12.8 -10.2,-23 -23,-23 z m 40,14 c 0.6,2.9 1,5.9 1,9 0,3.1 -0.4,6.1 -1,9 h 120 v -18 z"/>
     </symbol>
     <symbol id="OR4" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M116.6 407c40-45.9 60.4-98.4 60.4-151 0-52.6-20.4-105.1-60.4-151H192c34.1 0 81.9 34 119.3 71.4 18.7 18.6 35.1 37.9 46.6 53.3 5.8 7.6 10.4 14.4 13.4 19.4 1.4 2.5 2.5 4.7 3.2 6.1.1.4.2.5.2.8 0 .3-.1.5-.2.9-.6 1.4-1.7 3.5-3.2 6-3 5.1-7.5 11.8-13.2 19.5-11.3 15.4-27.5 34.6-46.1 53.2C274.8 373 227.1 407 192 407zM16 361v-18h202.2c-3 6.1-6.3 12.1-9.9 18zm274.5-96c.2-.3.4-.7.5-1 1.1-2.4 2-4.4 2-8 0-3.6-1-5.6-2-8-.1-.3-.3-.7-.5-1H496v18zM16 297v-18h197c3.6 5.9 6.9 11.9 9.9 18zM16 233v-18h197c3.6 5.9 6.9 11.9 9.9 18zM16 169v-18h192.3c3.6 5.9 6.9 11.9 9.9 18z"/>
     </symbol>
-    <symbol id="NOT1" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 105,111.3 V 400.7 L 365.5,256 Z M 16,247 v 18 h 150 v -18 z m 320,-14 c -12.8,0 -23,10.2 -23,23 0,12.8 10.2,23 23,23 12.8,0 23,-10.2 23,-23 0,-12.8 -10.2,-23 -23,-23 z m 40,14 c 0.6,2.9 1,5.9 1,9 0,3.1 -0.4,6.1 -1,9 h 120 v -18 z"/>
-    </symbol>
     <symbol id="LED" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
+    </symbol>
+    <symbol id="AND3" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm268.8 96c.2 6 .2 12 0 18H496v-18H284.8zM16 247v18h150v-18H16zm0 96v18h150v-18H16z"/>
     </symbol>
   </defs>
   <text x="20" y="30" font-family="Arial" font-size="20" font-weight="bold" fill="black">Circuit Diagram</text>
     <rect x="50" y="50" width="120" height="280" fill="none" stroke="black" stroke-width="2" rx="5"/>
     <text x="110" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">INPUTS</text>
-    <rect x="90" y="100" width="40" height="40" fill="black"/>
-    <text x="110" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="blue">A</text>
-    <rect x="90" y="155" width="40" height="40" fill="black"/>
-    <text x="110" y="180" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="blue">B</text>
-    <rect x="90" y="210" width="40" height="40" fill="black"/>
-    <text x="110" y="235" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="blue">C</text>
-    <rect x="90" y="265" width="40" height="40" fill="black"/>
-    <text x="110" y="290" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="blue">D</text>
+    <rect x="90" y="100" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">A</text>
+    <rect x="90" y="155" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="180" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">B</text>
+    <rect x="90" y="210" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="235" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">C</text>
+    <rect x="90" y="265" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="290" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">D</text>
     <rect x="250" y="100" width="220" height="680" fill="none" stroke="black" stroke-width="2" rx="5"/>
     <text x="360" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">4009</text>
     <g>

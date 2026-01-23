@@ -409,12 +409,12 @@ class SVGRenderer:
             
             # Square for input
             svg_parts.append(f'    <rect x="{input_x}" y="{input_y}" width="{input_size}" height="{input_size}" '
-                            f'fill="black"/>')
+                            f'fill="none" stroke="black" stroke-width="2"/>')
             
             # Input label inside square
             svg_parts.append(f'    <text x="{input_x + input_size//2}" y="{input_y + input_size//2 + 5}" '
                             f'font-family="Arial" font-size="16" font-weight="bold" '
-                            f'text-anchor="middle" fill="blue">{input_data["name"]}</text>')
+                            f'text-anchor="middle" fill="black">{input_data["name"]}</text>')
             
             # Register connection point (right edge of input square)
             conn_x = input_x + input_size
