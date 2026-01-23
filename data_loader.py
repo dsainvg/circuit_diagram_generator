@@ -58,17 +58,21 @@ class DataLoader:
         connections = []
         inputs = []
         outputs = []
+        seen_inputs = set()
         
         with open(connections_csv, 'r') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 if row['from_chip'].lower() == 'input':
-                    # This is an input connection
-                    inputs.append({
-                        'name': row['from_pin'],  # Input name (A, B, C, etc.)
-                        'to_chip': row['to_chip'],
-                        'to_pin': int(row['to_pin'])
-                    })
+                    # This is an input connection - only add unique inputs
+                    input_name = row['from_pin']
+                    if input_name not in seen_inputs:
+                        seen_inputs.add(input_name)
+                        inputs.append({
+                            'name': input_name,
+                            'to_chip': row['to_chip'],
+                            'to_pin': int(row['to_pin'])
+                        })
                 elif row['to_chip'].lower() == 'output':
                     # This is an output connection (format: chip_id,pin,output,name)
                     outputs.append({
