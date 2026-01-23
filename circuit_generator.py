@@ -98,7 +98,8 @@ class SVGCircuitGenerator:
         svg_parts = []
         svg_parts.append('<?xml version="1.0" encoding="UTF-8"?>')
         svg_parts.append(f'<svg width="{canvas_width}" height="{canvas_height}" '
-                        f'xmlns="http://www.w3.org/2000/svg" version="1.1">')
+                        f'xmlns="http://www.w3.org/2000/svg" '
+                        f'xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">')
         
         # Add defs with reusable gate symbols
         svg_parts.append(self.symbol_manager.create_svg_defs(gate_types))

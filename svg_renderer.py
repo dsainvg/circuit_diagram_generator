@@ -233,9 +233,19 @@ class SVGRenderer:
             # Create a group for this gate with all its elements
             svg_parts.append(f'    <g>')
             
-            # Gate symbol
-            svg_parts.append(f'      <use href="#{gate_type}" x="{gate_x}" y="{gate_y}" '
-                            f'width="{gate_width}" height="{gate_height}"/>')
+            # Gate symbol (Inlined for compatibility)
+            sym_data = self.symbol_manager.gate_symbols.get(gate_type)
+            if sym_data:
+                sx = gate_width / 512
+                sy = gate_height / 512
+                svg_parts.append(f'      <g transform="translate({gate_x}, {gate_y}) scale({sx}, {sy})">')
+                svg_parts.append(f'        <path d="{sym_data["path"]}" fill="{sym_data.get("fill", "black")}" '
+                                f'stroke="{sym_data.get("fill", "black")}" stroke-width="8" stroke-linejoin="round"/>')
+                svg_parts.append(f'      </g>')
+            else:
+                # Fallback to use if not found (should not happen)
+                svg_parts.append(f'      <use xlink:href="#{gate_type}" x="{gate_x}" y="{gate_y}" '
+                                f'width="{gate_width}" height="{gate_height}"/>')
             
             # Get pin positions in the gate coordinate system
             input_positions, output_position = self.symbol_manager.get_pin_positions(gate_type, len(input_pins))
@@ -336,10 +346,21 @@ class SVGRenderer:
             target_y = output_y + tip_offset
             self.pin_positions['output'][output_data["name"]] = {'x': target_x, 'y': target_y}
 
-            # LED/Lightbulb icon from DB folder - Rotated 180 (Upside Down)
-            svg_parts.append(f'    <use href="#LED" x="{output_x}" y="{output_y}" '
-                            f'width="{output_size}" height="{output_size}" '
-                            f'transform="rotate(180, {led_center_x}, {led_center_y})"/>')
+            # LED/Lightbulb icon from DB folder - Rotated 180 (Inlined)
+            sym_data = self.symbol_manager.gate_symbols.get("LED")
+            if sym_data:
+                sx = output_size / 512
+                sy = output_size / 512
+                svg_parts.append(f'    <g transform="rotate(180, {led_center_x}, {led_center_y})">')
+                svg_parts.append(f'      <g transform="translate({output_x}, {output_y}) scale({sx}, {sy})">')
+                svg_parts.append(f'        <path d="{sym_data["path"]}" fill="{sym_data.get("fill", "black")}" '
+                                f'stroke="{sym_data.get("fill", "black")}" stroke-width="8" stroke-linejoin="round"/>')
+                svg_parts.append(f'      </g>')
+                svg_parts.append(f'    </g>')
+            else:
+                svg_parts.append(f'    <use xlink:href="#LED" x="{output_x}" y="{output_y}" '
+                                f'width="{output_size}" height="{output_size}" '
+                                f'transform="rotate(180, {led_center_x}, {led_center_y})"/>')
             
             # Output label below lightbulb
             svg_parts.append(f'    <text x="{led_center_x}" y="{output_y + output_size + 15}" '
