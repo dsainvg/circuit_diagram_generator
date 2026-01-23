@@ -3,11 +3,189 @@
 class SVGRenderer:
     """Handles rendering of SVG elements for chips, inputs, and outputs"""
     
-    def __init__(self, symbol_manager, datasheets):
+    def __init__(self, symbol_manager, datasheets, router=None):
         self.symbol_manager = symbol_manager
         self.datasheets = datasheets
         self.pin_positions = {}
+        self.router = router
+
+    def render_connections_channel(self, connections, chip_positions, canvas_dims, chip_instances=None):
+        """
+        Render connections with channel-based routing.
+        Allows perpendicular crossings, minimal turns.
+        """
+        if not self.router:
+            from channel_router import ChannelRouter
+            self.router = ChannelRouter(
+                canvas_dims[0], 
+                canvas_dims[1],
+                channel_width=20,
+                min_spacing=10
+            )
+        
+        # Mark all chip areas
+        gate_height = 80
+        gate_spacing = 20
+        
+        for chip_id, pos in chip_positions.items():
+            width = 220
+            height = 200 # Defaults
+            
+            if chip_instances and chip_id in chip_instances:
+                 chip_data = chip_instances[chip_id]
+                 chip_type = chip_data['chip_type'] if isinstance(chip_data, dict) else chip_data.chip_type
+                 # Depending on how chip_instances is structured (dict of dicts usually)
+                 
+                 # Check structure from layout_manager or circuit_generator
+                 # In layout_manager: chip_data is a dict with 'layer', 'chip_type', etc.
+                 if isinstance(chip_data, dict):
+                    chip_type = chip_data.get('chip_type')
+                 
+                 if chip_type and chip_type in self.datasheets:
+                     num_gates = len(self.datasheets[chip_type])
+                     height = max(160, 80 + num_gates * (gate_height + gate_spacing))
+            
+            self.router.add_chip_boundary(pos['x'], pos['y'], width=width, height=height)
+
+        # Build Net Graph for Coloring
+        # We group all connected pins into logical keys and assign one color per net
+        adj = {}
+        def add_edge_to_graph(n1, n2):
+            if n1 not in adj: adj[n1] = []
+            if n2 not in adj: adj[n2] = []
+            adj[n1].append(n2)
+            adj[n2].append(n1)
+            
+        for connection in connections:
+            if isinstance(connection, dict):
+                s = (connection.get('from_chip'), connection.get('from_pin'))
+                d = (connection.get('to_chip'), connection.get('to_pin'))
+            else:
+                s = (connection[0], connection[1])
+                d = (connection[2], connection[3])
+            add_edge_to_graph(s, d)
+            
+        pin_to_color = {}
+        visited_nodes = set()
+        
+        available_colors = [
+            "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", 
+            "#911eb4", "#46f0f0", "#f032e6", "#bcf60c", "#fabebe", 
+            "#008080", "#e6beff", "#9a6324", "#fffac8", "#800000", 
+            "#aaffc3", "#808000", "#ffd8b1", "#000075", "#808080"
+        ]
+        color_idx = 0
+        
+        # Find Connected Components (Nets)
+        for node in adj:
+            if node not in visited_nodes:
+                current_color = available_colors[color_idx % len(available_colors)]
+                color_idx += 1
+                
+                # BFS
+                queue = [node]
+                visited_nodes.add(node)
+                while queue:
+                    curr = queue.pop(0)
+                    pin_to_color[curr] = current_color
+                    for neighbor in adj[curr]:
+                        if neighbor not in visited_nodes:
+                            visited_nodes.add(neighbor)
+                            queue.append(neighbor)
+        
+        svg_paths = []
+        failed = []
+        routed_count = 0
+        
+        # Route each connection
+        for wire_id, connection in enumerate(connections):
+            # Handle dictionary or tuple
+            if isinstance(connection, dict):
+                from_chip = connection.get('from_chip')
+                from_pin = connection.get('from_pin')
+                to_chip = connection.get('to_chip')
+                to_pin = connection.get('to_pin')
+            else:
+                from_chip, from_pin, to_chip, to_pin = connection
+                
+            # Determine color from pre-calculated Net Color
+            source_key = (from_chip, from_pin)
+            wire_color = pin_to_color.get(source_key, "#000000") # Default black if issue
+            
+            # Get pin positions
+            start_pos = None
+            end_pos = None
+            
+            # Find start position
+            if from_chip == 'input':
+                if 'input' in self.pin_positions and from_pin in self.pin_positions['input']:
+                    start_pos = self.pin_positions['input'][from_pin]
+            elif from_chip in self.pin_positions and from_pin in self.pin_positions[from_chip]:
+                start_pos = self.pin_positions[from_chip][from_pin]
+                
+            # Find end position
+            if to_chip == 'output':
+                if 'output' in self.pin_positions and to_pin in self.pin_positions['output']:
+                    end_pos = self.pin_positions['output'][to_pin]
+            elif to_chip in self.pin_positions and to_pin in self.pin_positions[to_chip]:
+                end_pos = self.pin_positions[to_chip][to_pin]
+            
+            if not start_pos:
+                failed.append((wire_id, connection, f"Source pin not found: {from_chip}.{from_pin}"))
+                continue
+            
+            if not end_pos:
+                failed.append((wire_id, connection, f"Target pin not found: {to_chip}.{to_pin}"))
+                continue
+            
+            x1 = start_pos['x']
+            y1 = start_pos['y']
+            x2 = end_pos['x']
+            y2 = end_pos['y']
+            
+            # Prefer horizontal routing for cleaner diagrams
+            waypoints = self.router.route_net(
+                x1, y1, x2, y2,
+                wire_id=wire_id,
+                prefer_horizontal=True
+            )
+            
+            if waypoints:
+                svg_path = self._create_svg_path(waypoints, wire_id, color=wire_color)
+                svg_paths.append(svg_path)
+                routed_count += 1
+            else:
+                failed.append((wire_id, connection, "Channel routing failed"))
+        
+        print(f"✓ Routed {routed_count}/{len(connections)} connections")
+        if failed:
+            print(f"✗ Failed: {len(failed)} connections")
+            for f in failed:
+                print(f"  - {f[2]}")
+        
+        return '\n'.join(svg_paths), failed
     
+    def _create_svg_path(self, waypoints, wire_id, color=None):
+        """Create SVG path from waypoints."""
+        if not waypoints:
+            return ""
+        
+        path_data = f"M {waypoints[0][0]} {waypoints[0][1]}"
+        for x, y in waypoints[1:]:
+            path_data += f" L {x} {y}"
+        
+        # Default colors if not provided (though now it should always be provided)
+        if not color:
+            colors = [
+                "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+                "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+            ]
+            color = colors[wire_id % len(colors)]
+        
+        return (f'<path id="wire-{wire_id}" d="{path_data}" '
+                f'stroke="{color}" fill="none" stroke-width="2.5" '
+                f'stroke-linecap="round" stroke-linejoin="round"/>')
+        
     def create_chip_svg(self, chip_id, chip_data, x, y):
         """Create SVG for a chip showing all gates of that chip type"""
         svg_parts = []
@@ -123,6 +301,14 @@ class SVGRenderer:
         svg_parts.append(f'    <rect x="{x}" y="{y}" width="{box_width}" height="{box_height}" '
                         f'fill="none" stroke="black" stroke-width="2" rx="5"/>')
         
+        # Register boundary with router if available
+        if self.router:
+            self.router.add_chip_boundary(x, y, box_width, box_height)
+
+        # Initialize proper storage if not exists
+        if 'output' not in self.pin_positions:
+            self.pin_positions['output'] = {}
+
         # Title
         svg_parts.append(f'    <text x="{x + box_width//2}" y="{y + 25}" '
                         f'font-family="Arial" font-size="16" font-weight="bold" '
@@ -137,6 +323,11 @@ class SVGRenderer:
             # LED bottom in viewBox is at y=366 out of 512, so actual bottom is at this offset
             led_bottom_y = output_y + (366 / 512) * output_size
             
+            # Register connection point (top of LED)
+            target_x = led_center_x
+            target_y = output_y
+            self.pin_positions['output'][output_data["name"]] = {'x': target_x, 'y': target_y}
+
             # LED/Lightbulb icon from DB folder
             svg_parts.append(f'    <use href="#LED" x="{output_x}" y="{output_y}" '
                             f'width="{output_size}" height="{output_size}"/>')
@@ -171,6 +362,14 @@ class SVGRenderer:
         svg_parts.append(f'    <rect x="{x}" y="{y}" width="{box_width}" height="{box_height}" '
                         f'fill="none" stroke="black" stroke-width="2" rx="5"/>')
         
+        # Register boundary with router if available to prevent turns inside
+        if self.router:
+            self.router.add_chip_boundary(x, y, box_width, box_height)
+
+        # Initialize proper storage if not exists
+        if 'input' not in self.pin_positions:
+            self.pin_positions['input'] = {}
+
         # Title
         svg_parts.append(f'    <text x="{x + box_width//2}" y="{y + 25}" '
                         f'font-family="Arial" font-size="16" font-weight="bold" '
@@ -191,9 +390,9 @@ class SVGRenderer:
                             f'font-family="Arial" font-size="16" font-weight="bold" '
                             f'text-anchor="middle" fill="blue">{input_data["name"]}</text>')
             
-            # Connection line extending right
-            svg_parts.append(f'    <line x1="{input_x + input_size}" y1="{input_y + input_size//2}" '
-                            f'x2="{x + box_width + 20}" y2="{input_y + input_size//2}" '
-                            f'stroke="yellow" stroke-width="2"/>')
+            # Register connection point (right edge of input square)
+            conn_x = input_x + input_size
+            conn_y = input_y + input_size//2
+            self.pin_positions['input'][input_data["name"]] = {'x': conn_x, 'y': conn_y}
         
         return '\n'.join(svg_parts)

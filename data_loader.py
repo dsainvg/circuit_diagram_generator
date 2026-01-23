@@ -64,21 +64,38 @@ class DataLoader:
             reader = csv.DictReader(f)
             for row in reader:
                 if row['from_chip'].lower() == 'input':
-                    # This is an input connection - only add unique inputs
+                    # Input connection
                     input_name = row['from_pin']
+                    # Add to inputs list for drawing box if new
                     if input_name not in seen_inputs:
                         seen_inputs.add(input_name)
                         inputs.append({
-                            'name': input_name,
-                            'to_chip': row['to_chip'],
-                            'to_pin': int(row['to_pin'])
+                            'name': input_name
                         })
+                    
+                    # ALWAYS add the connection
+                    connections.append({
+                        'from_chip': 'input',
+                        'from_pin': input_name,
+                        'to_chip': row['to_chip'],
+                        'to_pin': int(row['to_pin'])
+                    })
+                    
                 elif row['to_chip'].lower() == 'output':
-                    # This is an output connection (format: chip_id,pin,output,name)
+                    # Output connection
+                    output_name = row['to_pin']
                     outputs.append({
-                        'name': row['to_pin'],  # Output name (OUT, etc.)
-                        'from_chip': row['from_chip'],  # Chip ID (U1, U2, etc.)
+                        'name': output_name,
+                        'from_chip': row['from_chip'],
                         'from_pin': int(row['from_pin'])
+                    })
+                    
+                    # Add connection
+                    connections.append({
+                        'from_chip': row['from_chip'],
+                        'from_pin': int(row['from_pin']),
+                        'to_chip': 'output',
+                        'to_pin': output_name
                     })
                 else:
                     # Regular chip-to-chip connection

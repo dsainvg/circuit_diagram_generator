@@ -7,6 +7,7 @@ from data_loader import DataLoader
 from svg_symbol_manager import SVGSymbolManager
 from layout_manager import LayoutManager
 from svg_renderer import SVGRenderer
+from channel_router import ChannelRouter
 
 class SVGCircuitGenerator:
     """Main class that orchestrates the circuit diagram generation"""
@@ -75,14 +76,23 @@ class SVGCircuitGenerator:
             canvas_width += 400
         
         # Adjust canvas height for inputs/outputs if needed
-        canvas_height = max(canvas_height, input_box_height + 100, output_box_height + 100)
+        # Add extra padding for fallback routing (Strategy 3 spills over bottom)
+        canvas_height = max(canvas_height, input_box_height + 100, output_box_height + 100) + 500
         
         # Get unique gate types for symbol definitions
         gate_types = set(chip['gate_type'] for chip in self.chips.values())
         gate_types.add('LED')  # Add LED for outputs
         
         # Create SVG renderer
-        renderer = SVGRenderer(self.symbol_manager, self.datasheets)
+        # Initialize channel router
+        self.router = ChannelRouter(
+            canvas_width, 
+            canvas_height,
+            channel_width=20,
+            min_spacing=10
+        )
+        
+        renderer = SVGRenderer(self.symbol_manager, self.datasheets, self.router)
         
         # Start building SVG
         svg_parts = []
@@ -98,8 +108,10 @@ class SVGCircuitGenerator:
                         'font-weight="bold" fill="black">Circuit Diagram</text>')
         
         # Add inputs box if inputs exist
+        inputs_svg = ""
         if self.inputs:
-            svg_parts.append(renderer.create_inputs_box(50, 50, self.inputs))
+            inputs_svg = renderer.create_inputs_box(50, 50, self.inputs) # This populates pin_positions['input']
+            svg_parts.append(inputs_svg)
         
         # Add all chip instances
         for chip_id, chip_data in self.chips.items():
@@ -108,11 +120,29 @@ class SVGCircuitGenerator:
         
         # Store pin positions from renderer
         self.pin_positions = renderer.pin_positions
-        
-        # Add outputs box if outputs exist (on the right side)
+
+        # Pre-calculate outputs SVG to populate pin_positions['output']
+        outputs_svg = ""
         if self.outputs:
             outputs_x = canvas_width - 350
-            svg_parts.append(renderer.create_outputs_box(outputs_x, 50, self.outputs))
+            outputs_svg = renderer.create_outputs_box(outputs_x, 50, self.outputs)
+        
+        # Aggregate all connections for routing
+        # DataLoader now returns ALL connections in self.connections list
+        all_connections = self.connections
+        
+        # ROUTE CONNECTIONS with channel routing
+        connections_svg, failed = renderer.render_connections_channel(
+            all_connections,
+            self.chip_positions,
+            (canvas_width, canvas_height),
+            chip_instances=self.chips
+        )
+        svg_parts.append(connections_svg)
+        
+        # Add outputs box if outputs exist (on the right side)
+        if self.outputs and outputs_svg:
+            svg_parts.append(outputs_svg)
         
         # Close SVG
         svg_parts.append('</svg>')
