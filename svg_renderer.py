@@ -112,6 +112,10 @@ class SVGRenderer:
             source_key = (from_chip, from_pin)
             wire_color = pin_to_color.get(source_key, "#000000") # Default black if issue
             
+            # Net ID for routing overlap logic (Using color is a good proxy for "Same Net")
+            # Or construct specific net key
+            net_id = wire_color 
+
             # Get pin positions
             start_pos = None
             end_pos = None
@@ -147,6 +151,7 @@ class SVGRenderer:
             waypoints = self.router.route_net(
                 x1, y1, x2, y2,
                 wire_id=wire_id,
+                net_id=net_id,
                 prefer_horizontal=True
             )
             
@@ -320,28 +325,28 @@ class SVGRenderer:
             output_y = output_y_start + idx * (output_size + output_spacing)
             output_x = x + (box_width - output_size) // 2
             led_center_x = output_x + output_size // 2
-            # LED bottom in viewBox is at y=366 out of 512, so actual bottom is at this offset
-            led_bottom_y = output_y + (366 / 512) * output_size
+            led_center_y = output_y + output_size // 2
             
-            # Register connection point (top of LED)
+            # Calculate rotated tip position (originally at 366/512 from top)
+            # After 180 flip, it's at (1 - 366/512) from top
+            tip_offset = (1.0 - 366/512) * output_size
+            
+            # Register connection point (at the tip of the base, now at top)
             target_x = led_center_x
-            target_y = output_y
+            target_y = output_y + tip_offset
             self.pin_positions['output'][output_data["name"]] = {'x': target_x, 'y': target_y}
 
-            # LED/Lightbulb icon from DB folder
+            # LED/Lightbulb icon from DB folder - Rotated 180 (Upside Down)
             svg_parts.append(f'    <use href="#LED" x="{output_x}" y="{output_y}" '
-                            f'width="{output_size}" height="{output_size}"/>')
+                            f'width="{output_size}" height="{output_size}" '
+                            f'transform="rotate(180, {led_center_x}, {led_center_y})"/>')
             
             # Output label below lightbulb
             svg_parts.append(f'    <text x="{led_center_x}" y="{output_y + output_size + 15}" '
                             f'font-family="Arial" font-size="12" font-weight="bold" '
                             f'text-anchor="middle" fill="green">{output_data["name"]}</text>')
             
-            # Wire from bottom of LED to bottom of box (simple vertical line)
-            box_bottom_y = y + box_height
-            svg_parts.append(f'    <line x1="{led_center_x}" y1="{led_bottom_y}" '
-                            f'x2="{led_center_x}" y2="{box_bottom_y}" '
-                            f'stroke="yellow" stroke-width="2"/>')
+            # (Yellow line removed)
             
         return '\n'.join(svg_parts)
     

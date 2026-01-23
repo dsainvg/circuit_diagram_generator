@@ -12,21 +12,26 @@ class ChannelRouter:
     - strict Manhattan routing
     - chip avoidance (strict obstacles + escape logic)
     - no parallel wire overlaps (perpendicular crossing only)
+    - allow sharing paths for same net
     """
     
     def __init__(self, canvas_width: int, canvas_height: int, 
                  channel_width: int = 20, min_spacing: int = 10):
         self.width = canvas_width
         self.height = canvas_height
-        self.grid_size = min_spacing  # Use min_spacing as grid resolution (e.g., 10px)
+        self.grid_size = min_spacing
         
-        # Grid dimensions
         self.cols = int(math.ceil(self.width / self.grid_size)) + 1
         self.rows = int(math.ceil(self.height / self.grid_size)) + 1
         
         # Grid state
         # cells[x][y] = set of flags: 'OBSTACLE', 'H_WIRE', 'V_WIRE'
         self.cells = [[set() for _ in range(self.rows)] for _ in range(self.cols)]
+        
+        # Track Net IDs occupying cells to allow sharing
+        # [x][y] = net_id (string or int)
+        self.h_nets = [[None for _ in range(self.rows)] for _ in range(self.cols)]
+        self.v_nets = [[None for _ in range(self.rows)] for _ in range(self.cols)]
         
         self.terminals = set() 
         
@@ -54,68 +59,86 @@ class ChannelRouter:
         if not (0 <= c < self.cols and 0 <= r < self.rows): return False
         return 'OBSTACLE' not in self.cells[c][r]
 
-    def _find_escape_path(self, start_c, start_r):
-        """BFS to find path to nearest free cell. Returns (end_node, path_to_end)."""
-        # If already free, return it
-        if self._is_free(start_c, start_r): 
-            return ((start_c, start_r), [(start_c, start_r)])
+    def _find_pixel_escape(self, x, y):
+        """
+        Finds an escape point OUTSIDE any obstacle, reachable by a STRAIGHT line.
+        Returns (exit_x, exit_y).
+        """
+        c = int(round(x / self.grid_size))
+        r = int(round(y / self.grid_size))
+        
+        # If start is already free (or OOB/edge case), no escape needed.
+        if 0 <= c < self.cols and 0 <= r < self.rows:
+            if 'OBSTACLE' not in self.cells[c][r]:
+                return (x, y)
+        else:
+            return (x, y)
             
-        q = [(start_c, start_r)]
-        visited = { (start_c, start_r): None }
+        # Try 4 directions to find nearest exit
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        best_pt = None
+        min_dist = float('inf')
         
-        found_exit = None
-        
-        # BFS
-        while q:
-            curr = q.pop(0)
-            if self._is_free(curr[0], curr[1]):
-                found_exit = curr
-                break
+        for dx, dy in directions:
+            curr_c, curr_r = c, r
+            steps = 0
+            found = False
+            # Walk until free
+            while 0 <= curr_c < self.cols and 0 <= curr_r < self.rows and steps < 30:
+                if 'OBSTACLE' not in self.cells[curr_c][curr_r]:
+                    found = True
+                    break
+                curr_c += dx
+                curr_r += dy
+                steps += 1
             
-            # Limit search depth roughly
-            if len(visited) > 2000: continue 
-
-            cx, cy = curr
-            for dc, dr in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                nx, ny = cx + dc, cy + dr
-                if 0 <= nx < self.cols and 0 <= ny < self.rows:
-                    if (nx, ny) not in visited:
-                        visited[(nx, ny)] = curr
-                        q.append((nx, ny))
-                        
-        if not found_exit:
-            # Should not happen unless map is full
-            return ((start_c, start_r), [(start_c, start_r)])
-
-        # Reconstruct path
-        path = []
-        curr = found_exit
-        while curr is not None:
-            path.append(curr)
-            curr = visited[curr]
-        path.reverse() # [Start, ..., Exit]
-        return (found_exit, path)
-
-    def route_net(self, x1, y1, x2, y2, wire_id=None, prefer_horizontal=True):
-        sc, sr = int(round(x1 / self.grid_size)), int(round(y1 / self.grid_size))
-        ec, er = int(round(x2 / self.grid_size)), int(round(y2 / self.grid_size))
+            if found:
+                # Calculate pixel point for this grid cell
+                gx = curr_c * self.grid_size
+                gy = curr_r * self.grid_size
+                
+                # Maintain axis alignment
+                if abs(dx) > 0:
+                     # Moved Horizontal -> Keep Y constant
+                     pt = (gx, y)
+                     dist = abs(gx - x)
+                else:
+                     # Moved Vertical -> Keep X constant
+                     pt = (x, gy)
+                     dist = abs(gy - y)
+                
+                if dist < min_dist:
+                    min_dist = dist
+                    best_pt = pt
         
-        # 1. Escape Phase with PATHS
-        esc_start, path_start = self._find_escape_path(sc, sr)
-        esc_end, path_end = self._find_escape_path(ec, er)
-        # path_end is [End, ..., Exit]. 
+        return best_pt if best_pt else (x, y)
+
+    def route_net(self, x1, y1, x2, y2, wire_id=None, net_id=None, prefer_horizontal=True):
+        # 1. Find Off-Grid Escape Points
+        # These points are strictly outside obstacles and align with start/end pins
+        esc_p1 = self._find_pixel_escape(x1, y1)
+        esc_p2 = self._find_pixel_escape(x2, y2)
         
-        # 2. Main Routing Phase: A* between escape points
+        # 2. Snap Escape Points to Grid for A*
+        sc = int(round(esc_p1[0] / self.grid_size))
+        sr = int(round(esc_p1[1] / self.grid_size))
+        ec = int(round(esc_p2[0] / self.grid_size))
+        er = int(round(esc_p2[1] / self.grid_size))
+        
+        grid_start = (sc, sr)
+        grid_end = (ec, er)
+        
+        # 3. A* Routing
         def solve_astar(strict_obstacles=True):
-            queue = [(0, 0, esc_start, None)] 
+            queue = [(0, 0, grid_start, None)] 
             came_from = {} 
-            cost_so_far = {esc_start: 0}
+            cost_so_far = {grid_start: 0}
             target_found = False
             
             while queue:
                 _, current_cost, current, prev_dir = heapq.heappop(queue)
                 
-                if current == esc_end:
+                if current == grid_end:
                     target_found = True
                     break
                     
@@ -124,85 +147,65 @@ class ChannelRouter:
                     cell_flags = self.cells[nc][nr]
                     dx, dy = move_dir
                     
-                    # Strict vs Relaxed
-                    is_obstacle = 'OBSTACLE' in cell_flags and next_node != esc_end
+                    is_obstacle = 'OBSTACLE' in cell_flags and next_node != grid_end
                     
+                    # 1. OBSTACLE CHECK
                     if strict_obstacles and is_obstacle:
                         continue
+                        
+                    # 2. NO TURNS INSIDE OBSTACLE (Strict)
+                    if 'OBSTACLE' in self.cells[current[0]][current[1]]:
+                         if prev_dir is not None and move_dir != prev_dir:
+                             continue
 
-                    # Wire Overlap Check - always strict about OTHER wires?
-                    # Or should we relax that too? 
-                    # Let's keep wires strict to avoiding shorts. 
-                    # If blocked by wires, we might need to cross chips?
-                    if dx != 0 and 'H_WIRE' in cell_flags: continue
-                    if dy != 0 and 'V_WIRE' in cell_flags: continue
+                    # 3. WIRE OVERLAP (Net Aware)
+                    blocked_by_wire = False
+                    if dx != 0:
+                        existing_net = self.h_nets[nc][nr]
+                        if existing_net is not None and existing_net != net_id: blocked_by_wire = True
+                    if dy != 0:
+                        existing_net = self.v_nets[nc][nr]
+                        if existing_net is not None and existing_net != net_id: blocked_by_wire = True
+
+                    if strict_obstacles and blocked_by_wire: continue
                     
-                    # Cost function
                     move_cost = 1
-                    
-                    # Obstacle Penalty (in relaxed mode)
-                    if is_obstacle:
-                        move_cost += 10000 # Huge penalty to discourage crossing chips unless necessary
-                    
-                    # Bend Penalty
+                    if is_obstacle: move_cost += 10000 
+                    if blocked_by_wire: move_cost += 5000
                     if prev_dir is not None and move_dir != prev_dir: move_cost += 5 
-                    
-                    # Crossing Penalty
-                    if dx != 0 and 'V_WIRE' in cell_flags: move_cost += 5 
-                    if dy != 0 and 'H_WIRE' in cell_flags: move_cost += 5
+                    if dx != 0 and self.v_nets[nc][nr] is not None: move_cost += 5
+                    if dy != 0 and self.h_nets[nc][nr] is not None: move_cost += 5
                     
                     new_cost = current_cost + move_cost
                     if next_node not in cost_so_far or new_cost < cost_so_far[next_node]:
                         cost_so_far[next_node] = new_cost
-                        dist = abs(esc_end[0] - next_node[0]) + abs(esc_end[1] - next_node[1])
+                        dist = abs(grid_end[0] - next_node[0]) + abs(grid_end[1] - next_node[1])
                         priority = new_cost + dist
                         heapq.heappush(queue, (priority, new_cost, next_node, move_dir))
                         came_from[next_node] = (current, move_dir)
             return target_found, came_from
 
-        # Try Strict Pass
         found, came_from = solve_astar(strict_obstacles=True)
-        
-        # If failed, Try Relaxed Pass
         if not found:
-            # print(f"Info: A* strict failed for wire {wire_id}. Retrying with relaxed rules.")
             found, came_from = solve_astar(strict_obstacles=False)
         
-        # 3. Path Reconstruction
         full_grid_path = []
-        
         if not found:
-             print(f"Warning: A* ALL attempts failed for wire {wire_id}.")
-             full_grid_path = [(sc, sr), (ec, sr), (ec, er)]
+             print(f"Warning: Failed to route wire {wire_id}.")
+             return []
         else:
-            # Reconstruct Main A* Path
-            curr = esc_end
+            curr = grid_end
             main_path = [curr]
-            while curr != esc_start:
+            while curr != grid_start:
                 entry = came_from.get(curr)
                 if not entry: break
                 parent, _ = entry
                 main_path.append(parent)
                 curr = parent
-            main_path.reverse() # [EscStart, ..., EscEnd]
-            
-            # Combine: path_start + main_path + reversed(path_end)
-            
-            full_grid_path = []
-            full_grid_path.extend(path_start)
-            
-            if main_path and main_path[0] == full_grid_path[-1]:
-                full_grid_path.extend(main_path[1:])
-            else:
-                full_grid_path.extend(main_path)
-                
-            path_end_rev = list(reversed(path_end))
-            if path_end_rev and path_end_rev[0] == full_grid_path[-1]:
-                full_grid_path.extend(path_end_rev[1:])
-            else:
-                full_grid_path.extend(path_end_rev)
+            main_path.reverse()
+            full_grid_path = main_path
 
-        # Mark occupied cells
+        # Mark Grid
         for i in range(len(full_grid_path) - 1):
             n1 = full_grid_path[i]
             n2 = full_grid_path[i+1]
@@ -216,34 +219,96 @@ class ChannelRouter:
                 mx, my = cx + s * dx_step, cy + s * dy_step
                 if 0 <= mx < self.cols and 0 <= my < self.rows:
                     if 'OBSTACLE' in self.cells[mx][my]: continue 
-                    if dx_step != 0: self.cells[mx][my].add('H_WIRE')
-                    if dy_step != 0: self.cells[mx][my].add('V_WIRE')
+                    if dx_step != 0: 
+                        self.cells[mx][my].add('H_WIRE')
+                        self.h_nets[mx][my] = net_id
+                    if dy_step != 0: 
+                        self.cells[mx][my].add('V_WIRE')
+                        self.v_nets[mx][my] = net_id       
 
-        # Simplify to waypoints
-        waypoints = []
-        if not full_grid_path: return []
-
-        waypoints.append((full_grid_path[0][0] * self.grid_size, full_grid_path[0][1] * self.grid_size))
+        # Construct Final Waypoints: 
+        # Start -> Esc1 -> GridStart -> ... -> GridEnd -> Esc2 -> End
+        # Use simple bridging 
         
-        last_dir = None
+        final_points = []
+        final_points.append((x1, y1))
+        
+        # Check if we need bridge to Esc1
+        if abs(x1 - esc_p1[0]) > 0.1 or abs(y1 - esc_p1[1]) > 0.1:
+            final_points.append(esc_p1)
+            
+        # Bridge Esc1 to GridStart
+        gs_x, gs_y = grid_start[0] * self.grid_size, grid_start[1] * self.grid_size
+        if abs(esc_p1[0] - gs_x) > 0.1 or abs(esc_p1[1] - gs_y) > 0.1:
+             # This bridge must be orthogonal.
+             # Esc1 logic ensures one axis matches pin. 
+             # Grid match logic aligns to grid.
+             # So we have (Ex, Ey) -> (Gx, Gy).
+             # Usually Ex=Gx or Ey=Gy if we escaped cleanly.
+             # But if not, add corner.
+             final_points.append((gs_x, gs_y))
+             
+        # Add Grid Path
+        # Skip first (grid_start) as we just handled it or it's implicitly connected
         for i in range(1, len(full_grid_path)):
-            curr = full_grid_path[i]
-            prev = full_grid_path[i-1]
-            dx = curr[0] - prev[0]
-            dy = curr[1] - prev[1]
+             c, r = full_grid_path[i]
+             final_points.append((c * self.grid_size, r * self.grid_size))
+             
+        # Bridge GridEnd to Esc2
+        ge_x, ge_y = grid_end[0] * self.grid_size, grid_end[1] * self.grid_size
+        if abs(esc_p2[0] - ge_x) > 0.1 or abs(esc_p2[1] - ge_y) > 0.1:
+             # Logic is symmetric. Grid end is already in points.
+             # Just add Esc2.
+             # If we need a corner?
+             # e.g. (Gx, Gy) -> (Ex, Ey).
+             # If both differ, we need corner.
+             # Prefer moving in the direction that exits grid cleanly?
+             # Usually standard L-shape works.
+             if abs(esc_p2[0] - ge_x) > 0.1 and abs(esc_p2[1] - ge_y) > 0.1:
+                  final_points.append((ge_x, esc_p2[1])) # Try one corner
+             final_points.append(esc_p2)
+        elif abs(esc_p2[0] - ge_x) > 0.1 or abs(esc_p2[1] - ge_y) > 0.1:
+             final_points.append(esc_p2) # Just add if non-zero distance (collinear)
+             
+        # Bridge Esc2 to End
+        if abs(x2 - esc_p2[0]) > 0.1 or abs(y2 - esc_p2[1]) > 0.1:
+            final_points.append((x2, y2))
             
-            if dx == 0 and dy == 0: continue
-            
-            curr_dir = (0, 0)
-            if dx != 0: curr_dir = (1 if dx > 0 else -1, 0)
-            if dy != 0: curr_dir = (0, 1 if dy > 0 else -1)
-            
-            if curr_dir != last_dir:
-                if last_dir is not None:
-                     waypoints.append((prev[0] * self.grid_size, prev[1] * self.grid_size))
-                last_dir = curr_dir
+        # Simplify Collinear
+        simplified = []
+        if not final_points: return []
         
-        last_pt = full_grid_path[-1]
-        waypoints.append((last_pt[0] * self.grid_size, last_pt[1] * self.grid_size))
+        simplified.append(final_points[0])
         
-        return waypoints
+        def get_dir(p1, p2):
+             dx = p2[0] - p1[0]
+             dy = p2[1] - p1[1]
+             dist = math.sqrt(dx*dx + dy*dy)
+             if dist < 0.1: return None
+             return (dx/dist, dy/dist)
+
+        last_d = None
+        curr_idx = 1
+        
+        # Find first valid dir
+        while curr_idx < len(final_points):
+             d = get_dir(final_points[curr_idx-1], final_points[curr_idx])
+             if d: 
+                 last_d = d
+                 break
+             curr_idx += 1
+             
+        for i in range(curr_idx, len(final_points)):
+             curr = final_points[i]
+             prev = final_points[i-1]
+             d = get_dir(prev, curr)
+             
+             if d is None: continue 
+             
+             if abs(d[0] - last_d[0]) > 0.01 or abs(d[1] - last_d[1]) > 0.01:
+                 simplified.append(prev)
+                 last_d = d
+        
+        simplified.append(final_points[-1])
+        
+        return simplified

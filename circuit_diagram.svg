@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1850" height="1700" xmlns="http://www.w3.org/2000/svg" version="1.1">
   <defs>
-    <symbol id="OR4" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M116.6 407c40-45.9 60.4-98.4 60.4-151 0-52.6-20.4-105.1-60.4-151H192c34.1 0 81.9 34 119.3 71.4 18.7 18.6 35.1 37.9 46.6 53.3 5.8 7.6 10.4 14.4 13.4 19.4 1.4 2.5 2.5 4.7 3.2 6.1.1.4.2.5.2.8 0 .3-.1.5-.2.9-.6 1.4-1.7 3.5-3.2 6-3 5.1-7.5 11.8-13.2 19.5-11.3 15.4-27.5 34.6-46.1 53.2C274.8 373 227.1 407 192 407zM16 361v-18h202.2c-3 6.1-6.3 12.1-9.9 18zm274.5-96c.2-.3.4-.7.5-1 1.1-2.4 2-4.4 2-8 0-3.6-1-5.6-2-8-.1-.3-.3-.7-.5-1H496v18zM16 297v-18h197c3.6 5.9 6.9 11.9 9.9 18zM16 233v-18h197c3.6 5.9 6.9 11.9 9.9 18zM16 169v-18h192.3c3.6 5.9 6.9 11.9 9.9 18z"/>
+    <symbol id="AND3" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm268.8 96c.2 6 .2 12 0 18H496v-18H284.8zM16 247v18h150v-18H16zm0 96v18h150v-18H16z"/>
     </symbol>
     <symbol id="LED" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
     </symbol>
-    <symbol id="AND3" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm268.8 96c.2 6 .2 12 0 18H496v-18H284.8zM16 247v18h150v-18H16zm0 96v18h150v-18H16z"/>
+    <symbol id="OR4" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M116.6 407c40-45.9 60.4-98.4 60.4-151 0-52.6-20.4-105.1-60.4-151H192c34.1 0 81.9 34 119.3 71.4 18.7 18.6 35.1 37.9 46.6 53.3 5.8 7.6 10.4 14.4 13.4 19.4 1.4 2.5 2.5 4.7 3.2 6.1.1.4.2.5.2.8 0 .3-.1.5-.2.9-.6 1.4-1.7 3.5-3.2 6-3 5.1-7.5 11.8-13.2 19.5-11.3 15.4-27.5 34.6-46.1 53.2C274.8 373 227.1 407 192 407zM16 361v-18h202.2c-3 6.1-6.3 12.1-9.9 18zm274.5-96c.2-.3.4-.7.5-1 1.1-2.4 2-4.4 2-8 0-3.6-1-5.6-2-8-.1-.3-.3-.7-.5-1H496v18zM16 297v-18h197c3.6 5.9 6.9 11.9 9.9 18zM16 233v-18h197c3.6 5.9 6.9 11.9 9.9 18zM16 169v-18h192.3c3.6 5.9 6.9 11.9 9.9 18z"/>
     </symbol>
     <symbol id="NOT1" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 105,111.3 V 400.7 L 365.5,256 Z M 16,247 v 18 h 150 v -18 z m 320,-14 c -12.8,0 -23,10.2 -23,23 0,12.8 10.2,23 23,23 12.8,0 23,-10.2 23,-23 0,-12.8 -10.2,-23 -23,-23 z m 40,14 c 0.6,2.9 1,5.9 1,9 0,3.1 -0.4,6.1 -1,9 h 120 v -18 z"/>
@@ -143,29 +143,28 @@
     </g>
     <text x="1060" y="370" font-family="Arial" font-size="12" fill="red">VCC:14</text>
     <text x="1200" y="370" font-family="Arial" font-size="12" fill="blue">GND:7</text>
-<path id="wire-0" d="M 130 120 L 180 120 L 180 190 L 320 190" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-1" d="M 130 180 L 240 180 L 240 290 L 320 290" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-2" d="M 130 180 L 180 180 L 170 180 L 170 170 L 240 170 L 240 90 L 640 90 L 640 680 L 720 680" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-3" d="M 130 230 L 180 230 L 180 390 L 320 390" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-4" d="M 130 230 L 180 230 L 180 200 L 230 200 L 230 80 L 630 80 L 630 190 L 720 190" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-5" d="M 130 230 L 220 230 L 220 70 L 620 70 L 620 290 L 720 290" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-6" d="M 130 230 L 180 230 L 170 230 L 170 220 L 210 220 L 210 60 L 610 60 L 610 400 L 720 400" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-7" d="M 130 280 L 200 280 L 200 50 L 600 50 L 600 300 L 720 300" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-8" d="M 130 280 L 180 280 L 170 280 L 170 270 L 190 270 L 190 40 L 590 40 L 590 200 L 720 200" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-9" d="M 130 280 L 180 280 L 170 280 L 170 290 L 230 290 L 230 790 L 640 790 L 640 690 L 720 690" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-10" d="M 400 190 L 580 190 L 580 180 L 720 180" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-11" d="M 400 190 L 480 190 L 480 380 L 720 380" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-12" d="M 400 290 L 590 290 L 590 280 L 720 280" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-13" d="M 400 290 L 480 290 L 470 290 L 470 300 L 590 300 L 590 390 L 720 390" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-14" d="M 400 390 L 480 390 L 480 700 L 720 700" stroke="#46f0f0" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-15" d="M 800 190 L 1040 190 L 1040 180 L 1120 180" stroke="#f032e6" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-16" d="M 800 290 L 1120 290 L 1120 180" stroke="#bcf60c" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-17" d="M 800 390 L 880 390 L 880 200 L 1120 200" stroke="#fabebe" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-18" d="M 800 690 L 880 690 L 880 400 L 1040 400 L 1040 200 L 1120 200" stroke="#008080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-19" d="M 1200 190 L 1280 190 L 1280 40 L 1580 40 L 1580 100" stroke="#e6beff" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-0" d="M 130 120 L 180 120 L 180 190 L 322.5 190.0" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-1" d="M 130 175 L 180 175 L 180 180 L 240 180 L 240 290 L 322.5 290.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-2" d="M 130 175 L 180 175 L 180 180 L 230 180 L 230 90 L 640 90 L 640 680 L 640 675.0 L 722.5 675.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-3" d="M 130 230 L 180 230 L 180 390 L 322.5 390.0" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-4" d="M 130 230 L 180 230 L 180 200 L 220 200 L 220 80 L 630 80 L 630 190 L 722.5 190.0" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-5" d="M 130 230 L 220 230 L 220 80 L 620 80 L 620 290 L 722.5 290.0" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-6" d="M 130 230 L 210 230 L 210 80 L 610 80 L 610 400 L 640 400 L 640 405.0 L 722.5 405.0" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-7" d="M 130 285 L 180 285 L 180 280 L 200 280 L 200 70 L 600 70 L 600 300 L 640 300 L 640 305.0 L 722.5 305.0" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-8" d="M 130 285 L 180 285 L 180 280 L 190 280 L 190 70 L 600 70 L 600 200 L 640 200 L 640 205.0 L 722.5 205.0" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-9" d="M 130 285 L 180 285 L 180 280 L 190 280 L 190 790 L 640 790 L 640 700 L 640 705.0 L 722.5 705.0" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-10" d="M 397.5 190.0 L 590 190 L 590 180 L 640 180 L 640 175.0 L 722.5 175.0" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-11" d="M 397.5 190.0 L 480 190.0 L 480 380 L 640 380 L 640 375.0 L 722.5 375.0" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-12" d="M 397.5 290.0 L 590 290 L 590 280 L 640 280 L 640 275.0 L 722.5 275.0" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-13" d="M 397.5 290.0 L 580 290 L 580 390 L 722.5 390.0" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-14" d="M 397.5 390.0 L 480 390.0 L 480 690 L 722.5 690.0" stroke="#46f0f0" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-15" d="M 797.5 190.0 L 1040 190 L 1040 180 L 1040 185.0 L 1122.5 185.0" stroke="#f032e6" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-16" d="M 797.5 290.0 L 880 290.0 L 880 180 L 1040 180 L 1040 175.0 L 1122.5 175.0" stroke="#bcf60c" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-17" d="M 797.5 390.0 L 880 390.0 L 880 300 L 1040 300 L 1040 200 L 1040 205.0 L 1122.5 205.0" stroke="#fabebe" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-18" d="M 797.5 690.0 L 880 690.0 L 880 400 L 1030 400 L 1030 200 L 1040 200 L 1040 195.0 L 1122.5 195.0" stroke="#008080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-19" d="M 1197.5 190.0 L 1280 190.0 L 1280 40 L 1580 40 L 1575 40 L 1575 114.2578125" stroke="#e6beff" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <rect x="1500" y="50" width="150" height="130" fill="none" stroke="black" stroke-width="2" rx="5"/>
     <text x="1575" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">OUTPUTS</text>
-    <use href="#LED" x="1550" y="100" width="50" height="50"/>
+    <use href="#LED" x="1550" y="100" width="50" height="50" transform="rotate(180, 1575, 125)"/>
     <text x="1575" y="165" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="green">OUT</text>
-    <line x1="1575" y1="135.7421875" x2="1575" y2="180" stroke="yellow" stroke-width="2"/>
 </svg>
