@@ -77,7 +77,7 @@ class SVGCircuitGenerator:
         
         # Adjust canvas height for inputs/outputs if needed
         # Add extra padding for fallback routing (Strategy 3 spills over bottom)
-        canvas_height = max(canvas_height, input_box_height + 100, output_box_height + 100) + 500
+        canvas_height = max(canvas_height, input_box_height + 250, output_box_height + 100) + 500
         
         # Get unique gate types for symbol definitions
         gate_types = set(chip['gate_type'] for chip in self.chips.values())
@@ -111,7 +111,7 @@ class SVGCircuitGenerator:
         # Add inputs box if inputs exist
         inputs_svg = ""
         if self.inputs:
-            inputs_svg = renderer.create_inputs_box(50, 50, self.inputs) # This populates pin_positions['input']
+            inputs_svg = renderer.create_inputs_box(50, 150, self.inputs) # This populates pin_positions['input']
             svg_parts.append(inputs_svg)
         
         # Add all chip instances
