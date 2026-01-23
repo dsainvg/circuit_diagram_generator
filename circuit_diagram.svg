@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="850" height="780" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <symbol id="NOT1" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 105,111.3 V 400.7 L 365.5,256 Z M 16,247 v 18 h 150 v -18 z m 320,-14 c -12.8,0 -23,10.2 -23,23 0,12.8 10.2,23 23,23 12.8,0 23,-10.2 23,-23 0,-12.8 -10.2,-23 -23,-23 z m 40,14 c 0.6,2.9 1,5.9 1,9 0,3.1 -0.4,6.1 -1,9 h 120 v -18 z"/>
+    </symbol>
+    <symbol id="NAND2" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm320 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h120v-18h-120zM16 343v18h150v-18H16z"/>
+    </symbol>
+  </defs>
+  <text x="20" y="30" font-family="Arial" font-size="20" font-weight="bold" fill="black">Circuit Diagram</text>
+    <rect x="50" y="50" width="220" height="680" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="160" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">4009</text>
+    <g>
+      <use href="#NOT1" x="120" y="100" width="80" height="80"/>
+      <text x="117.5" y="138.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">3</text>
+      <text x="202.5" y="138.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">2</text>
+      <text x="160" y="195" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">A</text>
+    </g>
+    <g>
+      <use href="#NOT1" x="120" y="200" width="80" height="80"/>
+      <text x="117.5" y="238.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">5</text>
+      <text x="202.5" y="238.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">4</text>
+      <text x="160" y="295" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">B</text>
+    </g>
+    <g>
+      <use href="#NOT1" x="120" y="300" width="80" height="80"/>
+      <text x="117.5" y="338.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">7</text>
+      <text x="202.5" y="338.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">6</text>
+      <text x="160" y="395" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">C</text>
+    </g>
+    <g>
+      <use href="#NOT1" x="120" y="400" width="80" height="80"/>
+      <text x="117.5" y="438.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">9</text>
+      <text x="202.5" y="438.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">10</text>
+      <text x="160" y="495" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">D</text>
+    </g>
+    <g>
+      <use href="#NOT1" x="120" y="500" width="80" height="80"/>
+      <text x="117.5" y="538.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">11</text>
+      <text x="202.5" y="538.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">12</text>
+      <text x="160" y="595" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">E</text>
+    </g>
+    <g>
+      <use href="#NOT1" x="120" y="600" width="80" height="80"/>
+      <text x="117.5" y="638.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">14</text>
+      <text x="202.5" y="638.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">15</text>
+      <text x="160" y="695" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">F</text>
+    </g>
+    <text x="60" y="720" font-family="Arial" font-size="12" fill="red">VCC:16</text>
+    <text x="260" y="720" font-family="Arial" font-size="12" text-anchor="end" fill="gray">GND:8</text>
+    <rect x="300" y="50" width="220" height="480" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="410" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">7400</text>
+    <g>
+      <use href="#NAND2" x="370" y="100" width="80" height="80"/>
+      <text x="367.5" y="123.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">1</text>
+      <text x="367.5" y="153.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">2</text>
+      <text x="452.5" y="138.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">3</text>
+      <text x="410" y="195" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">A</text>
+    </g>
+    <g>
+      <use href="#NAND2" x="370" y="200" width="80" height="80"/>
+      <text x="367.5" y="223.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">4</text>
+      <text x="367.5" y="253.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">5</text>
+      <text x="452.5" y="238.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">6</text>
+      <text x="410" y="295" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">B</text>
+    </g>
+    <g>
+      <use href="#NAND2" x="370" y="300" width="80" height="80"/>
+      <text x="367.5" y="323.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">9</text>
+      <text x="367.5" y="353.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">10</text>
+      <text x="452.5" y="338.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">8</text>
+      <text x="410" y="395" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">C</text>
+    </g>
+    <g>
+      <use href="#NAND2" x="370" y="400" width="80" height="80"/>
+      <text x="367.5" y="423.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">12</text>
+      <text x="367.5" y="453.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">13</text>
+      <text x="452.5" y="438.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">11</text>
+      <text x="410" y="495" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">D</text>
+    </g>
+    <text x="310" y="520" font-family="Arial" font-size="12" fill="red">VCC:14</text>
+    <text x="510" y="520" font-family="Arial" font-size="12" text-anchor="end" fill="gray">GND:7</text>
+</svg>
