@@ -1,3 +1,5 @@
-chip_id,chip_type,gate_num
-U1,4009,1
-U2,7400,1
+chip_id,chip_type,gate_num,layer
+U1,4009,1,0
+U2,4073,1,1
+U3,4073,2,1
+U4,4072,1,2

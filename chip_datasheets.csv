@@ -1,11 +1,70 @@
-chip_type,gate_num,input_pins,output_pin,gate_type,vcc_pin,gnd_pin,total_pins
-4009,1,3,2,NOT1,16,8,16
-4009,2,5,4,NOT1,16,8,16
-4009,3,7,6,NOT1,16,8,16
-4009,4,9,10,NOT1,16,8,16
-4009,5,11,12,NOT1,16,8,16
-4009,6,14,15,NOT1,16,8,16
-7400,1,"1,2",3,NAND2,14,7,14
-7400,2,"4,5",6,NAND2,14,7,14
-7400,3,"9,10",8,NAND2,14,7,14
-7400,4,"12,13",11,NAND2,14,7,14
+chip_type,gate_num,input_pins,output_pin,gate_type,vcc_pin,gnd_pin,total_pins,description
+4009,1,3,2,NOT1,16,8,16,Hex Inverter/Buffer
+4009,2,5,4,NOT1,16,8,16,Hex Inverter/Buffer
+4009,3,7,6,NOT1,16,8,16,Hex Inverter/Buffer
+4009,4,9,10,NOT1,16,8,16,Hex Inverter/Buffer
+4009,5,11,12,NOT1,16,8,16,Hex Inverter/Buffer
+4009,6,14,15,NOT1,16,8,16,Hex Inverter/Buffer
+4011,1,"1,2",3,NAND2,14,7,14,Quad 2-input NAND
+4011,2,"5,6",4,NAND2,14,7,14,Quad 2-input NAND
+4011,3,"8,9",10,NAND2,14,7,14,Quad 2-input NAND
+4011,4,"12,13",11,NAND2,14,7,14,Quad 2-input NAND
+4023,1,"1,2,13",12,NAND3,14,7,14,Triple 3-input NAND
+4023,2,"3,4,5",6,NAND3,14,7,14,Triple 3-input NAND
+4023,3,"8,9,10",11,NAND3,14,7,14,Triple 3-input NAND
+4025,1,"1,2,13",12,NOR3,14,7,14,Triple 3-input NOR
+4025,2,"3,4,5",6,NOR3,14,7,14,Triple 3-input NOR
+4025,3,"8,9,10",11,NOR3,14,7,14,Triple 3-input NOR
+4030,1,"1,2",3,XOR2,14,7,14,Quad 2-input XOR
+4030,2,"5,6",4,XOR2,14,7,14,Quad 2-input XOR
+4030,3,"8,9",10,XOR2,14,7,14,Quad 2-input XOR
+4030,4,"12,13",11,XOR2,14,7,14,Quad 2-input XOR
+4071,1,"1,2",3,OR2,14,7,14,Quad 2-input OR
+4071,2,"5,6",4,OR2,14,7,14,Quad 2-input OR
+4071,3,"8,9",10,OR2,14,7,14,Quad 2-input OR
+4071,4,"12,13",11,OR2,14,7,14,Quad 2-input OR
+4072,1,"2,3,4,5",1,OR4,14,7,14,Dual 4-input OR
+4072,2,"9,10,11,12",13,OR4,14,7,14,Dual 4-input OR
+4073,1,"1,2,13",12,AND3,14,7,14,Triple 3-input AND
+4073,2,"3,4,5",6,AND3,14,7,14,Triple 3-input AND
+4073,3,"8,9,10",11,AND3,14,7,14,Triple 3-input AND
+4075,1,"1,2,13",12,OR3,14,7,14,Triple 3-input OR
+4075,2,"3,4,5",6,OR3,14,7,14,Triple 3-input OR
+4075,3,"8,9,10",11,OR3,14,7,14,Triple 3-input OR
+4081,1,"1,2",3,AND2,14,7,14,Quad 2-input AND
+4081,2,"5,6",4,AND2,14,7,14,Quad 2-input AND
+4081,3,"8,9",10,AND2,14,7,14,Quad 2-input AND
+4081,4,"12,13",11,AND2,14,7,14,Quad 2-input AND
+4082,1,"1,2,3,4",6,AND4,14,7,14,Dual 4-input AND
+4082,2,"10,11,12,13",8,AND4,14,7,14,Dual 4-input AND
+74LS00,1,"1,2",3,NAND2,14,7,14,Quad 2-input NAND
+74LS00,2,"4,5",6,NAND2,14,7,14,Quad 2-input NAND
+74LS00,3,"9,10",8,NAND2,14,7,14,Quad 2-input NAND
+74LS00,4,"12,13",11,NAND2,14,7,14,Quad 2-input NAND
+74LS02,1,"1,2",3,NOR2,14,7,14,Quad 2-input NOR
+74LS02,2,"5,6",4,NOR2,14,7,14,Quad 2-input NOR
+74LS02,3,"8,9",10,NOR2,14,7,14,Quad 2-input NOR
+74LS02,4,"12,13",11,NOR2,14,7,14,Quad 2-input NOR
+74LS08,1,"1,2",3,AND2,14,7,14,Quad 2-input AND
+74LS08,2,"4,5",6,AND2,14,7,14,Quad 2-input AND
+74LS08,3,"9,10",8,AND2,14,7,14,Quad 2-input AND
+74LS08,4,"12,13",11,AND2,14,7,14,Quad 2-input AND
+74LS10,1,"1,2,13",12,NAND3,14,7,14,Triple 3-input NAND
+74LS10,2,"3,4,5",6,NAND3,14,7,14,Triple 3-input NAND
+74LS10,3,"9,10,11",8,NAND3,14,7,14,Triple 3-input NAND
+74LS11,1,"1,2,13",12,AND3,14,7,14,Triple 3-input AND
+74LS11,2,"3,4,5",6,AND3,14,7,14,Triple 3-input AND
+74LS11,3,"9,10,11",8,AND3,14,7,14,Triple 3-input AND
+74LS20,1,"1,2,4,5",6,NAND4,14,7,14,Dual 4-input NAND
+74LS20,2,"9,10,12,13",8,NAND4,14,7,14,Dual 4-input NAND
+74LS27,1,"1,2,13",12,NOR3,14,7,14,Triple 3-input NOR
+74LS27,2,"3,4,5",6,NOR3,14,7,14,Triple 3-input NOR
+74LS27,3,"9,10,11",8,NOR3,14,7,14,Triple 3-input NOR
+74LS32,1,"1,2",3,OR2,14,7,14,Quad 2-input OR
+74LS32,2,"4,5",6,OR2,14,7,14,Quad 2-input OR
+74LS32,3,"9,10",8,OR2,14,7,14,Quad 2-input OR
+74LS32,4,"12,13",11,OR2,14,7,14,Quad 2-input OR
+74LS86,1,"1,2",3,XOR2,14,7,14,Quad 2-input XOR
+74LS86,2,"4,5",6,XOR2,14,7,14,Quad 2-input XOR
+74LS86,3,"9,10",8,XOR2,14,7,14,Quad 2-input XOR
+74LS86,4,"12,13",11,XOR2,14,7,14,Quad 2-input XOR
