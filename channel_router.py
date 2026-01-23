@@ -170,6 +170,17 @@ class ChannelRouter:
                     if strict_obstacles and blocked_by_wire: continue
                     
                     move_cost = 1
+                    
+                    # 4. PATH MERGING / SHARING
+                    # If we traverse a cell that already has our Net ID, make it very cheap.
+                    # This encourages the router to reuse existing wire segments (Trunk-Branch).
+                    on_same_net = False
+                    if dx != 0 and self.h_nets[nc][nr] == net_id: on_same_net = True
+                    if dy != 0 and self.v_nets[nc][nr] == net_id: on_same_net = True
+                    
+                    if on_same_net:
+                        move_cost = 0.1 # Very low cost to reuse path
+
                     if is_obstacle: move_cost += 10000 
                     if blocked_by_wire: move_cost += 5000
                     if prev_dir is not None and move_dir != prev_dir: move_cost += 5 
@@ -274,9 +285,103 @@ class ChannelRouter:
         if abs(x2 - esc_p2[0]) > 0.1 or abs(y2 - esc_p2[1]) > 0.1:
             final_points.append((x2, y2))
             
-        # Simplify Collinear
-        simplified = []
-        if not final_points: return []
+        return self._simplify_path(final_points)
+
+    def _simplify_path(self, points):
+        if len(points) < 2: return points
+        
+        def is_same_point(p1, p2):
+             return abs(p1[0] - p2[0]) < 0.1 and abs(p1[1] - p2[1]) < 0.1
+             
+        def point_on_segment(p, s_start, s_end):
+             # Check if p lies on segment s_start->s_end
+             dx, dy = s_end[0] - s_start[0], s_end[1] - s_start[1]
+             p_dx, p_dy = p[0] - s_start[0], p[1] - s_start[1]
+             
+             # Cross product ~ 0 for collinearity
+             cross = abs(dx * p_dy - dy * p_dx)
+             if cross > 0.1: return False 
+             
+             # Check bounding box
+             if not (min(s_start[0], s_end[0]) - 0.1 <= p[0] <= max(s_start[0], s_end[0]) + 0.1): return False
+             if not (min(s_start[1], s_end[1]) - 0.1 <= p[1] <= max(s_start[1], s_end[1]) + 0.1): return False
+             return True
+
+        # Iterative cleaning
+        points = list(points)
+        changed = True
+        
+        while changed:
+            changed = False
+            n = len(points)
+            if n < 3: break
+            
+            # A. Cycle / Intersection Detection
+            # Check if an earlier point 'i' lies on any later segment k
+            for i in range(n - 1): 
+                 for k in range(n - 1, i, -1): 
+                      # Check for Duplicate Point (Cycle)
+                      if k > i and is_same_point(points[i], points[k]):
+                          # Cycle i...k found. Keep 0..i + k+1..end
+                          points = points[:i+1] + points[k+1:]
+                          changed = True
+                          break
+                      
+                      # Check if points[i] lies on segment k-1 -> k
+                      if k > i + 1: 
+                           if point_on_segment(points[i], points[k-1], points[k]):
+                               # Short circuit to the intersection
+                               points = points[:i+1] + points[k:]
+                               changed = True
+                               break
+                 if changed: break
+            if changed: continue
+            
+            # B. Remove Backtracks (A -> B -> A)
+            for i in range(1, len(points) - 1):
+                curr = points[i]
+                prev = points[i-1]
+                nxt = points[i+1]
+                
+                dx1, dy1 = curr[0] - prev[0], curr[1] - prev[1]
+                dx2, dy2 = nxt[0] - curr[0], nxt[1] - curr[1]
+                
+                # Check if 180 degree turn
+                # Use dot product? If dot < 0 and cross ~ 0
+                dot = dx1*dx2 + dy1*dy2
+                cross = dx1*dy2 - dx2*dy1
+                
+                if dot < 0 and abs(cross) < 0.1:
+                    # Backtrack detected.
+                    # Remove 'curr'.
+                    points.pop(i)
+                    changed = True
+                    break
+            if changed: continue
+
+        # Final merge of adjacent collinear segments
+        # (A -> B -> C in same dir becomes A -> C)
+        final_clean = [points[0]]
+        for i in range(1, len(points)-1):
+             prev = final_clean[-1]
+             curr = points[i]
+             nxt = points[i+1]
+             
+             dx1, dy1 = curr[0] - prev[0], curr[1] - prev[1]
+             dx2, dy2 = nxt[0] - curr[0], nxt[1] - curr[1]
+             
+             # Check if same direction
+             is_same_dir = False
+             if abs(dx1) < 0.1 and abs(dx2) < 0.1: # Both vert
+                 if (dy1 * dy2) > 0: is_same_dir = True
+             if abs(dy1) < 0.1 and abs(dy2) < 0.1: # Both horiz
+                 if (dx1 * dx2) > 0: is_same_dir = True
+                 
+             if not is_same_dir:
+                 final_clean.append(curr)
+        
+        final_clean.append(points[-1])
+        return final_clean
         
         simplified.append(final_points[0])
         
