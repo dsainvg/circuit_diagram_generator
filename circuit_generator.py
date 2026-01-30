@@ -85,7 +85,7 @@ class SVGCircuitGenerator:
             output_box_height = 60 + len(self.outputs) * (output_size + output_spacing)
         
         # Calculate chip positions using layout manager
-        self.chip_positions, canvas_width, canvas_height = self.layout_manager.intelligent_chip_placement(self.chips)
+        self.chip_positions, canvas_width, canvas_height = self.layout_manager.intelligent_chip_placement(self.chips, self.datasheets)
         
         # Add space for outputs box on the right
         if self.outputs:

@@ -41,10 +41,16 @@ chip_type,gate_num,input_pins,output_pin,gate_type,vcc_pin,gnd_pin,total_pins,de
 74LS00,2,"4,5",6,NAND2,14,7,14,Quad 2-input NAND
 74LS00,3,"9,10",8,NAND2,14,7,14,Quad 2-input NAND
 74LS00,4,"12,13",11,NAND2,14,7,14,Quad 2-input NAND
-74LS02,1,"1,2",3,NOR2,14,7,14,Quad 2-input NOR
+74LS02,1,"2,3",1,NOR2,14,7,14,Quad 2-input NOR
 74LS02,2,"5,6",4,NOR2,14,7,14,Quad 2-input NOR
 74LS02,3,"8,9",10,NOR2,14,7,14,Quad 2-input NOR
-74LS02,4,"12,13",11,NOR2,14,7,14,Quad 2-input NOR
+74LS02,4,"11,12",13,NOR2,14,7,14,Quad 2-input NOR
+74LS04,1,"1",2,NOT1,14,7,14,Hex Inverter Gate
+74LS04,2,"3",4,NOT1,14,7,14,Hex Inverter Gate
+74LS04,3,"5",6,NOT1,14,7,14,Hex Inverter Gate
+74LS04,4,"9",8,NOT1,14,7,14,Hex Inverter Gate
+74LS04,5,"11",10,NOT1,14,7,14,Hex Inverter Gate
+74LS04,6,"13",12,NOT1,14,7,14,Hex Inverter Gate
 74LS08,1,"1,2",3,AND2,14,7,14,Quad 2-input AND
 74LS08,2,"4,5",6,AND2,14,7,14,Quad 2-input AND
 74LS08,3,"9,10",8,AND2,14,7,14,Quad 2-input AND
@@ -72,13 +78,13 @@ chip_type,gate_num,input_pins,output_pin,gate_type,vcc_pin,gnd_pin,total_pins,de
 74LS153,1,"1,2,14,15",4,IC16,16,8,16,Dual 4-to-1 Multiplexer
 CD4051,1,"11,12,13,9,10",3,IC16,16,8,16,8-Channel Analog Multiplexer
 CUSTOM_MUX,1,"1,2,3,4,5,6",13,IC14,14,7,14,Custom 6-input Multiplexer
-74LS47,1,"1,2,6",13,IC16,16,8,16,BCD to 7-Segment Decoder
-74LS47,2,"1,2,6",12,IC16,16,8,16,BCD to 7-Segment Decoder
-74LS47,3,"1,2,6",11,IC16,16,8,16,BCD to 7-Segment Decoder
-74LS47,4,"1,2,6",10,IC16,16,8,16,BCD to 7-Segment Decoder
-74LS47,5,"1,2,6",9,IC16,16,8,16,BCD to 7-Segment Decoder
-74LS47,6,"1,2,6",15,IC16,16,8,16,BCD to 7-Segment Decoder
-74LS47,7,"1,2,6",14,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,1,"1,2,6,7",13,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,2,"1,2,6,7",12,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,3,"1,2,6,7",11,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,4,"1,2,6,7",10,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,5,"1,2,6,7",9,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,6,"1,2,6,7",15,IC16,16,8,16,BCD to 7-Segment Decoder
+74LS47,7,"1,2,6,7",14,IC16,16,8,16,BCD to 7-Segment Decoder
 555,1,"2,5",3,IC8,8,1,8,Timer IC
 R10K,1,1,2,RESISTOR,3,3,2,10K Resistor
 C100N,1,1,2,CAPACITOR,3,3,2,100nF Capacitor

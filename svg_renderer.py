@@ -512,7 +512,7 @@ class SVGRenderer:
         # Calculate box dimensions based on number of displays
         display_width = 80
         display_height = 140
-        display_spacing = 30
+        display_spacing = 200  # Spacing between displays
         box_width = 200
         box_height = 80 + len(displays) * (display_height + display_spacing)
         

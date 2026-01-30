@@ -82,13 +82,31 @@ class DataLoader:
                             'name': input_name
                         })
                     
-                    # ALWAYS add the connection
-                    connections.append({
-                        'from_chip': 'input',
-                        'from_pin': input_name,
-                        'to_chip': row['to_chip'],
-                        'to_pin': int(row['to_pin'])
-                    })
+                    # Check if connecting directly to output
+                    if row['to_chip'].lower() == 'output':
+                        # Direct input-to-output connection
+                        output_name = row['to_pin']
+                        outputs.append({
+                            'name': output_name,
+                            'from_chip': 'input',
+                            'from_pin': input_name
+                        })
+                        
+                        # Add connection
+                        connections.append({
+                            'from_chip': 'input',
+                            'from_pin': input_name,
+                            'to_chip': 'output',
+                            'to_pin': output_name
+                        })
+                    else:
+                        # ALWAYS add the connection to a chip
+                        connections.append({
+                            'from_chip': 'input',
+                            'from_pin': input_name,
+                            'to_chip': row['to_chip'],
+                            'to_pin': int(row['to_pin'])
+                        })
                     
                 elif row['to_chip'].lower() == 'display':
                     # Display connection (7-segment)

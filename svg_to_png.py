@@ -55,7 +55,20 @@ def svg_to_png(svg_path, output_dir='outputs'):
     return output_path
 
 if __name__ == "__main__":
-    svg_path = "circuit_diagram.svg"
-    output_path = svg_to_png(svg_path)
+    if len(sys.argv) < 2:
+        print("Usage: python svg_to_png.py <input_svg_path> [output_dir]")
+        sys.exit(1)
+
+    svg_path = sys.argv[1]
+    if not os.path.isfile(svg_path):
+        print(f"Error: SVG file not found: {svg_path}")
+        sys.exit(1)
+
+    # Optional output directory argument
+    if len(sys.argv) > 2:
+        output_dir = sys.argv[2]
+    else:
+        output_dir = os.path.dirname(svg_path) or '.'
+
+    output_path = svg_to_png(svg_path, output_dir)
     print(f"SVG converted to PNG: {output_path}")
-    # Replace with your SVG file path
