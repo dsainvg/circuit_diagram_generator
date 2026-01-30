@@ -1,0 +1,8 @@
+from_chip,from_pin,to_chip,to_pin
+input,VCC,U1,8
+input,GND,U1,1
+input,TRIG,U1,2
+input,CTRL,U1,5
+U1,3,output,OUT
+U1,6,output,THR
+U1,7,output,DIS

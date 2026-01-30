@@ -201,7 +201,12 @@ class SVGRenderer:
         
         # Determine IC type and dimensions
         total_pins = chip_data.get('total_pins', 14)
-        ic_display_type = 'IC14' if total_pins == 14 else 'IC16'
+        if total_pins == 8:
+            ic_display_type = 'IC8'
+        elif total_pins == 14:
+            ic_display_type = 'IC14'
+        else:
+            ic_display_type = 'IC16'
         
         # Load the IC SVG
         ic_svg_data = self.symbol_manager.load_full_ic_svg(ic_display_type)
@@ -216,7 +221,12 @@ class SVGRenderer:
         # Parse viewBox to get dimensions
         viewBox_parts = viewBox.split()
         ic_width = float(viewBox_parts[2]) if len(viewBox_parts) >= 3 else 140
-        ic_height = float(viewBox_parts[3]) if len(viewBox_parts) >= 4 else (220 if total_pins == 14 else 240)
+        if total_pins == 8:
+            ic_height = float(viewBox_parts[3]) if len(viewBox_parts) >= 4 else 140
+        elif total_pins == 14:
+            ic_height = float(viewBox_parts[3]) if len(viewBox_parts) >= 4 else 220
+        else:
+            ic_height = float(viewBox_parts[3]) if len(viewBox_parts) >= 4 else 240
         
         # Scale factor for display
         scale = 1.5

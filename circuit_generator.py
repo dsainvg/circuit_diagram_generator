@@ -47,10 +47,15 @@ class SVGCircuitGenerator:
         if chip_type in self.datasheets:
             # Check if it's a custom IC
             first_gate = list(self.datasheets[chip_type].values())[0]
-            if first_gate.get('gate_type') in ['IC14', 'IC16']:
+            if first_gate.get('gate_type') in ['IC8', 'IC14', 'IC16']:
                 # Custom IC chip - use IC dimensions with box padding
                 total_pins = first_gate.get('total_pins', 14)
-                ic_height = 220 if total_pins == 14 else 240
+                if total_pins == 8:
+                    ic_height = 140
+                elif total_pins == 14:
+                    ic_height = 220
+                else:
+                    ic_height = 240
                 display_height = int(ic_height * 1.5)  # Scale factor
                 return display_height + 130  # Add box padding (50 top + 80 bottom)
             else:

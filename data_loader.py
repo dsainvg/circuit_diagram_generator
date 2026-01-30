@@ -45,7 +45,7 @@ class DataLoader:
                     gate_data = datasheets[chip_type][gate_num]
                     
                     # Auto-detect custom IC chips based on gate_type
-                    if gate_data['gate_type'] in ['IC14', 'IC16']:
+                    if gate_data['gate_type'] in ['IC8', 'IC14', 'IC16']:
                         is_custom_ic = True
                     
                     chips[chip_id] = {

@@ -79,3 +79,4 @@ CUSTOM_MUX,1,"1,2,3,4,5,6",13,IC14,14,7,14,Custom 6-input Multiplexer
 74LS47,5,"1,2,6",9,IC16,16,8,16,BCD to 7-Segment Decoder
 74LS47,6,"1,2,6",15,IC16,16,8,16,BCD to 7-Segment Decoder
 74LS47,7,"1,2,6",14,IC16,16,8,16,BCD to 7-Segment Decoder
+555,1,"2,5",3,IC8,8,1,8,Timer IC

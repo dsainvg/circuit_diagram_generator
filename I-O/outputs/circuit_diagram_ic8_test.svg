@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1450" height="1490" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+  <defs>
+    <symbol id="IC8" viewBox="0 0 140 140">
+<ns0:g xmlns:ns0="http://www.w3.org/2000/svg">
+    <ns0:rect x="20" y="10" width="100" height="120" rx="5" ry="5" fill="#000000" stroke="#000000" stroke-width="2" />
+    <ns0:rect x="30" y="30" width="80" height="80" rx="2" ry="2" fill="#333333" stroke="none" />
+    <ns0:circle cx="30" cy="20" r="4" fill="#CCCCCC" stroke="none" />
+    <ns0:path d="M 60 10 A 10 10 0 0 0 80 10" fill="none" stroke="#808080" stroke-width="2" />
+    <ns0:text x="70" y="70" font-family="monospace" font-size="12" text-anchor="middle" alignment-baseline="middle" fill="#FFFFFF" />
+    
+    <ns0:path d="M0 30 H20 M0 55 H20 M0 80 H20 M0 105 H20" stroke="#000000" stroke-width="2" />
+    
+    <ns0:path d="M120 105 H140 M120 80 H140 M120 55 H140 M120 30 H140" stroke="#000000" stroke-width="2" />
+  </ns0:g>
+
+    </symbol>
+    <symbol id="LED" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
+    </symbol>
+  </defs>
+  <text x="20" y="30" font-family="Arial" font-size="20" font-weight="bold" fill="black">Circuit Diagram</text>
+    <rect x="50" y="150" width="120" height="280" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="110" y="175" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">INPUTS</text>
+    <rect x="90" y="200" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="225" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">VCC</text>
+    <rect x="90" y="255" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="280" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">GND</text>
+    <rect x="90" y="310" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="335" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">TRIG</text>
+    <rect x="90" y="365" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="390" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">CTRL</text>
+    <rect x="650" y="100" width="270.0" height="290.0" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="785.0" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">555</text>
+    <g transform="translate(680, 150) scale(1.5)">
+      <ns0:g xmlns:ns0="http://www.w3.org/2000/svg">
+    <ns0:rect x="20" y="10" width="100" height="120" rx="5" ry="5" fill="#000000" stroke="#000000" stroke-width="2" />
+    <ns0:rect x="30" y="30" width="80" height="80" rx="2" ry="2" fill="#333333" stroke="none" />
+    <ns0:circle cx="30" cy="20" r="4" fill="#CCCCCC" stroke="none" />
+    <ns0:path d="M 60 10 A 10 10 0 0 0 80 10" fill="none" stroke="#808080" stroke-width="2" />
+    <ns0:text x="70" y="70" font-family="monospace" font-size="12" text-anchor="middle" alignment-baseline="middle" fill="#FFFFFF" />
+    
+    <ns0:path d="M0 30 H20 M0 55 H20 M0 80 H20 M0 105 H20" stroke="#000000" stroke-width="2" />
+    
+    <ns0:path d="M120 105 H140 M120 80 H140 M120 55 H140 M120 30 H140" stroke="#000000" stroke-width="2" />
+  </ns0:g>
+
+    </g>
+    <text x="668.0" y="199.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>
+    <text x="668.0" y="236.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#2196F3">2</text>
+    <text x="668.0" y="274.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#4CAF50">3</text>
+    <text x="902.0" y="199.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#FF5722">VCC</text>
+    <text x="902.0" y="311.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#2196F3">5</text>
+    <text x="660" y="380.0" font-family="Arial" font-size="12" fill="red">VCC:8</text>
+    <text x="850.0" y="380.0" font-family="Arial" font-size="12" fill="blue">GND:1</text>
+<path id="wire-0" d="M 130 220 L 180 220 L 180 90 L 930 90 L 930 195.0 L 890.0 195.0" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-1" d="M 130 275 L 180 275 L 180 230 L 640 230 L 640 195.0 L 680.0 195.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-2" d="M 130 330 L 180 330 L 180 290 L 640 290 L 640 232.5 L 680.0 232.5" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-3" d="M 130 385 L 180 385 L 180 380 L 640 380 L 640 400 L 930 400 L 930 307.5 L 890.0 307.5" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-4" d="M 680.0 270.0 L 630 270 L 630 40 L 1175 40 L 1175 114.2578125" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-5" d="M 890.0 270.0 L 1090 270 L 1090 330 L 1260 330 L 1260 184.2578125 L 1175 184.2578125" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-6" d="M 890.0 232.5 L 930 232.5 L 930 300 L 1080 300 L 1080 340 L 1180 340 L 1180 330 L 1175 330 L 1175 254.2578125" stroke="#46f0f0" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="1100" y="50" width="150" height="270" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="1175" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">OUTPUTS</text>
+    <g transform="rotate(180, 1175, 125)">
+      <g transform="translate(1150, 100) scale(0.09765625, 0.09765625)">
+        <path d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <text x="1175" y="165" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="green">OUT</text>
+    <g transform="rotate(180, 1175, 195)">
+      <g transform="translate(1150, 170) scale(0.09765625, 0.09765625)">
+        <path d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <text x="1175" y="235" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="green">THR</text>
+    <g transform="rotate(180, 1175, 265)">
+      <g transform="translate(1150, 240) scale(0.09765625, 0.09765625)">
+        <path d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <text x="1175" y="305" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="green">DIS</text>
+</svg>

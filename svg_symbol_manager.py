@@ -72,10 +72,21 @@ class SVGSymbolManager:
     
     @staticmethod
     def get_ic_pin_positions(ic_type, total_pins):
-        """Get pin positions for IC14 and IC16 chips based on viewBox"""
+        """Get pin positions for IC8, IC14 and IC16 chips based on viewBox"""
         pin_positions = {}
         
-        if ic_type == 'IC14' or total_pins == 14:
+        if ic_type == 'IC8' or total_pins == 8:
+            # IC8: viewBox="0 0 140 140", pins at y: 30,55,80,105 (spacing 25)
+            left_pins = [1, 2, 3, 4]
+            right_pins = [8, 7, 6, 5]
+            
+            for i, pin in enumerate(left_pins):
+                pin_positions[pin] = {'x': 0, 'y': 30 + i * 25}
+            
+            for i, pin in enumerate(right_pins):
+                pin_positions[pin] = {'x': 140, 'y': 30 + i * 25}
+                
+        elif ic_type == 'IC14' or total_pins == 14:
             # IC14: viewBox="0 0 140 220", pins at y: 30,55,80,105,130,155,180 (spacing 25)
             left_pins = [1, 2, 3, 4, 5, 6, 7]
             right_pins = [14, 13, 12, 11, 10, 9, 8]
@@ -104,8 +115,8 @@ class SVGSymbolManager:
         defs = ['  <defs>']
         
         for gate_type in gate_types:
-            # For IC packages (IC14, IC16), load full SVG content
-            if gate_type in ['IC14', 'IC16']:
+            # For IC packages (IC8, IC14, IC16), load full SVG content
+            if gate_type in ['IC8', 'IC14', 'IC16']:
                 svg_content = self.load_full_ic_svg(gate_type)
                 if svg_content:
                     # Store for later use
