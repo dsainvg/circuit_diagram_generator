@@ -56,6 +56,11 @@
 - **Grid state**: Router maintains grid occupancy and wire placement state
 - **Immutable data flow**: Data loaded once and passed through processing pipeline
 
+### Special Connection Handling
+- **GND/VCC connections**: Special handling for power and ground connections with label rendering
+- **Display connections**: Support for 7-segment display segment mapping
+- **Custom IC detection**: Auto-detection of custom IC chips based on gate_type patterns
+
 ## Rendering and Graphics Patterns
 
 ### SVG Generation Approach
@@ -70,6 +75,12 @@
 - **Coordinate transformation**: Proper scaling and translation for symbol placement
 - **Color management**: Consistent color schemes with net-based wire coloring
 
+### Custom IC Rendering
+- **Package-specific rendering**: Separate rendering logic for IC8, IC14, IC16 packages
+- **Pin position calculation**: Accurate pin positioning for different package types
+- **Boundary registration**: Router boundary registration for custom IC chips
+- **Scaling and transformation**: Proper scaling of IC symbols within chip containers
+
 ## Algorithm Implementation Patterns
 
 ### Routing Algorithms
@@ -77,12 +88,13 @@
 - **Multi-strategy approach**: Primary algorithm with fallback strategies
 - **Obstacle avoidance**: Strict boundary checking with escape mechanisms
 - **Path optimization**: Post-processing to remove redundant waypoints and cycles
+- **Net-aware routing**: Path sharing for same-net connections with color coding
 
 ### Layout Algorithms
 - **Layer-based placement**: Horizontal layers with vertical stacking within layers
 - **Dynamic sizing**: Canvas dimensions calculated based on content requirements
-- **Spacing calculations**: Consistent spacing formulas for visual balance
-- **Collision detection**: Boundary checking to prevent overlapping elements
+- **Spacing calculations**: Proportional spacing based on chip heights (15% of previous chip height)
+- **Custom IC sizing**: Special height calculations for custom IC packages
 
 ## Configuration and Extensibility
 
@@ -97,6 +109,7 @@
 - **Routing strategies**: Pluggable routing algorithms with common interface
 - **Output formats**: Multiple export formats through converter modules
 - **Data sources**: Extensible data loading for different input formats
+- **Custom components**: Support for new component types (displays, passive components)
 
 ## Testing and Validation Patterns
 
@@ -112,6 +125,11 @@
 - **Failure tracking**: Collection and reporting of failed operations
 - **Debug information**: Detailed logging for troubleshooting complex routing issues
 
+### Multi-backend Support
+- **Library fallbacks**: Multiple rendering backends (PyQt5, cairosvg) with graceful fallback
+- **Import protection**: Try-catch blocks for optional dependencies
+- **Feature detection**: Runtime detection of available libraries
+
 ## Performance Optimization
 
 ### Efficiency Strategies
@@ -125,3 +143,8 @@
 - **Efficient data structures**: Appropriate data structures for different operations
 - **Algorithmic complexity**: Consideration of performance for large circuits
 - **Resource cleanup**: Proper cleanup of graphics resources and file handles
+
+### Command Line Interface
+- **Argument parsing**: Support for command line arguments in conversion utilities
+- **Error handling**: Proper error messages and exit codes
+- **Usage documentation**: Built-in help and usage information

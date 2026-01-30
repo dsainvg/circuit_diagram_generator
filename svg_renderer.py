@@ -107,46 +107,61 @@ class SVGRenderer:
                 to_pin = connection.get('to_pin')
             else:
                 from_chip, from_pin, to_chip, to_pin = connection
-                
+
             # Determine color from pre-calculated Net Color
             source_key = (from_chip, from_pin)
             wire_color = pin_to_color.get(source_key, "#000000") # Default black if issue
-            
-            # Net ID for routing overlap logic (Using color is a good proxy for "Same Net")
-            # Or construct specific net key
-            net_id = wire_color 
+            net_id = wire_color
+
+            # GND connection: just label the target pin, don't route a wire
+            if str(from_chip).upper() == 'GND':
+                # Find end position
+                end_pos = None
+                if to_chip == 'output':
+                    if 'output' in self.pin_positions and to_pin in self.pin_positions['output']:
+                        end_pos = self.pin_positions['output'][to_pin]
+                elif to_chip in self.pin_positions and str(to_pin) in [str(k) for k in self.pin_positions[to_chip].keys()]:
+                    # Convert to_pin to int if it's a string number
+                    pin_key = int(to_pin) if str(to_pin).isdigit() else to_pin
+                    if pin_key in self.pin_positions[to_chip]:
+                        end_pos = self.pin_positions[to_chip][pin_key]
+                if end_pos:
+                    # Place 'GND' label beside the pin
+                    label_x = end_pos['x'] - 25
+                    label_y = end_pos['y'] + 4
+                    svg_paths.append(
+                        f'<text x="{label_x}" y="{label_y}" font-family="Arial" font-size="11" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>'
+                    )
+                    routed_count += 1
+                else:
+                    failed.append((wire_id, connection, f"Target pin not found: {to_chip}.{to_pin}"))
+                continue
 
             # Get pin positions
             start_pos = None
             end_pos = None
-            
             # Find start position
             if from_chip == 'input':
                 if 'input' in self.pin_positions and from_pin in self.pin_positions['input']:
                     start_pos = self.pin_positions['input'][from_pin]
             elif from_chip in self.pin_positions and from_pin in self.pin_positions[from_chip]:
                 start_pos = self.pin_positions[from_chip][from_pin]
-                
             # Find end position
             if to_chip == 'output':
                 if 'output' in self.pin_positions and to_pin in self.pin_positions['output']:
                     end_pos = self.pin_positions['output'][to_pin]
             elif to_chip in self.pin_positions and to_pin in self.pin_positions[to_chip]:
                 end_pos = self.pin_positions[to_chip][to_pin]
-            
             if not start_pos:
                 failed.append((wire_id, connection, f"Source pin not found: {from_chip}.{from_pin}"))
                 continue
-            
             if not end_pos:
                 failed.append((wire_id, connection, f"Target pin not found: {to_chip}.{to_pin}"))
                 continue
-            
             x1 = start_pos['x']
             y1 = start_pos['y']
             x2 = end_pos['x']
             y2 = end_pos['y']
-            
             # Prefer horizontal routing for cleaner diagrams
             waypoints = self.router.route_net(
                 x1, y1, x2, y2,
@@ -154,7 +169,6 @@ class SVGRenderer:
                 net_id=net_id,
                 prefer_horizontal=True
             )
-            
             if waypoints:
                 svg_path = self._create_svg_path(waypoints, wire_id, color=wire_color)
                 svg_paths.append(svg_path)
@@ -162,9 +176,9 @@ class SVGRenderer:
             else:
                 failed.append((wire_id, connection, "Channel routing failed"))
         
-        print(f"✓ Routed {routed_count}/{len(connections)} connections")
+        print(f"Routed {routed_count}/{len(connections)} connections")
         if failed:
-            print(f"✗ Failed: {len(failed)} connections")
+            print(f"Failed: {len(failed)} connections")
             for f in failed:
                 print(f"  - {f[2]}")
         
@@ -246,10 +260,12 @@ class SVGRenderer:
         if self.router:
             self.router.add_chip_boundary(x, y, box_width, box_height)
         
-        # Chip name at top
+        # Chip name at top - use description from datasheet
+        first_gate = list(self.datasheets.get(chip_type, {}).values())[0] if chip_type in self.datasheets else None
+        chip_display_name = first_gate.get('description', chip_type) if first_gate else chip_type
         svg_parts.append(f'    <text x="{x + box_width//2}" y="{y + 25}" '
                         f'font-family="Arial" font-size="16" font-weight="bold" '
-                        f'text-anchor="middle" fill="black">{chip_type}</text>')
+                        f'text-anchor="middle" fill="black">{first_gate.get("description", chip_type) if chip_type in self.datasheets and self.datasheets[chip_type] else chip_type}</text>')
         
         # Adjust IC position to center it in the box with space for title
         ic_x = x + box_padding
@@ -276,11 +292,21 @@ class SVGRenderer:
             gnd_pin = gate_data['gnd_pin']
         
         # Register all pin positions (scaled to actual position with adjusted IC placement)
-        for pin, pos in pin_positions.items():
+        # For any chip with total_pins >= 8, always register all pins 1..total_pins
+        for pin in range(1, total_pins + 1):
+            pos = pin_positions.get(pin)
+            if not pos:
+                # Fallback: evenly distribute missing pins
+                if pin <= (total_pins // 2):
+                    px = 0
+                    py = 30 + (pin - 1) * 25
+                else:
+                    px = 140
+                    py = 30 + (total_pins - pin) * 25
+                pos = {'x': px, 'y': py}
             actual_x = ic_x + pos['x'] * scale
             actual_y = ic_y + pos['y'] * scale
             self.pin_positions[chip_id][pin] = {'x': actual_x, 'y': actual_y}
-            
             # Add pin labels
             if pin in all_pins:
                 # I/O pin - show in green or blue
@@ -318,6 +344,12 @@ class SVGRenderer:
         if chip_data.get('is_custom_ic', False):
             return self.create_custom_ic_svg(chip_id, chip_data, x, y)
         
+        # Also check if gate_type indicates custom IC
+        if chip_type in self.datasheets:
+            first_gate = list(self.datasheets[chip_type].values())[0]
+            if first_gate.get('gate_type') in ['IC8', 'IC14', 'IC16']:
+                return self.create_custom_ic_svg(chip_id, chip_data, x, y)
+        
         # Initialize pin positions storage for this chip
         self.pin_positions[chip_id] = {}
         
@@ -328,7 +360,7 @@ class SVGRenderer:
         # Calculate chip box dimensions based on number of gates
         gate_width = 80
         gate_height = 80
-        gate_spacing = 20
+        gate_spacing = 0 if chip_type.startswith('R') else 20  # Smaller spacing for resistors
         box_width = 220
         box_height = max(160, 80 + num_gates * (gate_height + gate_spacing))
         
@@ -391,10 +423,11 @@ class SVGRenderer:
                     # Store pin position for later use in connections
                     self.pin_positions[chip_id][pin] = {'x': pin_x, 'y': pin_y}
                     
-                    # Pin number to the left of the gate
-                    svg_parts.append(f'      <text x="{pin_x - 5}" y="{pin_y - 2}" '
-                                   f'font-family="Arial" font-size="12" font-weight="bold" '
-                                   f'text-anchor="end" fill="blue">{pin}</text>')
+                    # Pin number to the left of the gate (skip for resistors)
+                    if gate_type != 'RESISTOR':
+                        svg_parts.append(f'      <text x="{pin_x - 5}" y="{pin_y - 2}" '
+                                       f'font-family="Arial" font-size="12" font-weight="bold" '
+                                       f'text-anchor="end" fill="blue">{pin}</text>')
             
             # Add output pin number and store position
             out_x = gate_x + output_position['x'] * scale_x
@@ -403,17 +436,20 @@ class SVGRenderer:
             # Store output pin position
             self.pin_positions[chip_id][output_pin] = {'x': out_x, 'y': out_y}
             
-            svg_parts.append(f'      <text x="{out_x + 5}" y="{out_y - 2}" '
-                            f'font-family="Arial" font-size="12" font-weight="bold" '
-                            f'text-anchor="start" fill="green">{output_pin}</text>')
+            # Output pin number (skip for resistors)
+            if gate_type != 'RESISTOR':
+                svg_parts.append(f'      <text x="{out_x + 5}" y="{out_y - 2}" '
+                                f'font-family="Arial" font-size="12" font-weight="bold" '
+                                f'text-anchor="start" fill="green">{output_pin}</text>')
             
-            # Gate label (letter)
-            gate_letters = ['A', 'B', 'C', 'D', 'E', 'F']
-            if gate_num <= len(gate_letters):
-                letter = gate_letters[gate_num - 1]
-                svg_parts.append(f'      <text x="{gate_x + gate_width // 2}" y="{gate_y + gate_height + 15}" '
-                                f'font-family="Arial" font-size="13" font-weight="bold" '
-                                f'text-anchor="middle" fill="black">{letter}</text>')
+            # Gate label (letter) - skip for resistors
+            if gate_type != 'RESISTOR':
+                gate_letters = ['A', 'B', 'C', 'D', 'E', 'F']
+                if gate_num <= len(gate_letters):
+                    letter = gate_letters[gate_num - 1]
+                    svg_parts.append(f'      <text x="{gate_x + gate_width // 2}" y="{gate_y + gate_height + 15}" '
+                                    f'font-family="Arial" font-size="13" font-weight="bold" '
+                                    f'text-anchor="middle" fill="black">{letter}</text>')
             
             svg_parts.append(f'    </g>')
         

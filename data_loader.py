@@ -72,9 +72,29 @@ class DataLoader:
         with open(connections_csv, 'r') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if row['from_chip'].lower() == 'input':
+                # Support GND/VCC as from_chip or to_chip
+                from_chip_raw = row['from_chip'].strip()
+                to_chip_raw = row['to_chip'].strip()
+                from_chip = from_chip_raw.upper()
+                to_chip = to_chip_raw.upper()
+                from_pin = row['from_pin']
+                to_pin = row['to_pin']
+
+                is_gnd = from_chip == 'GND' or to_chip == 'GND'
+                is_vcc = from_chip == 'VCC' or to_chip == 'VCC'
+
+                # If GND/VCC, allow empty pin or use 0
+                def parse_pin(pin):
+                    if is_gnd or is_vcc:
+                        return 0 if pin == '' else pin
+                    try:
+                        return int(pin)
+                    except Exception:
+                        return pin
+
+                if from_chip == 'INPUT':
                     # Input connection
-                    input_name = row['from_pin']
+                    input_name = from_pin
                     # Add to inputs list for drawing box if new
                     if input_name not in seen_inputs:
                         seen_inputs.add(input_name)
@@ -83,9 +103,9 @@ class DataLoader:
                         })
                     
                     # Check if connecting directly to output
-                    if row['to_chip'].lower() == 'output':
+                    if to_chip == 'OUTPUT':
                         # Direct input-to-output connection
-                        output_name = row['to_pin']
+                        output_name = to_pin
                         outputs.append({
                             'name': output_name,
                             'from_chip': 'input',
@@ -97,20 +117,26 @@ class DataLoader:
                             'from_chip': 'input',
                             'from_pin': input_name,
                             'to_chip': 'output',
-                            'to_pin': output_name
+                            'to_pin': output_name,
+                            'is_gnd': is_gnd,
+                            'is_vcc': is_vcc
                         })
                     else:
                         # ALWAYS add the connection to a chip
+                        # Always use lowercase for display/output
+                        to_chip_final = to_chip_raw.lower() if to_chip in ['DISPLAY', 'OUTPUT'] else to_chip_raw
                         connections.append({
                             'from_chip': 'input',
                             'from_pin': input_name,
-                            'to_chip': row['to_chip'],
-                            'to_pin': int(row['to_pin'])
+                            'to_chip': to_chip_final,
+                            'to_pin': parse_pin(to_pin),
+                            'is_gnd': is_gnd,
+                            'is_vcc': is_vcc
                         })
                     
-                elif row['to_chip'].lower() == 'display':
+                elif to_chip == 'DISPLAY':
                     # Display connection (7-segment)
-                    display_segment = row['to_pin']  # e.g., "DISP1_a"
+                    display_segment = to_pin  # e.g., "DISP1_a"
                     
                     # Parse display name and segment
                     if '_' in display_segment:
@@ -131,35 +157,42 @@ class DataLoader:
                     
                     # Add connection
                     connections.append({
-                        'from_chip': row['from_chip'],
-                        'from_pin': int(row['from_pin']),
+                        'from_chip': from_chip,
+                        'from_pin': parse_pin(from_pin),
                         'to_chip': 'display',
-                        'to_pin': display_segment
+                        'to_pin': display_segment,
+                        'is_gnd': is_gnd,
+                        'is_vcc': is_vcc
                     })
                     
-                elif row['to_chip'].lower() == 'output':
+                elif to_chip == 'OUTPUT':
                     # Output connection
-                    output_name = row['to_pin']
+                    output_name = to_pin
                     outputs.append({
                         'name': output_name,
-                        'from_chip': row['from_chip'],
-                        'from_pin': int(row['from_pin'])
+                        'from_chip': from_chip,
+                        'from_pin': parse_pin(from_pin)
                     })
                     
                     # Add connection
                     connections.append({
-                        'from_chip': row['from_chip'],
-                        'from_pin': int(row['from_pin']),
+                        'from_chip': from_chip,
+                        'from_pin': parse_pin(from_pin),
                         'to_chip': 'output',
-                        'to_pin': output_name
+                        'to_pin': output_name,
+                        'is_gnd': is_gnd,
+                        'is_vcc': is_vcc
                     })
                 else:
-                    # Regular chip-to-chip connection
+                    # Regular chip-to-chip or GND/VCC connection
+                    to_chip_final = to_chip_raw.lower() if to_chip in ['DISPLAY', 'OUTPUT'] else to_chip_raw
                     connections.append({
-                        'from_chip': row['from_chip'],
-                        'from_pin': int(row['from_pin']),
-                        'to_chip': row['to_chip'],
-                        'to_pin': int(row['to_pin'])
+                        'from_chip': from_chip,
+                        'from_pin': parse_pin(from_pin),
+                        'to_chip': to_chip_final,
+                        'to_pin': parse_pin(to_pin),
+                        'is_gnd': is_gnd,
+                        'is_vcc': is_vcc
                     })
         
         return connections, inputs, outputs, displays

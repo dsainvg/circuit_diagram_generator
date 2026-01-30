@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="2500" height="1753" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<svg width="2900" height="2180" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
   <defs>
     <symbol id="NOR2" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M116.6 105c40 45.9 60.4 98.4 60.4 151 0 52.6-20.4 105.1-60.4 151H192c34.1 0 81.9-34 119.3-71.4 18.7-18.6 35.1-37.9 46.6-53.3 5.8-7.6 10.4-14.4 13.4-19.4 1.4-2.5 2.5-4.7 3.2-6.1.1-.4.2-.5.2-.8 0-.3-.1-.5-.2-.9-.6-1.4-1.7-3.5-3.2-6-3-5.1-7.5-11.8-13.2-19.5-11.3-15.4-27.5-34.6-46.1-53.2C274.8 139 227.1 105 192 105h-75.4zM16 151v18h202.2c-3-6.1-6.3-12.1-9.9-18H16zm320 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h120v-18h-120zM16 343v18h192.3c3.6-5.9 6.9-11.9 9.9-18H16z"/>
@@ -18,14 +18,17 @@
   </ns0:g>
 
     </symbol>
+    <symbol id="LED" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
+    </symbol>
     <symbol id="NAND2" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z"/>
     </symbol>
     <symbol id="NOT1" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 105,111.3 V 400.7 L 365.5,256 Z M 16,247 v 18 h 150 v -18 z m 320,-14 c -12.8,0 -23,10.2 -23,23 0,12.8 10.2,23 23,23 12.8,0 23,-10.2 23,-23 0,-12.8 -10.2,-23 -23,-23 z m 40,14 c 0.6,2.9 1,5.9 1,9 0,3.1 -0.4,6.1 -1,9 h 120 v -18 z"/>
     </symbol>
-    <symbol id="LED" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
+    <symbol id="RESISTOR" viewBox="0 0 512 512">
+      <path fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round" d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256"/>
     </symbol>
   </defs>
   <text x="20" y="30" font-family="Arial" font-size="20" font-weight="bold" fill="black">Circuit Diagram</text>
@@ -232,14 +235,14 @@
     <text x="1868.0" y="386.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#2196F3">6</text>
     <text x="1868.0" y="424.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#2196F3">7</text>
     <text x="1868.0" y="461.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>
-    <text x="2102.0" y="199.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#FF5722">VCC</text>
-    <text x="2102.0" y="236.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">15</text>
-    <text x="2102.0" y="274.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">14</text>
-    <text x="2102.0" y="311.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">13</text>
-    <text x="2102.0" y="349.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">12</text>
-    <text x="2102.0" y="386.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">11</text>
-    <text x="2102.0" y="424.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">10</text>
     <text x="2102.0" y="461.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">9</text>
+    <text x="2102.0" y="424.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">10</text>
+    <text x="2102.0" y="386.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">11</text>
+    <text x="2102.0" y="349.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">12</text>
+    <text x="2102.0" y="311.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">13</text>
+    <text x="2102.0" y="274.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">14</text>
+    <text x="2102.0" y="236.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">15</text>
+    <text x="2102.0" y="199.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#FF5722">VCC</text>
     <text x="1860" y="530.0" font-family="Arial" font-size="12" fill="red">VCC:16</text>
     <text x="2050.0" y="530.0" font-family="Arial" font-size="12" fill="blue">GND:8</text>
     <rect x="1850" y="663" width="270.0" height="440.0" fill="none" stroke="black" stroke-width="2" rx="5"/>
@@ -263,16 +266,88 @@
     <text x="1868.0" y="949.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#2196F3">6</text>
     <text x="1868.0" y="987.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#2196F3">7</text>
     <text x="1868.0" y="1024.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>
-    <text x="2102.0" y="762.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#FF5722">VCC</text>
-    <text x="2102.0" y="799.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">15</text>
-    <text x="2102.0" y="837.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">14</text>
-    <text x="2102.0" y="874.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">13</text>
-    <text x="2102.0" y="912.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">12</text>
-    <text x="2102.0" y="949.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">11</text>
-    <text x="2102.0" y="987.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">10</text>
     <text x="2102.0" y="1024.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">9</text>
+    <text x="2102.0" y="987.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">10</text>
+    <text x="2102.0" y="949.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">11</text>
+    <text x="2102.0" y="912.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">12</text>
+    <text x="2102.0" y="874.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">13</text>
+    <text x="2102.0" y="837.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">14</text>
+    <text x="2102.0" y="799.5" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#4CAF50">15</text>
+    <text x="2102.0" y="762.0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="start" fill="#FF5722">VCC</text>
     <text x="1860" y="1093.0" font-family="Arial" font-size="12" fill="red">VCC:16</text>
     <text x="2050.0" y="1093.0" font-family="Arial" font-size="12" fill="blue">GND:8</text>
+    <rect x="2250" y="100" width="220" height="1200" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="2360" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">R330_ARRAY</text>
+    <g>
+      <g transform="translate(2320, 150) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 230) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 310) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 390) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 470) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 550) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 630) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 710) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 790) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 870) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 950) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 1030) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 1110) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <g>
+      <g transform="translate(2320, 1190) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+    </g>
 <path id="wire-0" d="M 130 220 L 640 220 L 640 90 L 1840 90 L 1840 420 L 1880.0 420.0" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path id="wire-1" d="M 130 275 L 180 275 L 180 80 L 1040 80 L 1040 175.0 L 1122.5 175.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path id="wire-2" d="M 130 275 L 180 275 L 180 80 L 1040 80 L 1040 275.0 L 1122.5 275.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -296,40 +371,57 @@
 <path id="wire-20" d="M 1197.5 490.0 L 1430 490 L 1430 400 L 1440 400 L 1440 405.0 L 1522.5 405.0" stroke="#008080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path id="wire-21" d="M 1597.5 742.0 L 1680 742.0 L 1680 640 L 880 640 L 880 800 L 630 800 L 630 390 L 722.5 390.0" stroke="#e6beff" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path id="wire-22" d="M 797.5 390.0 L 1000 390 L 1000 610 L 1830 610 L 1830 200 L 1840 200 L 1840 195.0 L 1880.0 195.0" stroke="#9a6324" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-23" d="M 1597.5 190.0 L 1680 190.0 L 1680 280 L 1820 280 L 1820 980 L 1840 980 L 1840 983.0 L 1880.0 983.0" stroke="#fffac8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-24" d="M 1597.5 390.0 L 1810 390 L 1810 230 L 1840 230 L 1840 232.5 L 1880.0 232.5" stroke="#800000" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-25" d="M 1597.5 490.0 L 1800 490 L 1800 380 L 1840 380 L 1840 382.5 L 1880.0 382.5" stroke="#aaffc3" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-26" d="M 2090.0 307.5 L 2130 307.5 L 2130 130 L 2260 130 L 2260 127.5 L 2320 127.5" stroke="#808000" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-27" d="M 2090.0 345.0 L 2130 345.0 L 2130 320 L 2260 320 L 2260 145.0 L 2320 145.0" stroke="#ffd8b1" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-28" d="M 2090.0 382.5 L 2130 382.5 L 2130 350 L 2250 350 L 2250 160 L 2260 160 L 2260 162.5 L 2320 162.5" stroke="#000075" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-29" d="M 2090.0 420.0 L 2130 420.0 L 2130 390 L 2240 390 L 2240 180 L 2320 180.0" stroke="#808080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-30" d="M 2090.0 457.5 L 2130 457.5 L 2130 430 L 2230 430 L 2230 200 L 2260 200 L 2260 197.5 L 2320 197.5" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-31" d="M 2090.0 232.5 L 2130 232.5 L 2130 230 L 2220 230 L 2220 220 L 2260 220 L 2260 215.0 L 2320 215.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-32" d="M 2090.0 270.0 L 2220 270 L 2220 240 L 2260 240 L 2260 232.5 L 2320 232.5" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-33" d="M 2090.0 870.5 L 2130 870.5 L 2130 470 L 2260 470 L 2260 467.5 L 2320 467.5" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-34" d="M 2090.0 908.0 L 2130 908.0 L 2130 880 L 2260 880 L 2260 485.0 L 2320 485.0" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-35" d="M 2090.0 945.5 L 2130 945.5 L 2130 920 L 2250 920 L 2250 500 L 2260 500 L 2260 502.5 L 2320 502.5" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-36" d="M 2090.0 983.0 L 2130 983.0 L 2130 960 L 2240 960 L 2240 520 L 2320 520.0" stroke="#46f0f0" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-37" d="M 2090.0 1020.5 L 2130 1020.5 L 2130 990 L 2230 990 L 2230 540 L 2260 540 L 2260 537.5 L 2320 537.5" stroke="#f032e6" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-38" d="M 2090.0 795.5 L 2130 795.5 L 2130 800 L 2220 800 L 2220 560 L 2260 560 L 2260 555.0 L 2320 555.0" stroke="#bcf60c" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="wire-39" d="M 2090.0 833.0 L 2130 833.0 L 2130 830 L 2210 830 L 2210 570 L 2260 570 L 2260 572.5 L 2320 572.5" stroke="#fabebe" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="2270" y="50" width="200" height="760" fill="none" stroke="black" stroke-width="2" rx="5"/>
-    <text x="2370" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">DISPLAYS</text>
-    <circle cx="2320" cy="127.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="131.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">a</text>
-    <circle cx="2320" cy="145.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="149.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">b</text>
-    <circle cx="2320" cy="162.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="166.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">c</text>
-    <circle cx="2320" cy="180.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="184.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">d</text>
-    <circle cx="2320" cy="197.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="201.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">e</text>
-    <circle cx="2320" cy="215.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="219.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">f</text>
-    <circle cx="2320" cy="232.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="236.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">g</text>
-    <g transform="translate(2330, 110) scale(0.14948898964073068)">
+<text x="1855.0" y="762.0" font-family="Arial" font-size="11" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>
+<text x="1855.0" y="799.5" font-family="Arial" font-size="11" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>
+<text x="1855.0" y="949.5" font-family="Arial" font-size="11" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>
+<path id="wire-26" d="M 1597.5 190.0 L 1680 190.0 L 1680 280 L 1820 280 L 1820 980 L 1840 980 L 1840 983.0 L 1880.0 983.0" stroke="#800000" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-27" d="M 1597.5 390.0 L 1810 390 L 1810 230 L 1840 230 L 1840 232.5 L 1880.0 232.5" stroke="#aaffc3" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-28" d="M 1597.5 490.0 L 1800 490 L 1800 380 L 1840 380 L 1840 382.5 L 1880.0 382.5" stroke="#808000" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-29" d="M 2090.0 307.5 L 2130 307.5 L 2130 190 L 2322.5 190.0" stroke="#ffd8b1" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-30" d="M 2397.5 190.0 L 2480 190.0 L 2480 130 L 2660 130 L 2660 127.5 L 2720 127.5" stroke="#000075" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-31" d="M 2090.0 345.0 L 2130 345.0 L 2130 320 L 2240 320 L 2240 270 L 2322.5 270.0" stroke="#808080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-32" d="M 2397.5 270.0 L 2480 270.0 L 2480 200 L 2660 200 L 2660 145.0 L 2720 145.0" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-33" d="M 2090.0 382.5 L 2130 382.5 L 2130 350 L 2322.5 350.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-34" d="M 2397.5 350.0 L 2480 350.0 L 2480 280 L 2650 280 L 2650 160 L 2660 160 L 2660 162.5 L 2720 162.5" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-35" d="M 2090.0 420.0 L 2240 420 L 2240 430 L 2322.5 430.0" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-36" d="M 2397.5 430.0 L 2480 430.0 L 2480 360 L 2640 360 L 2640 180 L 2720 180.0" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-37" d="M 2090.0 457.5 L 2130 457.5 L 2130 510 L 2322.5 510.0" stroke="#911eb4" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-38" d="M 2397.5 510.0 L 2480 510.0 L 2480 440 L 2660 440 L 2660 197.5 L 2720 197.5" stroke="#46f0f0" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-39" d="M 2090.0 232.5 L 2130 232.5 L 2130 230 L 2230 230 L 2230 590 L 2322.5 590.0" stroke="#f032e6" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-40" d="M 2397.5 590.0 L 2480 590.0 L 2480 520 L 2630 520 L 2630 220 L 2660 220 L 2660 215.0 L 2720 215.0" stroke="#bcf60c" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-41" d="M 2090.0 270.0 L 2220 270 L 2220 670 L 2322.5 670.0" stroke="#fabebe" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-42" d="M 2397.5 670.0 L 2480 670.0 L 2480 600 L 2620 600 L 2620 230 L 2660 230 L 2660 232.5 L 2720 232.5" stroke="#008080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-43" d="M 2090.0 870.5 L 2130 870.5 L 2130 750 L 2322.5 750.0" stroke="#e6beff" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-44" d="M 2397.5 750.0 L 2480 750.0 L 2480 680 L 2660 680 L 2660 467.5 L 2720 467.5" stroke="#9a6324" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-45" d="M 2090.0 908.0 L 2130 908.0 L 2130 880 L 2240 880 L 2240 830 L 2322.5 830.0" stroke="#fffac8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-46" d="M 2397.5 830.0 L 2480 830.0 L 2480 760 L 2650 760 L 2650 480 L 2660 480 L 2660 485.0 L 2720 485.0" stroke="#800000" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-47" d="M 2090.0 945.5 L 2130 945.5 L 2130 920 L 2240 920 L 2240 910 L 2322.5 910.0" stroke="#aaffc3" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-48" d="M 2397.5 910.0 L 2480 910.0 L 2480 840 L 2640 840 L 2640 500 L 2660 500 L 2660 502.5 L 2720 502.5" stroke="#808000" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-49" d="M 2090.0 983.0 L 2130 983.0 L 2130 980 L 2240 980 L 2240 990 L 2322.5 990.0" stroke="#ffd8b1" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-50" d="M 2397.5 990.0 L 2480 990.0 L 2480 920 L 2630 920 L 2630 530 L 2660 530 L 2660 520 L 2720 520.0" stroke="#000075" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-51" d="M 2090.0 1020.5 L 2130 1020.5 L 2130 1070 L 2322.5 1070.0" stroke="#808080" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-52" d="M 2397.5 1070.0 L 2480 1070.0 L 2480 1000 L 2610 1000 L 2610 540 L 2660 540 L 2660 537.5 L 2720 537.5" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-53" d="M 2090.0 795.5 L 2130 795.5 L 2130 800 L 2230 800 L 2230 1150 L 2322.5 1150.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-54" d="M 2397.5 1150.0 L 2480 1150.0 L 2480 1080 L 2600 1080 L 2600 560 L 2660 560 L 2660 555.0 L 2720 555.0" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-55" d="M 2090.0 833.0 L 2130 833.0 L 2130 830 L 2220 830 L 2220 1230 L 2322.5 1230.0" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-56" d="M 2397.5 1230.0 L 2480 1230.0 L 2480 1160 L 2590 1160 L 2590 570 L 2660 570 L 2660 572.5 L 2720 572.5" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="2670" y="50" width="200" height="760" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="2770" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">DISPLAYS</text>
+    <circle cx="2720" cy="127.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="131.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">a</text>
+    <circle cx="2720" cy="145.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="149.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">b</text>
+    <circle cx="2720" cy="162.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="166.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">c</text>
+    <circle cx="2720" cy="180.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="184.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">d</text>
+    <circle cx="2720" cy="197.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="201.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">e</text>
+    <circle cx="2720" cy="215.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="219.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">f</text>
+    <circle cx="2720" cy="232.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="236.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">g</text>
+    <g transform="translate(2730, 110) scale(0.14948898964073068)">
       <ns0:g xmlns:ns0="http://www.w3.org/2000/svg" id="layer1" transform="translate(-659.49 -986.85)">
   <ns0:g id="g4143">
    <ns0:rect id="rect5967" height="894.14" width="535.16" y="986.85" x="659.49" />
@@ -339,22 +431,22 @@
  </ns0:g>
 
     </g>
-    <text x="2370" y="270" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#ff4a00">DISP1</text>
-    <circle cx="2320" cy="467.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="471.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">a</text>
-    <circle cx="2320" cy="485.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="489.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">b</text>
-    <circle cx="2320" cy="502.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="506.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">c</text>
-    <circle cx="2320" cy="520.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="524.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">d</text>
-    <circle cx="2320" cy="537.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="541.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">e</text>
-    <circle cx="2320" cy="555.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="559.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">f</text>
-    <circle cx="2320" cy="572.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
-    <text x="2312" y="576.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">g</text>
-    <g transform="translate(2330, 450) scale(0.14948898964073068)">
+    <text x="2770" y="270" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#ff4a00">DISP1</text>
+    <circle cx="2720" cy="467.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="471.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">a</text>
+    <circle cx="2720" cy="485.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="489.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">b</text>
+    <circle cx="2720" cy="502.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="506.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">c</text>
+    <circle cx="2720" cy="520.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="524.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">d</text>
+    <circle cx="2720" cy="537.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="541.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">e</text>
+    <circle cx="2720" cy="555.0" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="559.0" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">f</text>
+    <circle cx="2720" cy="572.5" r="3" fill="#2196F3" stroke="black" stroke-width="1"/>
+    <text x="2712" y="576.5" font-family="Arial" font-size="9" font-weight="bold" text-anchor="end" fill="#2196F3">g</text>
+    <g transform="translate(2730, 450) scale(0.14948898964073068)">
       <ns0:g xmlns:ns0="http://www.w3.org/2000/svg" id="layer1" transform="translate(-659.49 -986.85)">
   <ns0:g id="g4143">
    <ns0:rect id="rect5967" height="894.14" width="535.16" y="986.85" x="659.49" />
@@ -364,5 +456,5 @@
  </ns0:g>
 
     </g>
-    <text x="2370" y="610" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#ff4a00">DISP2</text>
+    <text x="2770" y="610" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#ff4a00">DISP2</text>
 </svg>
