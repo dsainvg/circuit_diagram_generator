@@ -360,9 +360,13 @@ class SVGRenderer:
             if sym_data:
                 sx = gate_width / 512
                 sy = gate_height / 512
+                fill = sym_data.get("fill", "black")
+                stroke = sym_data.get("stroke", fill)
+                stroke_width = sym_data.get("stroke_width", "8")
+                
                 svg_parts.append(f'      <g transform="translate({gate_x}, {gate_y}) scale({sx}, {sy})">')
-                svg_parts.append(f'        <path d="{sym_data["path"]}" fill="{sym_data.get("fill", "black")}" '
-                                f'stroke="{sym_data.get("fill", "black")}" stroke-width="8" stroke-linejoin="round"/>')
+                svg_parts.append(f'        <path d="{sym_data["path"]}" fill="{fill}" '
+                                f'stroke="{stroke}" stroke-width="{stroke_width}" stroke-linejoin="round"/>')
                 svg_parts.append(f'      </g>')
             else:
                 # Fallback to use if not found (should not happen)
@@ -413,11 +417,16 @@ class SVGRenderer:
             
             svg_parts.append(f'    </g>')
         
-        # VCC and GND at bottom
-        svg_parts.append(f'    <text x="{x + 10}" y="{y + box_height - 10}" '
-                        f'font-family="Arial" font-size="12" fill="red">VCC:{chip_data["vcc_pin"]}</text>')
-        svg_parts.append(f'    <text x="{x + box_width - 70}" y="{y + box_height - 10}" '
-                        f'font-family="Arial" font-size="12" fill="blue">GND:{chip_data["gnd_pin"]}</text>')
+        # VCC and GND at bottom (skip for passive components like resistors/capacitors)
+        # Check if this is a passive component
+        first_gate = list(all_gates.values())[0]
+        is_passive = first_gate['gate_type'] in ['RESISTOR', 'CAPACITOR']
+        
+        if not is_passive:
+            svg_parts.append(f'    <text x="{x + 10}" y="{y + box_height - 10}" '
+                            f'font-family="Arial" font-size="12" fill="red">VCC:{chip_data["vcc_pin"]}</text>')
+            svg_parts.append(f'    <text x="{x + box_width - 70}" y="{y + box_height - 10}" '
+                            f'font-family="Arial" font-size="12" fill="blue">GND:{chip_data["gnd_pin"]}</text>')
         
         return '\n'.join(svg_parts)
     

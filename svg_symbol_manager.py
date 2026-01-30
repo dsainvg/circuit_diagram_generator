@@ -30,9 +30,15 @@ class SVGSymbolManager:
                 path_elem = tree.find('.//path')
             
             if path_elem is not None:
+                fill = path_elem.get('fill', '#000000')
+                stroke = path_elem.get('stroke', fill)
+                stroke_width = path_elem.get('stroke-width', '8')
+                
                 return {
                     'path': path_elem.get('d'),
-                    'fill': path_elem.get('fill', '#000000')
+                    'fill': fill,
+                    'stroke': stroke,
+                    'stroke_width': stroke_width
                 }
             else:
                 print(f"Warning: No path found in {svg_file}")
@@ -132,8 +138,12 @@ class SVGSymbolManager:
                     self.gate_symbols[gate_type] = svg_data
                     # Create symbol with viewBox matching original SVG (0 0 512 512)
                     # Add stroke to make lines thicker and more visible
+                    fill = svg_data.get('fill', '#000000')
+                    stroke = svg_data.get('stroke', fill)
+                    stroke_width = svg_data.get('stroke_width', '8')
+                    
                     defs.append(f'    <symbol id="{gate_type}" viewBox="0 0 512 512">')
-                    defs.append(f'      <path fill="{svg_data["fill"]}" stroke="{svg_data["fill"]}" stroke-width="8" stroke-linejoin="round" d="{svg_data["path"]}"/>')
+                    defs.append(f'      <path fill="{fill}" stroke="{stroke}" stroke-width="{stroke_width}" stroke-linejoin="round" d="{svg_data["path"]}"/>')
                     defs.append('    </symbol>')
         
         defs.append('  </defs>')

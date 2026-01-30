@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1850" height="1700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+  <defs>
+    <symbol id="RESISTOR" viewBox="0 0 512 512">
+      <path fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round" d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256"/>
+    </symbol>
+    <symbol id="LED" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
+    </symbol>
+    <symbol id="NAND2" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z"/>
+    </symbol>
+    <symbol id="CAPACITOR" viewBox="0 0 512 512">
+      <path fill="none" stroke="#2196F3" stroke-width="12" stroke-linejoin="round" d="M 16 256 L 240 256 M 240 180 L 240 332 M 272 180 L 272 332 M 272 256 L 496 256"/>
+    </symbol>
+  </defs>
+  <text x="20" y="30" font-family="Arial" font-size="20" font-weight="bold" fill="black">Circuit Diagram</text>
+    <rect x="50" y="150" width="120" height="170" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="110" y="175" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">INPUTS</text>
+    <rect x="90" y="200" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="225" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">VCC</text>
+    <rect x="90" y="255" width="40" height="40" fill="none" stroke="black" stroke-width="2"/>
+    <text x="110" y="280" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">GND</text>
+    <rect x="650" y="100" width="220" height="180" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="760" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">R10K</text>
+    <g>
+      <g transform="translate(720, 150) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256" fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round"/>
+      </g>
+      <text x="717.5" y="188.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">1</text>
+      <text x="802.5" y="188.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">2</text>
+      <text x="760" y="245" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">A</text>
+    </g>
+    <rect x="1050" y="100" width="220" height="180" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="1160" y="125" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">C100N</text>
+    <g>
+      <g transform="translate(1120, 150) scale(0.15625, 0.15625)">
+        <path d="M 16 256 L 240 256 M 240 180 L 240 332 M 272 180 L 272 332 M 272 256 L 496 256" fill="none" stroke="#2196F3" stroke-width="12" stroke-linejoin="round"/>
+      </g>
+      <text x="1117.5" y="188.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">1</text>
+      <text x="1202.5" y="188.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">2</text>
+      <text x="1160" y="245" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">A</text>
+    </g>
+    <rect x="650" y="600" width="220" height="480" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="760" y="625" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">4011</text>
+    <g>
+      <g transform="translate(720, 650) scale(0.15625, 0.15625)">
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+      <text x="717.5" y="673.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">1</text>
+      <text x="717.5" y="703.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">2</text>
+      <text x="802.5" y="688.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">3</text>
+      <text x="760" y="745" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">A</text>
+    </g>
+    <g>
+      <g transform="translate(720, 750) scale(0.15625, 0.15625)">
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+      <text x="717.5" y="773.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">5</text>
+      <text x="717.5" y="803.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">6</text>
+      <text x="802.5" y="788.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">4</text>
+      <text x="760" y="845" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">B</text>
+    </g>
+    <g>
+      <g transform="translate(720, 850) scale(0.15625, 0.15625)">
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+      <text x="717.5" y="873.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">8</text>
+      <text x="717.5" y="903.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">9</text>
+      <text x="802.5" y="888.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">10</text>
+      <text x="760" y="945" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">C</text>
+    </g>
+    <g>
+      <g transform="translate(720, 950) scale(0.15625, 0.15625)">
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+      <text x="717.5" y="973.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">12</text>
+      <text x="717.5" y="1003.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">13</text>
+      <text x="802.5" y="988.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="start" fill="green">11</text>
+      <text x="760" y="1045" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="black">D</text>
+    </g>
+    <text x="660" y="1070" font-family="Arial" font-size="12" fill="red">VCC:14</text>
+    <text x="800" y="1070" font-family="Arial" font-size="12" fill="blue">GND:7</text>
+<path id="wire-0" d="M 130 220 L 180 220 L 180 190 L 722.5 190.0" stroke="#e6194b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-1" d="M 797.5 190.0 L 1122.5 190.0" stroke="#3cb44b" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-2" d="M 1197.5 190.0 L 1280 190.0 L 1280 590 L 640 590 L 640 675.0 L 722.5 675.0" stroke="#ffe119" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-3" d="M 130 275 L 180 275 L 180 700 L 640 700 L 640 705.0 L 722.5 705.0" stroke="#4363d8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="wire-4" d="M 797.5 690.0 L 880 690.0 L 880 600 L 1490 600 L 1490 40 L 1575 40 L 1575 114.2578125" stroke="#f58231" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="1500" y="50" width="150" height="130" fill="none" stroke="black" stroke-width="2" rx="5"/>
+    <text x="1575" y="75" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">OUTPUTS</text>
+    <g transform="rotate(180, 1575, 125)">
+      <g transform="translate(1550, 100) scale(0.09765625, 0.09765625)">
+        <path d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+    </g>
+    <text x="1575" y="165" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="green">OUT</text>
+</svg>
