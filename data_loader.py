@@ -43,6 +43,11 @@ class DataLoader:
                 # Get datasheet info for this chip
                 if chip_type in datasheets and gate_num in datasheets[chip_type]:
                     gate_data = datasheets[chip_type][gate_num]
+                    
+                    # Auto-detect custom IC chips based on gate_type
+                    if gate_data['gate_type'] in ['IC14', 'IC16']:
+                        is_custom_ic = True
+                    
                     chips[chip_id] = {
                         'chip_type': chip_type,
                         'gate_num': gate_num,
@@ -57,10 +62,11 @@ class DataLoader:
     
     @staticmethod
     def load_connections(connections_csv):
-        """Load connections from CSV file, separating inputs/outputs from chip-to-chip connections"""
+        """Load connections from CSV file, separating inputs/outputs/displays from chip-to-chip connections"""
         connections = []
         inputs = []
         outputs = []
+        displays = []
         seen_inputs = set()
         
         with open(connections_csv, 'r') as f:
@@ -82,6 +88,35 @@ class DataLoader:
                         'from_pin': input_name,
                         'to_chip': row['to_chip'],
                         'to_pin': int(row['to_pin'])
+                    })
+                    
+                elif row['to_chip'].lower() == 'display':
+                    # Display connection (7-segment)
+                    display_segment = row['to_pin']  # e.g., "DISP1_a"
+                    
+                    # Parse display name and segment
+                    if '_' in display_segment:
+                        display_name, segment = display_segment.rsplit('_', 1)
+                        
+                        # Find or create display entry
+                        display_entry = next((d for d in displays if d['name'] == display_name), None)
+                        if not display_entry:
+                            display_entry = {
+                                'name': display_name,
+                                'segments': []
+                            }
+                            displays.append(display_entry)
+                        
+                        # Add segment if not already present
+                        if segment not in display_entry['segments']:
+                            display_entry['segments'].append(segment)
+                    
+                    # Add connection
+                    connections.append({
+                        'from_chip': row['from_chip'],
+                        'from_pin': int(row['from_pin']),
+                        'to_chip': 'display',
+                        'to_pin': display_segment
                     })
                     
                 elif row['to_chip'].lower() == 'output':
@@ -109,4 +144,4 @@ class DataLoader:
                         'to_pin': int(row['to_pin'])
                     })
         
-        return connections, inputs, outputs
+        return connections, inputs, outputs, displays

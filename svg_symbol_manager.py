@@ -51,7 +51,20 @@ class SVGSymbolManager:
         try:
             with open(svg_file, 'r', encoding='utf-8') as f:
                 content = f.read()
-            return content
+            
+            # Parse to extract viewBox and inner content
+            tree = ET.fromstring(content)
+            viewBox = tree.get('viewBox', '0 0 512 512')
+            
+            # Get all child elements as string
+            inner_content = []
+            for child in tree:
+                inner_content.append(ET.tostring(child, encoding='unicode'))
+            
+            return {
+                'viewBox': viewBox,
+                'content': '\n'.join(inner_content)
+            }
         except Exception as e:
             print(f"Error loading {svg_file}: {e}")
         
@@ -91,14 +104,26 @@ class SVGSymbolManager:
         defs = ['  <defs>']
         
         for gate_type in gate_types:
-            svg_data = self.load_gate_svg(gate_type)
-            if svg_data:
-                self.gate_symbols[gate_type] = svg_data
-                # Create symbol with viewBox matching original SVG (0 0 512 512)
-                # Add stroke to make lines thicker and more visible
-                defs.append(f'    <symbol id="{gate_type}" viewBox="0 0 512 512">')
-                defs.append(f'      <path fill="{svg_data["fill"]}" stroke="{svg_data["fill"]}" stroke-width="8" stroke-linejoin="round" d="{svg_data["path"]}"/>')
-                defs.append('    </symbol>')
+            # For IC packages (IC14, IC16), load full SVG content
+            if gate_type in ['IC14', 'IC16']:
+                svg_content = self.load_full_ic_svg(gate_type)
+                if svg_content:
+                    # Store for later use
+                    self.gate_symbols[gate_type] = {'full_svg': svg_content}
+                    # Create symbol with the full IC package content
+                    defs.append(f'    <symbol id="{gate_type}" viewBox="{svg_content["viewBox"]}">')
+                    defs.append(svg_content['content'])
+                    defs.append('    </symbol>')
+            else:
+                # For regular gates, load path only
+                svg_data = self.load_gate_svg(gate_type)
+                if svg_data:
+                    self.gate_symbols[gate_type] = svg_data
+                    # Create symbol with viewBox matching original SVG (0 0 512 512)
+                    # Add stroke to make lines thicker and more visible
+                    defs.append(f'    <symbol id="{gate_type}" viewBox="0 0 512 512">')
+                    defs.append(f'      <path fill="{svg_data["fill"]}" stroke="{svg_data["fill"]}" stroke-width="8" stroke-linejoin="round" d="{svg_data["path"]}"/>')
+                    defs.append('    </symbol>')
         
         defs.append('  </defs>')
         return '\n'.join(defs)

@@ -1,0 +1,10 @@
+from_chip,from_pin,to_chip,to_pin
+input,A,U1,1
+input,B,U1,2
+U1,13,display,DISP1_a
+U1,12,display,DISP1_b
+U1,11,display,DISP1_c
+U1,10,display,DISP1_d
+U1,9,display,DISP1_e
+U1,15,display,DISP1_f
+U1,14,display,DISP1_g

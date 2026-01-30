@@ -29,6 +29,7 @@ class SVGCircuitGenerator:
         self.connections = []
         self.inputs = []
         self.outputs = []
+        self.displays = []
         self.datasheets = {}
         self.chip_positions = {}
         
@@ -36,7 +37,7 @@ class SVGCircuitGenerator:
         """Load all circuit data from CSV files"""
         self.datasheets = self.data_loader.load_datasheets(self.datasheet_csv)
         self.chips = self.data_loader.load_chips(self.chips_csv, self.datasheets)
-        self.connections, self.inputs, self.outputs = self.data_loader.load_connections(self.connections_csv)
+        self.connections, self.inputs, self.outputs, self.displays = self.data_loader.load_connections(self.connections_csv)
         
         if not self.chips:
             raise ValueError("No chips loaded")
@@ -84,6 +85,10 @@ class SVGCircuitGenerator:
         # Add space for outputs box on the right
         if self.outputs:
             canvas_width += 400
+        
+        # Add space for display modules on the right
+        if self.displays:
+            canvas_width += 250
         
         # Adjust canvas height for inputs/outputs if needed
         # Add extra padding for fallback routing (Strategy 3 spills over bottom)
@@ -138,6 +143,18 @@ class SVGCircuitGenerator:
             outputs_x = canvas_width - 350
             outputs_svg = renderer.create_outputs_box(outputs_x, 50, self.outputs)
         
+        # Pre-calculate display modules SVG to populate pin_positions['display']
+        displays_svg = ""
+        if self.displays:
+            # Position displays on far right, below outputs if they exist
+            if self.outputs:
+                displays_x = canvas_width - 230
+                displays_y = 50 + output_box_height + 30
+            else:
+                displays_x = canvas_width - 230
+                displays_y = 50
+            displays_svg = renderer.create_display_module(displays_x, displays_y, self.displays)
+        
         # Aggregate all connections for routing
         # DataLoader now returns ALL connections in self.connections list
         all_connections = self.connections
@@ -154,6 +171,10 @@ class SVGCircuitGenerator:
         # Add outputs box if outputs exist (on the right side)
         if self.outputs and outputs_svg:
             svg_parts.append(outputs_svg)
+        
+        # Add display modules if displays exist (on the right side, below outputs)
+        if self.displays and displays_svg:
+            svg_parts.append(displays_svg)
         
         # Close SVG
         svg_parts.append('</svg>')

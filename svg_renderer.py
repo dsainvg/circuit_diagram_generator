@@ -204,14 +204,19 @@ class SVGRenderer:
         ic_display_type = 'IC14' if total_pins == 14 else 'IC16'
         
         # Load the IC SVG
-        ic_svg_content = self.symbol_manager.load_full_ic_svg(ic_display_type)
+        ic_svg_data = self.symbol_manager.load_full_ic_svg(ic_display_type)
         
-        if not ic_svg_content:
+        if not ic_svg_data:
             return self.create_chip_svg(chip_id, chip_data, x, y)  # Fallback
         
-        # Extract SVG viewBox dimensions
-        ic_width = 140
-        ic_height = 220 if total_pins == 14 else 240
+        # Extract SVG viewBox dimensions from the loaded data
+        viewBox = ic_svg_data['viewBox']
+        ic_svg_content = ic_svg_data['content']
+        
+        # Parse viewBox to get dimensions
+        viewBox_parts = viewBox.split()
+        ic_width = float(viewBox_parts[2]) if len(viewBox_parts) >= 3 else 140
+        ic_height = float(viewBox_parts[3]) if len(viewBox_parts) >= 4 else (220 if total_pins == 14 else 240)
         
         # Scale factor for display
         scale = 1.5
@@ -240,28 +245,9 @@ class SVGRenderer:
         ic_x = x + box_padding
         ic_y = y + 50
         
-        # Parse and embed IC SVG
-        import xml.etree.ElementTree as ET
-        tree = ET.fromstring(ic_svg_content)
-        
-        # Embed IC SVG at adjusted position
+        # Embed IC SVG at adjusted position (content is already parsed as string)
         svg_parts.append(f'    <g transform="translate({ic_x}, {ic_y}) scale({scale})">')
-        
-        # Extract the g element content
-        g_elem = tree.find('.//{http://www.w3.org/2000/svg}g')
-        if g_elem is None:
-            g_elem = tree.find('.//g')
-        
-        if g_elem is not None:
-            for child in g_elem:
-                svg_parts.append('      ' + ET.tostring(child, encoding='unicode'))
-        
-        # Add chip label in center
-        label_x = ic_width / 2
-        label_y = ic_height / 2
-        svg_parts.append(f'      <text x="{label_x}" y="{label_y}" font-family="monospace" font-size="12" '
-                        f'text-anchor="middle" alignment-baseline="middle" fill="#FFFFFF">{chip_type}</text>')
-        
+        svg_parts.append('      ' + ic_svg_content)
         svg_parts.append('    </g>')
         
         # Get pin positions and register them
@@ -495,6 +481,102 @@ class SVGRenderer:
             
             # (Yellow line removed)
             
+        return '\n'.join(svg_parts)
+    
+    def create_display_module(self, x, y, displays):
+        """Create 7-segment displays for circuit outputs"""
+        if not displays:
+            return ""
+        
+        svg_parts = []
+        
+        # Calculate box dimensions based on number of displays
+        display_width = 80
+        display_height = 140
+        display_spacing = 30
+        box_width = 200
+        box_height = 80 + len(displays) * (display_height + display_spacing)
+        
+        # Display container box
+        svg_parts.append(f'    <rect x="{x}" y="{y}" width="{box_width}" height="{box_height}" '
+                        f'fill="none" stroke="black" stroke-width="2" rx="5"/>')
+        
+        # Register boundary with router if available
+        if self.router:
+            self.router.add_chip_boundary(x, y, box_width, box_height)
+
+        # Initialize proper storage if not exists
+        if 'display' not in self.pin_positions:
+            self.pin_positions['display'] = {}
+
+        # Title
+        svg_parts.append(f'    <text x="{x + box_width//2}" y="{y + 25}" '
+                        f'font-family="Arial" font-size="16" font-weight="bold" '
+                        f'text-anchor="middle" fill="black">DISPLAYS</text>')
+        
+        # Draw each display as a 7-segment
+        display_y_start = y + 60
+        for idx, display_data in enumerate(displays):
+            display_y = display_y_start + idx * (display_height + display_spacing)
+            display_x = x + (box_width - display_width) // 2
+            display_center_x = display_x + display_width // 2
+            display_center_y = display_y + display_height // 2
+            
+            # Load 7-segment SVG
+            seg_svg_data = self.symbol_manager.load_full_ic_svg("7Segment")
+            if not seg_svg_data:
+                # Try to load it with load_gate_svg if not already loaded
+                sym_data = self.symbol_manager.load_gate_svg("7Segment")
+                if sym_data:
+                    self.symbol_manager.gate_symbols["7Segment"] = sym_data
+            
+            # Calculate scale to fit display dimensions
+            if seg_svg_data:
+                # Parse viewBox to get dimensions
+                viewBox_parts = seg_svg_data['viewBox'].split()
+                svg_width = float(viewBox_parts[2]) if len(viewBox_parts) >= 3 else 535.15647
+                svg_height = float(viewBox_parts[3]) if len(viewBox_parts) >= 4 else 894.135
+                scale_x = display_width / svg_width
+                scale_y = display_height / svg_height
+                scale = min(scale_x, scale_y)
+            else:
+                scale = 0.15
+            
+            # Register connection points for each segment (a-g) and dp
+            # For 7-segment: a=top, b=top-right, c=bottom-right, d=bottom, e=bottom-left, f=top-left, g=middle
+            segments = display_data.get('segments', ['a', 'b', 'c', 'd', 'e', 'f', 'g'])
+            
+            # Position connection points on the left side of the display
+            segment_spacing = display_height / (len(segments) + 1)
+            for seg_idx, segment in enumerate(segments):
+                conn_x = display_x - 10
+                conn_y = display_y + segment_spacing * (seg_idx + 1)
+                segment_name = f"{display_data['name']}_{segment}"
+                self.pin_positions['display'][segment_name] = {'x': conn_x, 'y': conn_y}
+                
+                # Draw small circle for connection point
+                svg_parts.append(f'    <circle cx="{conn_x}" cy="{conn_y}" r="3" '
+                                f'fill="#2196F3" stroke="black" stroke-width="1"/>')
+                # Label
+                svg_parts.append(f'    <text x="{conn_x - 8}" y="{conn_y + 4}" '
+                                f'font-family="Arial" font-size="9" font-weight="bold" '
+                                f'text-anchor="end" fill="#2196F3">{segment}</text>')
+            
+            if seg_svg_data:
+                # Render 7-segment display using full SVG content
+                svg_parts.append(f'    <g transform="translate({display_x}, {display_y}) scale({scale})">')
+                svg_parts.append('      ' + seg_svg_data['content'])
+                svg_parts.append(f'    </g>')
+            else:
+                # Fallback rectangle
+                svg_parts.append(f'    <rect x="{display_x}" y="{display_y}" width="{display_width}" height="{display_height}" '
+                                f'fill="#333" stroke="#ff4a00" stroke-width="2" rx="5"/>')
+            
+            # Display label below
+            svg_parts.append(f'    <text x="{display_center_x}" y="{display_y + display_height + 20}" '
+                            f'font-family="Arial" font-size="12" font-weight="bold" '
+                            f'text-anchor="middle" fill="#ff4a00">{display_data["name"]}</text>')
+        
         return '\n'.join(svg_parts)
     
     def create_inputs_box(self, x, y, inputs):
