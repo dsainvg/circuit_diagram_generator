@@ -38,6 +38,7 @@ class DataLoader:
                 chip_type = row['chip_type']
                 gate_num = int(row['gate_num'])
                 layer = int(row['layer'])
+                is_custom_ic = row.get('is_custom_ic', '').lower() == 'true'
                 
                 # Get datasheet info for this chip
                 if chip_type in datasheets and gate_num in datasheets[chip_type]:
@@ -48,7 +49,9 @@ class DataLoader:
                         'layer': layer,
                         'gate_type': gate_data['gate_type'],
                         'vcc_pin': gate_data['vcc_pin'],
-                        'gnd_pin': gate_data['gnd_pin']
+                        'gnd_pin': gate_data['gnd_pin'],
+                        'total_pins': gate_data['total_pins'],
+                        'is_custom_ic': is_custom_ic
                     }
         return chips
     

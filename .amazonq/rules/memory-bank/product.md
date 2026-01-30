@@ -1,43 +1,45 @@
 # Circuit Diagram Generator - Product Overview
 
 ## Purpose and Value Proposition
-The Circuit Diagram Generator is a specialized tool for creating visual SVG circuit diagrams from CSV data files. It transforms textual circuit descriptions into professional-quality schematic diagrams, making it invaluable for electrical engineering education, documentation, and circuit design visualization.
+The Circuit Diagram Generator is a specialized tool that automatically creates professional circuit diagrams from CSV data files. It transforms textual circuit descriptions into visual SVG diagrams, making circuit design documentation faster and more consistent than manual drawing tools.
 
 ## Key Features and Capabilities
 
 ### Core Functionality
-- **CSV-to-SVG Conversion**: Converts circuit definitions from structured CSV files into scalable vector graphics
-- **Modular Architecture**: Separates concerns across data loading, symbol management, layout calculation, and SVG rendering
-- **Comprehensive IC Support**: Supports common 74-series and 4000-series logic ICs with accurate pin mappings
-- **Intelligent Layout**: Automatically positions chips and calculates optimal canvas dimensions
-- **Professional Output**: Generates clean, readable circuit diagrams with proper gate symbols
+- **CSV-to-SVG Conversion**: Converts chip definitions and connections from CSV files into professional circuit diagrams
+- **Modular Architecture**: Separates data loading, layout management, rendering, and routing into distinct components
+- **Intelligent Layout**: Automatically positions chips and routes connections using advanced channel routing algorithms
+- **Symbol Library**: Comprehensive collection of logic gate symbols (AND, OR, NAND, NOR, NOT, XOR, NXOR) in multiple input configurations
 
-### Supported Gate Types
-- Logic Gates: AND, OR, NAND, NOR, XOR, NXOR (2, 3, 4 inputs)
-- Inverters: NOT gates and buffers
-- Visual Elements: LED outputs for circuit endpoints
-- IC Packages: 14-pin and 16-pin DIP packages with accurate pinouts
+### Advanced Features
+- **Channel Routing**: Sophisticated wire routing system with multiple fallback strategies for complex connections
+- **IC Chip Support**: Built-in support for common 74xx series logic chips with proper pin mappings
+- **Input/Output Management**: Dedicated input and output boxes for external circuit connections
+- **Scalable Canvas**: Dynamic canvas sizing based on circuit complexity
+- **Datasheet Integration**: Uses chip datasheet data for accurate pin configurations and gate arrangements
 
-### Input/Output Management
-- **Input Handling**: Supports labeled circuit inputs with visual input boxes
-- **Output Visualization**: Creates output boxes with LED indicators
-- **Connection Mapping**: Traces signal paths between chips, inputs, and outputs
-- **Pin-accurate Routing**: Maintains electrical accuracy with proper pin assignments
+### Output Capabilities
+- **SVG Generation**: Creates scalable vector graphics for high-quality diagrams
+- **PNG Export**: Converts SVG to PNG format for documentation and presentations
+- **Professional Styling**: Clean, technical drawing style suitable for engineering documentation
 
 ## Target Users and Use Cases
 
 ### Primary Users
-- **Electrical Engineering Students**: Learning digital logic design and IC interconnections
-- **Circuit Designers**: Creating documentation for digital logic circuits
-- **Educators**: Generating teaching materials and circuit examples
-- **Technical Writers**: Producing circuit documentation and manuals
+- **Electronics Engineers**: Creating documentation for digital logic circuits
+- **Students**: Learning digital logic design through visual circuit representation
+- **Technical Writers**: Generating consistent circuit diagrams for manuals and specifications
+- **Educators**: Creating teaching materials and examples for digital electronics courses
 
 ### Common Use Cases
-- **Educational Projects**: Visualizing logic circuit assignments and homework
-- **Design Documentation**: Creating schematic diagrams for technical reports
-- **Circuit Analysis**: Understanding signal flow in complex digital systems
-- **Prototyping Support**: Planning breadboard layouts and connections
-- **Technical Communication**: Sharing circuit designs with team members
+- **Circuit Documentation**: Converting existing circuit designs into professional diagrams
+- **Design Verification**: Visual representation of circuit connections for review and validation
+- **Educational Materials**: Creating clear, consistent diagrams for textbooks and presentations
+- **Rapid Prototyping**: Quick visualization of circuit concepts during design phase
+- **Legacy Circuit Analysis**: Converting old circuit descriptions into modern visual formats
 
-### Workflow Integration
-The tool fits into typical engineering workflows by accepting standardized CSV inputs (easily generated from spreadsheets or databases) and producing publication-ready SVG outputs that can be embedded in documents, presentations, or web pages.
+### Supported Circuit Types
+- Combinational logic circuits using 74xx series ICs
+- Multi-chip designs with complex interconnections
+- Circuits with external inputs and outputs
+- Educational examples and demonstration circuits

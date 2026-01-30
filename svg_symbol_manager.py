@@ -41,6 +41,51 @@ class SVGSymbolManager:
         
         return None
     
+    def load_full_ic_svg(self, ic_type):
+        """Load full IC SVG content for custom chips (IC14, IC16)"""
+        svg_file = os.path.join(self.db_folder, f"{ic_type}.svg")
+        if not os.path.exists(svg_file):
+            print(f"Warning: {svg_file} not found")
+            return None
+        
+        try:
+            with open(svg_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            return content
+        except Exception as e:
+            print(f"Error loading {svg_file}: {e}")
+        
+        return None
+    
+    @staticmethod
+    def get_ic_pin_positions(ic_type, total_pins):
+        """Get pin positions for IC14 and IC16 chips based on viewBox"""
+        pin_positions = {}
+        
+        if ic_type == 'IC14' or total_pins == 14:
+            # IC14: viewBox="0 0 140 220", pins at y: 30,55,80,105,130,155,180 (spacing 25)
+            left_pins = [1, 2, 3, 4, 5, 6, 7]
+            right_pins = [14, 13, 12, 11, 10, 9, 8]
+            
+            for i, pin in enumerate(left_pins):
+                pin_positions[pin] = {'x': 0, 'y': 30 + i * 25}
+            
+            for i, pin in enumerate(right_pins):
+                pin_positions[pin] = {'x': 140, 'y': 30 + i * 25}
+                
+        elif ic_type == 'IC16' or total_pins == 16:
+            # IC16: viewBox="0 0 140 240", pins at y: 30,55,80,105,130,155,180,205 (spacing 25)
+            left_pins = [1, 2, 3, 4, 5, 6, 7, 8]
+            right_pins = [16, 15, 14, 13, 12, 11, 10, 9]
+            
+            for i, pin in enumerate(left_pins):
+                pin_positions[pin] = {'x': 0, 'y': 30 + i * 25}
+            
+            for i, pin in enumerate(right_pins):
+                pin_positions[pin] = {'x': 140, 'y': 30 + i * 25}
+        
+        return pin_positions
+    
     def create_svg_defs(self, gate_types):
         """Create reusable SVG symbol definitions from DB folder SVGs"""
         defs = ['  <defs>']

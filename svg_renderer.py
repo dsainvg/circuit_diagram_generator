@@ -191,10 +191,136 @@ class SVGRenderer:
                 f'stroke="{color}" fill="none" stroke-width="2.5" '
                 f'stroke-linecap="round" stroke-linejoin="round"/>')
         
+    def create_custom_ic_svg(self, chip_id, chip_data, x, y):
+        """Create SVG for a custom IC chip (IC14/IC16) with multiple I/O"""
+        svg_parts = []
+        chip_type = chip_data['chip_type']
+        
+        # Initialize pin positions storage for this chip
+        self.pin_positions[chip_id] = {}
+        
+        # Determine IC type and dimensions
+        total_pins = chip_data.get('total_pins', 14)
+        ic_display_type = 'IC14' if total_pins == 14 else 'IC16'
+        
+        # Load the IC SVG
+        ic_svg_content = self.symbol_manager.load_full_ic_svg(ic_display_type)
+        
+        if not ic_svg_content:
+            return self.create_chip_svg(chip_id, chip_data, x, y)  # Fallback
+        
+        # Extract SVG viewBox dimensions
+        ic_width = 140
+        ic_height = 220 if total_pins == 14 else 240
+        
+        # Scale factor for display
+        scale = 1.5
+        display_width = ic_width * scale
+        display_height = ic_height * scale
+        
+        # Calculate box dimensions (add padding around IC)
+        box_padding = 30
+        box_width = display_width + box_padding * 2
+        box_height = display_height + 80  # Extra space for title and VCC/GND labels
+        
+        # Chip container box
+        svg_parts.append(f'    <rect x="{x}" y="{y}" width="{box_width}" height="{box_height}" '
+                        f'fill="none" stroke="black" stroke-width="2" rx="5"/>')
+        
+        # Register boundary with router to prevent wires from passing through
+        if self.router:
+            self.router.add_chip_boundary(x, y, box_width, box_height)
+        
+        # Chip name at top
+        svg_parts.append(f'    <text x="{x + box_width//2}" y="{y + 25}" '
+                        f'font-family="Arial" font-size="16" font-weight="bold" '
+                        f'text-anchor="middle" fill="black">{chip_type}</text>')
+        
+        # Adjust IC position to center it in the box with space for title
+        ic_x = x + box_padding
+        ic_y = y + 50
+        
+        # Parse and embed IC SVG
+        import xml.etree.ElementTree as ET
+        tree = ET.fromstring(ic_svg_content)
+        
+        # Embed IC SVG at adjusted position
+        svg_parts.append(f'    <g transform="translate({ic_x}, {ic_y}) scale({scale})">')
+        
+        # Extract the g element content
+        g_elem = tree.find('.//{http://www.w3.org/2000/svg}g')
+        if g_elem is None:
+            g_elem = tree.find('.//g')
+        
+        if g_elem is not None:
+            for child in g_elem:
+                svg_parts.append('      ' + ET.tostring(child, encoding='unicode'))
+        
+        # Add chip label in center
+        label_x = ic_width / 2
+        label_y = ic_height / 2
+        svg_parts.append(f'      <text x="{label_x}" y="{label_y}" font-family="monospace" font-size="12" '
+                        f'text-anchor="middle" alignment-baseline="middle" fill="#FFFFFF">{chip_type}</text>')
+        
+        svg_parts.append('    </g>')
+        
+        # Get pin positions and register them
+        pin_positions = self.symbol_manager.get_ic_pin_positions(ic_display_type, total_pins)
+        
+        # Get all pins from datasheet
+        all_gates = self.datasheets.get(chip_type, {})
+        all_pins = set()
+        vcc_pin = None
+        gnd_pin = None
+        
+        for gate_data in all_gates.values():
+            all_pins.update(gate_data['input_pins'])
+            all_pins.add(gate_data['output_pin'])
+            vcc_pin = gate_data['vcc_pin']
+            gnd_pin = gate_data['gnd_pin']
+        
+        # Register all pin positions (scaled to actual position with adjusted IC placement)
+        for pin, pos in pin_positions.items():
+            actual_x = ic_x + pos['x'] * scale
+            actual_y = ic_y + pos['y'] * scale
+            self.pin_positions[chip_id][pin] = {'x': actual_x, 'y': actual_y}
+            
+            # Add pin labels
+            if pin in all_pins:
+                # I/O pin - show in green or blue
+                color = '#4CAF50' if pin in [g['output_pin'] for g in all_gates.values()] else '#2196F3'
+                label_x = actual_x - 12 if pin <= (total_pins // 2) else actual_x + 12
+                anchor = 'end' if pin <= (total_pins // 2) else 'start'
+                svg_parts.append(f'    <text x="{label_x}" y="{actual_y + 4}" font-family="Arial" '
+                                f'font-size="10" font-weight="bold" text-anchor="{anchor}" fill="{color}">{pin}</text>')
+            elif pin == vcc_pin:
+                # VCC pin
+                label_x = actual_x + 12
+                svg_parts.append(f'    <text x="{label_x}" y="{actual_y + 4}" font-family="Arial" '
+                                f'font-size="10" font-weight="bold" text-anchor="start" fill="#FF5722">VCC</text>')
+            elif pin == gnd_pin:
+                # GND pin
+                label_x = actual_x - 12
+                svg_parts.append(f'    <text x="{label_x}" y="{actual_y + 4}" font-family="Arial" '
+                                f'font-size="10" font-weight="bold" text-anchor="end" fill="#607D8B">GND</text>')
+        
+        # VCC and GND labels at bottom of box (like regular chips)
+        if vcc_pin and gnd_pin:
+            svg_parts.append(f'    <text x="{x + 10}" y="{y + box_height - 10}" '
+                            f'font-family="Arial" font-size="12" fill="red">VCC:{vcc_pin}</text>')
+            svg_parts.append(f'    <text x="{x + box_width - 70}" y="{y + box_height - 10}" '
+                            f'font-family="Arial" font-size="12" fill="blue">GND:{gnd_pin}</text>')
+        
+        return '\n'.join(svg_parts)
+    
     def create_chip_svg(self, chip_id, chip_data, x, y):
         """Create SVG for a chip showing all gates of that chip type"""
         svg_parts = []
         chip_type = chip_data['chip_type']
+        
+        # Check if this is a custom IC chip (non-gate chip)
+        if chip_data.get('is_custom_ic', False):
+            return self.create_custom_ic_svg(chip_id, chip_data, x, y)
         
         # Initialize pin positions storage for this chip
         self.pin_positions[chip_id] = {}

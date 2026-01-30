@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="100px" height="240px" viewBox="0 0 100 240" xmlns="http://www.w3.org/2000/svg">
+<svg width="140px" height="240px" viewBox="0 0 140 240" xmlns="http://www.w3.org/2000/svg">
   <g>
-    <rect x="20" y="10" width="60" height="220" rx="5" ry="5" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
-    <path d="M 40 10 A 10 10 0 0 0 60 10" fill="none" stroke="#000000" stroke-width="2"/>
-    <text x="50" y="120" font-family="monospace" font-size="12" text-anchor="middle" alignment-baseline="middle">NAME</text>
+    <rect x="20" y="10" width="100" height="220" rx="5" ry="5" fill="#000000" stroke="#000000" stroke-width="2"/>
+    <rect x="30" y="40" width="80" height="160" rx="2" ry="2" fill="#333333" stroke="none"/>
+    <circle cx="30" cy="30" r="4" fill="#CCCCCC" stroke="none"/>
+    <path d="M 60 10 A 10 10 0 0 0 80 10" fill="none" stroke="#808080" stroke-width="2"/>
+    <text x="70" y="120" font-family="monospace" font-size="12" text-anchor="middle" alignment-baseline="middle" fill="#FFFFFF"></text>
     <!-- Pins 1-8 (left) -->
     <path d="M0 30 H20 M0 55 H20 M0 80 H20 M0 105 H20 M0 130 H20 M0 155 H20 M0 180 H20 M0 205 H20" stroke="#000000" stroke-width="2"/>
     <!-- Pins 9-16 (right) -->
-    <path d="M80 205 H100 M80 180 H100 M80 155 H100 M80 130 H100 M80 105 H100 M80 80 H100 M80 55 H100 M80 30 H100" stroke="#000000" stroke-width="2"/>
+    <path d="M120 205 H140 M120 180 H140 M120 155 H140 M120 130 H140 M120 105 H140 M120 80 H140 M120 55 H140 M120 30 H140" stroke="#000000" stroke-width="2"/>
   </g>
 </svg>

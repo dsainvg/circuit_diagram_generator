@@ -4,111 +4,92 @@
 
 ### Primary Language
 - **Python 3.x**: Core implementation language
-- **Standard Library**: Extensive use of built-in modules (csv, xml, math)
-- **Object-Oriented Design**: Class-based architecture with inheritance
+  - Object-oriented design with class-based architecture
+  - Standard library usage for file I/O and data processing
+  - Type hints and docstrings for code documentation
 
-### Markup Languages
-- **SVG 1.1**: Scalable Vector Graphics for diagram output
-- **XML**: SVG symbol definitions and document structure
-- **CSV**: Data input format for circuit specifications
+## Core Dependencies
 
-## Dependencies and Libraries
+### Required Packages
+- **cairosvg**: SVG to PNG conversion library
+  - Handles rasterization of vector graphics
+  - Provides high-quality image output
+- **Pillow (PIL)**: Python Imaging Library
+  - Image processing and manipulation
+  - Format conversion support
 
-### Required Dependencies
+### Standard Library Modules
+- **csv**: CSV file parsing and processing
+- **os**: File system operations and path handling
+- **math**: Mathematical calculations for positioning and routing
+- **xml.etree.ElementTree**: XML/SVG parsing and manipulation (if used)
+
+## Build System and Development
+
+### Installation
 ```bash
 pip install cairosvg pillow
 ```
 
-### Core Libraries
-- **cairosvg**: SVG to PNG conversion (mentioned in README)
-- **Pillow (PIL)**: Image processing and format conversion
-- **csv** (built-in): CSV file parsing and data extraction
-- **xml.etree.ElementTree** (built-in): XML/SVG parsing and manipulation
-
-### Standard Library Modules
-- **os**: File system operations and path handling
-- **math**: Mathematical calculations for positioning
-- **collections**: Data structure utilities
-- **typing**: Type hints and annotations (if used)
-
-## Build System and Development
-
-### Project Structure
-- **No build system required**: Pure Python implementation
-- **Direct execution**: Run with `python circuit_generator.py`
-- **Module imports**: Relative imports between project modules
-
 ### Development Commands
-
-#### Basic Usage
 ```bash
 # Generate circuit diagram
 python circuit_generator.py
 
-# With custom files (modify main block)
-python -c "
-from circuit_generator import SVGCircuitGenerator
-gen = SVGCircuitGenerator('my_chips.csv', 'my_connections.csv', 'my_datasheets.csv')
-gen.generate_circuit()
-"
+# Run with custom files
+python circuit_generator.py --chips custom_chips.csv --connections custom_connections.csv
 ```
 
-#### File Operations
-```bash
-# View generated SVG
-# Open circuit_diagram.svg in web browser or SVG viewer
+### File Formats and Standards
+- **Input**: CSV files with specific column schemas
+- **Output**: SVG 1.1 compliant vector graphics
+- **Symbols**: SVG symbol library in DB/ folder
+- **Encoding**: UTF-8 for all text files
 
-# Convert to PNG (requires cairosvg)
-cairosvg circuit_diagram.svg -o circuit_diagram.png
+## Architecture Technologies
 
-# Validate CSV files
-python -c "
-from data_loader import DataLoader
-loader = DataLoader()
-chips = loader.load_chips('chips.csv', {})
-print(f'Loaded {len(chips)} chips')
-"
-```
+### Design Patterns
+- **Manager Pattern**: Separate managers for different subsystems
+- **Factory Pattern**: Symbol creation and management
+- **Strategy Pattern**: Multiple routing algorithms in channel_router
+- **Pipeline Pattern**: Sequential data processing stages
 
-## Configuration Files
+### Data Processing
+- **CSV Processing**: Native Python csv module for data ingestion
+- **Data Validation**: Custom validation logic for circuit integrity
+- **Caching**: In-memory caching of loaded symbols and processed data
 
-### Input Data Files
-- **chips.csv**: Circuit component definitions
-  - Format: chip_id, chip_type, gate_num, layer
-  - Example: U1,4009,1,0
-- **connections.csv**: Inter-component wiring
-  - Format: from_chip, from_pin, to_chip, to_pin
-  - Example: U1,2,U2,1
-- **chip_datasheets.csv**: IC specifications and pinouts
-  - Format: chip_type, gate_num, input_pins, output_pin, gate_type, vcc_pin, gnd_pin, total_pins, description
-
-### Symbol Library
-- **DB/ folder**: SVG gate symbol definitions
-- **Naming convention**: {GATE_TYPE}{INPUT_COUNT}.svg
-- **Examples**: AND2.svg, NAND3.svg, OR4.svg
-
-## Output Formats
-
-### Primary Output
-- **SVG**: Scalable Vector Graphics (circuit_diagram.svg)
-- **Advantages**: Scalable, editable, web-compatible
-- **Structure**: XML-based with embedded symbols and styling
-
-### Secondary Formats
-- **PNG**: Raster image conversion (via cairosvg)
-- **PDF**: Vector format conversion (via cairosvg)
-- **Other formats**: Supported through cairosvg conversion
+### Graphics and Rendering
+- **SVG Generation**: Direct XML string construction for SVG output
+- **Coordinate Systems**: 2D Cartesian coordinates for positioning
+- **Vector Graphics**: Scalable symbols and connection paths
+- **Channel Routing**: Grid-based routing algorithms for wire placement
 
 ## Development Environment
 
-### Recommended Setup
-- **Python 3.7+**: Modern Python version with type hints support
-- **IDE**: Any Python-compatible IDE (VS Code, PyCharm, etc.)
-- **SVG Viewer**: Browser or dedicated SVG editor for output verification
-- **CSV Editor**: Spreadsheet application for data file editing
+### File Structure Requirements
+- **DB/ folder**: Must contain all required SVG symbol files
+- **CSV files**: Must follow documented schema formats
+- **Output directory**: Configurable output location for generated files
 
-### Testing and Validation
-- **Manual Testing**: Run with sample CSV files
-- **Visual Verification**: Check generated SVG output
-- **Data Validation**: Verify CSV parsing and chip definitions
-- **Symbol Testing**: Ensure all gate types render correctly
+### Configuration Management
+- **Hardcoded defaults**: Default file names and paths in main script
+- **Parameter injection**: Constructor-based configuration for managers
+- **CSV-driven configuration**: Circuit topology defined in data files
+
+### Error Handling
+- **Validation**: Input data validation with descriptive error messages
+- **Graceful degradation**: Fallback routing strategies for complex layouts
+- **File I/O protection**: Exception handling for file operations
+
+## Performance Considerations
+
+### Optimization Strategies
+- **Symbol reuse**: SVG definitions prevent symbol duplication
+- **Efficient routing**: Multiple algorithm strategies for optimal performance
+- **Memory management**: Minimal object creation during rendering
+
+### Scalability
+- **Canvas sizing**: Dynamic canvas adjustment based on circuit complexity
+- **Connection handling**: Efficient algorithms for large numbers of connections
+- **Symbol library**: Extensible symbol system for new gate types

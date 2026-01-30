@@ -29,11 +29,16 @@ class LayoutManager:
         gate_height = 80
         gate_spacing = 20
         
-        def calculate_chip_height(chip_type, datasheets):
-            if chip_type in datasheets:
-                num_gates = len(datasheets[chip_type])
-                return max(160, 80 + num_gates * (gate_height + gate_spacing))
-            return 200
+        def calculate_chip_height(chip_data):
+            # Check if it's a custom IC
+            if chip_data.get('is_custom_ic', False):
+                total_pins = chip_data.get('total_pins', 14)
+                ic_height = 220 if total_pins == 14 else 240
+                display_height = int(ic_height * 1.5)  # Scale factor
+                return display_height + 130  # Add box padding (50 top + 80 bottom)
+            else:
+                # Regular gate-based chip - use default
+                return 200
         
         # Place chips layer by layer
         canvas_width = start_x
@@ -49,7 +54,7 @@ class LayoutManager:
                 chip_positions[chip_id] = {'x': layer_x, 'y': current_y}
                 
                 # Update canvas dimensions
-                chip_height = calculate_chip_height(chip_data['chip_type'], {})
+                chip_height = calculate_chip_height(chip_data)
                 current_y += chip_height + chip_spacing_y
                 
                 # Track maximum dimensions

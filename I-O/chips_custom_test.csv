@@ -1,0 +1,5 @@
+chip_id,chip_type,gate_num,layer,is_custom_ic
+U1,74LS00,1,0,false
+U2,74LS00,2,1,false
+U3,CUSTOM_MUX,1,2,true
+U4,74LS138,1,1,true

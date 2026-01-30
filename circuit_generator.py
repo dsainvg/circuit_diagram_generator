@@ -42,12 +42,22 @@ class SVGCircuitGenerator:
             raise ValueError("No chips loaded")
     
     def calculate_chip_height(self, chip_type):
-        """Calculate height of a chip based on number of gates"""
-        gate_height = 80
-        gate_spacing = 20
+        """Calculate height of a chip based on number of gates or IC type"""
         if chip_type in self.datasheets:
-            num_gates = len(self.datasheets[chip_type])
-            return max(160, 80 + num_gates * (gate_height + gate_spacing))
+            # Check if it's a custom IC
+            first_gate = list(self.datasheets[chip_type].values())[0]
+            if first_gate.get('gate_type') in ['IC14', 'IC16']:
+                # Custom IC chip - use IC dimensions with box padding
+                total_pins = first_gate.get('total_pins', 14)
+                ic_height = 220 if total_pins == 14 else 240
+                display_height = int(ic_height * 1.5)  # Scale factor
+                return display_height + 130  # Add box padding (50 top + 80 bottom)
+            else:
+                # Regular gate-based chip
+                gate_height = 80
+                gate_spacing = 20
+                num_gates = len(self.datasheets[chip_type])
+                return max(160, 80 + num_gates * (gate_height + gate_spacing))
         return 200
     
     def generate_circuit(self):
@@ -158,10 +168,21 @@ class SVGCircuitGenerator:
 
 
 if __name__ == "__main__":
+    # Test with custom IC chips
+    print("=== Testing Custom IC Chip Integration ===")
     generator = SVGCircuitGenerator(
-        chips_csv="chips.csv",
-        connections_csv="connections.csv",
-        datasheet_csv="chip_datasheets.csv",
-        output_file="circuit_diagram.svg"
+        chips_csv="I-O/chips_custom_test.csv",
+        connections_csv="I-O/connections_custom_test.csv",
+        datasheet_csv="I-O/chip_datasheets.csv",
+        output_file="I-O/outputs/circuit_diagram_custom.svg"
     )
     generator.generate_circuit()
+    
+    print("\n=== Testing Original Circuit ===")
+    generator2 = SVGCircuitGenerator(
+        chips_csv="I-O/chips.csv",
+        connections_csv="I-O/connections.csv",
+        datasheet_csv="I-O/chip_datasheets.csv",
+        output_file="I-O/outputs/circuit_diagram.svg"
+    )
+    generator2.generate_circuit()

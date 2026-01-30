@@ -11,71 +11,88 @@ circuit_diagram_generator/
 │   ├── NAND2.svg, NAND3.svg, NAND4.svg
 │   ├── NOR2.svg, NOR3.svg, NOR4.svg
 │   ├── NOT1.svg, XOR2.svg, NXOR2.svg
-│   └── LED.svg
-├── circuit_generator.py            # Main orchestrator class
-├── data_loader.py                  # CSV data parsing and validation
-├── svg_symbol_manager.py           # SVG symbol loading and management
-├── layout_manager.py               # Chip positioning and layout algorithms
-├── svg_renderer.py                 # SVG generation and rendering
-├── chips.csv                       # Circuit chip definitions
-├── connections.csv                 # Inter-chip connections
-├── chip_datasheets.csv            # IC pinout and gate specifications
-├── circuit_diagram.svg            # Generated output file
-└── README.md                       # User documentation
+│   ├── IC14.svg, IC16.svg          # IC package symbols
+│   └── LED.svg                     # Output indicator
+├── outputs/                        # Generated diagram outputs
+├── *.py                           # Core Python modules
+├── *.csv                          # Circuit definition files
+└── *.md                           # Documentation files
 ```
 
 ## Core Components and Relationships
 
-### 1. Main Orchestrator (`circuit_generator.py`)
-- **SVGCircuitGenerator**: Central coordinator class
-- **Responsibilities**: Workflow orchestration, data integration, output generation
-- **Dependencies**: All other modules (data_loader, svg_symbol_manager, layout_manager, svg_renderer)
-- **Key Methods**: `load_data()`, `generate_circuit()`, `calculate_chip_height()`
+### Main Orchestrator
+- **circuit_generator.py**: Primary entry point and workflow coordinator
+  - Initializes all subsystem managers
+  - Orchestrates the complete generation pipeline
+  - Handles file I/O and error management
 
-### 2. Data Management Layer
-- **DataLoader** (`data_loader.py`): CSV parsing and data validation
-- **Input Processing**: Handles chips.csv, connections.csv, chip_datasheets.csv
-- **Data Structures**: Converts CSV data into Python dictionaries and lists
-- **Validation**: Ensures data integrity and completeness
+### Data Management Layer
+- **data_loader.py**: CSV file parsing and data validation
+  - Loads chip definitions from chips.csv
+  - Processes connection data from connections.csv
+  - Integrates datasheet information from chip_datasheets.csv
+  - Validates data integrity and relationships
 
-### 3. Symbol Management (`svg_symbol_manager.py`)
-- **SVGSymbolManager**: Manages reusable SVG gate symbols
-- **Symbol Library**: Loads and caches SVG definitions from DB/ folder
-- **Reusability**: Creates SVG `<defs>` sections for efficient rendering
-- **Gate Types**: Supports all standard logic gates and visual elements
+### Symbol and Asset Management
+- **svg_symbol_manager.py**: SVG symbol library management
+  - Loads and caches gate symbols from DB/ folder
+  - Creates reusable SVG definitions
+  - Manages symbol scaling and positioning
 
-### 4. Layout Engine (`layout_manager.py`)
-- **LayoutManager**: Calculates optimal chip positioning
-- **Algorithms**: Intelligent placement to minimize wire crossings
-- **Canvas Sizing**: Determines optimal diagram dimensions
-- **Spatial Optimization**: Arranges components for visual clarity
+### Layout and Positioning
+- **layout_manager.py**: Intelligent chip placement algorithms
+  - Calculates optimal chip positions on canvas
+  - Minimizes connection crossings
+  - Handles canvas sizing and spacing
 
-### 5. Rendering Engine (`svg_renderer.py`)
-- **SVGRenderer**: Generates final SVG markup
-- **Component Rendering**: Creates chip instances, input/output boxes
-- **Visual Styling**: Applies consistent formatting and styling
-- **Pin Management**: Tracks pin positions for connection routing
+### Routing System
+- **channel_router.py**: Advanced wire routing algorithms
+  - Implements multiple routing strategies
+  - Handles connection conflicts and optimization
+  - Manages channel allocation and spacing
+
+### Rendering Engine
+- **svg_renderer.py**: SVG generation and visual output
+  - Creates final SVG markup
+  - Renders chips, connections, and annotations
+  - Handles styling and visual formatting
+
+### Format Conversion
+- **svg_to_png.py**: Output format conversion utilities
+  - Converts SVG to PNG using cairosvg
+  - Handles image quality and sizing options
 
 ## Architectural Patterns
 
 ### Modular Design
 - **Separation of Concerns**: Each module handles a specific aspect of diagram generation
-- **Loose Coupling**: Modules interact through well-defined interfaces
-- **Single Responsibility**: Each class has a focused, specific purpose
+- **Manager Pattern**: Dedicated manager classes for different subsystems
+- **Pipeline Architecture**: Sequential processing stages with clear interfaces
 
 ### Data Flow Architecture
 1. **Input Stage**: CSV files → DataLoader → Structured data
-2. **Processing Stage**: Data + Symbols → LayoutManager → Positioned components
-3. **Rendering Stage**: Positioned components → SVGRenderer → SVG output
-4. **Orchestration**: SVGCircuitGenerator coordinates all stages
+2. **Processing Stage**: Layout calculation → Symbol management → Routing
+3. **Rendering Stage**: SVG generation → Format conversion → Output files
 
-### Configuration-Driven Design
-- **CSV Configuration**: Circuit topology defined in external files
-- **Symbol Library**: Gate symbols stored as reusable SVG files
-- **Datasheet Mapping**: IC specifications in structured CSV format
+### Component Interactions
+- **Loose Coupling**: Modules communicate through well-defined interfaces
+- **Dependency Injection**: Managers are injected into the main orchestrator
+- **State Management**: Centralized state in the main generator class
 
-### Extensibility Points
-- **New Gate Types**: Add SVG files to DB/ folder
-- **IC Support**: Extend chip_datasheets.csv with new IC types
-- **Layout Algorithms**: Modify LayoutManager for different positioning strategies
-- **Output Formats**: Extend SVGRenderer for additional output types
+## Configuration Files
+
+### Circuit Definition Files
+- **chips.csv**: IC chip specifications and properties
+- **connections.csv**: Inter-chip connection definitions  
+- **chip_datasheets.csv**: Detailed IC pin mappings and gate arrangements
+
+### Symbol Library
+- **DB/ folder**: SVG symbol definitions for all supported gate types
+- Standardized naming convention matching gate_type field in chips.csv
+- Scalable vector graphics for high-quality rendering
+
+## Output Structure
+- **circuit_diagram.svg**: Primary SVG output file
+- **outputs/ folder**: Directory for generated diagrams and variants
+- **PNG conversion**: Optional raster format output for documentation

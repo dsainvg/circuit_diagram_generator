@@ -1,0 +1,16 @@
+from_chip,from_pin,to_chip,to_pin
+input,A,U1,1
+input,B,U1,2
+input,C,U2,4
+input,D,U2,5
+U1,3,U3,1
+U2,6,U3,2
+input,E,U3,3
+input,F,U3,4
+input,G,U3,5
+input,H,U3,6
+U3,13,U4,1
+U1,3,U4,2
+U2,6,U4,3
+U4,15,output,OUT1
+U3,13,output,OUT2
