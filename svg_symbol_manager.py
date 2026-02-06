@@ -83,6 +83,7 @@ class SVGSymbolManager:
         
         if ic_type == 'IC8' or total_pins == 8:
             # IC8: viewBox="0 0 140 140", pins at y: 30,55,80,105 (spacing 25)
+            # Standard DIP-8: pins 1-4 on left, pins 8-5 on right (counterclockwise)
             left_pins = [1, 2, 3, 4]
             right_pins = [8, 7, 6, 5]
             
@@ -94,25 +95,33 @@ class SVGSymbolManager:
                 
         elif ic_type == 'IC14' or total_pins == 14:
             # IC14: viewBox="0 0 140 220", pins at y: 30,55,80,105,130,155,180 (spacing 25)
+            # Standard DIP-14: pins 1-7 on left, pins 14-8 on right (counterclockwise)
+            # Pin 7 (GND) at bottom-left, Pin 14 (VCC) at bottom-right
             left_pins = [1, 2, 3, 4, 5, 6, 7]
             right_pins = [14, 13, 12, 11, 10, 9, 8]
             
+            # Place GND and VCC at the same Y position
             for i, pin in enumerate(left_pins):
                 pin_positions[pin] = {'x': 0, 'y': 30 + i * 25}
             
             for i, pin in enumerate(right_pins):
-                pin_positions[pin] = {'x': 140, 'y': 30 + i * 25}
+                # Align pin 14 (VCC) with pin 7 (GND) vertically
+                pin_positions[pin] = {'x': 140, 'y': 30 + (6 - i) * 25}
                 
         elif ic_type == 'IC16' or total_pins == 16:
             # IC16: viewBox="0 0 140 240", pins at y: 30,55,80,105,130,155,180,205 (spacing 25)
+            # Standard DIP-16: pins 1-8 on left, pins 16-9 on right (counterclockwise)
+            # Pin 8 (GND) at bottom-left, Pin 16 (VCC) at bottom-right
             left_pins = [1, 2, 3, 4, 5, 6, 7, 8]
             right_pins = [16, 15, 14, 13, 12, 11, 10, 9]
             
+            # Place GND and VCC at the same Y position
             for i, pin in enumerate(left_pins):
                 pin_positions[pin] = {'x': 0, 'y': 30 + i * 25}
             
             for i, pin in enumerate(right_pins):
-                pin_positions[pin] = {'x': 140, 'y': 30 + i * 25}
+                # Align pin 16 (VCC) with pin 8 (GND) vertically
+                pin_positions[pin] = {'x': 140, 'y': 30 + (7 - i) * 25}
         
         return pin_positions
     

@@ -67,7 +67,7 @@ class SVGCircuitGenerator:
                 num_select_pins = sum(1 for g in self.datasheets[chip_type].values() 
                                     if g.get('gate_type') == 'SELECT')
                 # Add extra height for SELECT pins if present
-                select_pins_height = 70 if num_select_pins > 0 else 0
+                select_pins_height = 90 if num_select_pins > 0 else 0
                 return max(160, 80 + actual_gates * (gate_height + gate_spacing) + select_pins_height)
         return 200
     
