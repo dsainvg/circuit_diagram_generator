@@ -357,12 +357,18 @@ class SVGRenderer:
         all_gates = self.datasheets.get(chip_type, {})
         num_gates = len(all_gates)
         
+        # Count only actual gates (not SELECT/ENABLE control pins) for height calculation
+        actual_gates = sum(1 for g in all_gates.values() if g.get('gate_type') not in ['SELECT', 'ENABLE'])
+        num_select_pins = sum(1 for g in all_gates.values() if g.get('gate_type') == 'SELECT')
+        
         # Calculate chip box dimensions based on number of gates
         gate_width = 80
         gate_height = 80
         gate_spacing = 0 if chip_type.startswith('R') else 20  # Smaller spacing for resistors
         box_width = 220
-        box_height = max(160, 80 + num_gates * (gate_height + gate_spacing))
+        # Add extra height for SELECT pins if present (60px for pins + spacing)
+        select_pins_height = 70 if num_select_pins > 0 else 0
+        box_height = max(160, 80 + actual_gates * (gate_height + gate_spacing) + select_pins_height)
         
         # Chip container box
         svg_parts.append(f'    <rect x="{x}" y="{y}" width="{box_width}" height="{box_height}" '
@@ -375,14 +381,28 @@ class SVGRenderer:
         
         # Draw all gates for this chip
         gate_y_start = y + 50
+        actual_gate_index = 0  # Counter for actual gates (not control pins)
+        select_pins_to_render = []  # Store SELECT pins to render after gates
+        
         for gate_num in sorted(all_gates.keys()):
             gate_data = all_gates[gate_num]
             gate_type = gate_data['gate_type']
             input_pins = gate_data['input_pins']
             output_pin = gate_data['output_pin']
             
-            gate_y = gate_y_start + (gate_num - 1) * (gate_height + gate_spacing)
+            # Handle ENABLE pins like VCC/GND (text only, no connection point)
+            if gate_type == 'ENABLE':
+                # Don't render as connection point, will be shown as text at bottom like VCC/GND
+                continue
+            
+            # Store SELECT pins to render later (below all gates)
+            if gate_type == 'SELECT':
+                select_pins_to_render.append((gate_num, gate_data))
+                continue
+            
+            gate_y = gate_y_start + actual_gate_index * (gate_height + gate_spacing)
             gate_x = x + box_width // 2 - gate_width // 2
+            actual_gate_index += 1  # Increment only for actual gates
             
             # Create a group for this gate with all its elements
             svg_parts.append(f'    <g>')
@@ -453,16 +473,90 @@ class SVGRenderer:
             
             svg_parts.append(f'    </g>')
         
+        # Render SELECT pins below all gates, horizontally positioned
+        if select_pins_to_render:
+            # Calculate Y position - inside the box, before VCC/GND labels
+            # Position at box_height - 70 (leaving room for VCC/GND at bottom -10 and ENABLE at -30)
+            select_base_y = y + box_height - 70
+            
+            # Calculate horizontal position - center aligned vertically
+            num_selects = len(select_pins_to_render)
+            pin_x = x + box_width // 2  # Center horizontally
+            vertical_spacing = 25  # Space between pins when stacked
+            
+            for idx, (gate_num, gate_data) in enumerate(select_pins_to_render):
+                control_pin = gate_data['input_pins'][0] if isinstance(gate_data['input_pins'], list) else int(gate_data['input_pins'])
+                
+                # Position vertically stacked in center
+                pin_y = select_base_y + idx * vertical_spacing
+                
+                # Store pin position
+                self.pin_positions[chip_id][control_pin] = {'x': pin_x, 'y': pin_y}
+                
+                # Draw connection point circle
+                svg_parts.append(f'    <circle cx="{pin_x}" cy="{pin_y}" r="4" fill="purple" stroke="black" stroke-width="1"/>')
+                
+                # Extract label from description - use SEL1/SEL2 for double pins
+                desc = gate_data.get('description', '')
+                label = 'SEL'  # Default
+                if 'S1' in desc:
+                    label = 'S1'
+                elif 'S0' in desc:
+                    label = 'S0'
+                elif 'A/B' in desc:
+                    label = 'A/B'
+                elif num_selects > 1 and label == 'SEL':
+                    # For multiple generic select pins, use SEL1, SEL2
+                    label = f'SEL{idx + 1}'
+                
+                # Label above the circle
+                svg_parts.append(f'    <text x="{pin_x}" y="{pin_y - 8}" '
+                                f'font-family="Arial" font-size="10" font-weight="bold" '
+                                f'text-anchor="middle" fill="purple">{label}</text>')
+                
+                # Pin number below the circle
+                svg_parts.append(f'    <text x="{pin_x}" y="{pin_y + 15}" '
+                                f'font-family="Arial" font-size="10" font-weight="bold" '
+                                f'text-anchor="middle" fill="purple">{control_pin}</text>')
+        
         # VCC and GND at bottom (skip for passive components like resistors/capacitors)
         # Check if this is a passive component
         first_gate = list(all_gates.values())[0]
         is_passive = first_gate['gate_type'] in ['RESISTOR', 'CAPACITOR']
         
         if not is_passive:
+            # Standard VCC and GND
             svg_parts.append(f'    <text x="{x + 10}" y="{y + box_height - 10}" '
                             f'font-family="Arial" font-size="12" fill="red">VCC:{chip_data["vcc_pin"]}</text>')
             svg_parts.append(f'    <text x="{x + box_width - 70}" y="{y + box_height - 10}" '
                             f'font-family="Arial" font-size="12" fill="blue">GND:{chip_data["gnd_pin"]}</text>')
+            
+            # Add ENABLE pins as text labels (like VCC/GND)
+            enable_pins = [(gn, gd) for gn, gd in all_gates.items() if gd.get('gate_type') == 'ENABLE']
+            for idx, (gate_num, gate_data) in enumerate(enable_pins):
+                enable_pin = gate_data['input_pins'][0] if isinstance(gate_data['input_pins'], list) else int(gate_data['input_pins'])
+                desc = gate_data.get('description', '')
+                
+                # Extract label
+                label = 'EN'
+                if 'E_a' in desc:
+                    label = 'E_a'
+                elif 'E_b' in desc:
+                    label = 'E_b'
+                elif 'G' in desc:
+                    label = 'G'
+                
+                # Position at bottom, centered or offset
+                if len(enable_pins) == 1:
+                    text_x = x + box_width // 2
+                elif len(enable_pins) == 2:
+                    text_x = x + box_width // 4 + idx * (box_width // 2)
+                else:
+                    text_x = x + 10 + idx * 60
+                
+                svg_parts.append(f'    <text x="{text_x}" y="{y + box_height - 30}" '
+                                f'font-family="Arial" font-size="12" fill="purple" '
+                                f'text-anchor="middle">{label}:{enable_pin}</text>')
         
         return '\n'.join(svg_parts)
     

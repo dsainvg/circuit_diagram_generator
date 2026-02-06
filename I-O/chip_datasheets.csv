@@ -75,7 +75,18 @@ chip_type,gate_num,input_pins,output_pin,gate_type,vcc_pin,gnd_pin,total_pins,de
 74LS86,3,"9,10",8,XOR2,14,7,14,Quad 2-input XOR
 74LS86,4,"12,13",11,XOR2,14,7,14,Quad 2-input XOR
 74LS138,1,"1,2,3",15,IC14,16,8,16,3-to-8 Decoder
-74LS153,1,"1,2,14,15",4,IC16,16,8,16,Dual 4-to-1 Multiplexer
+74LS153,1,"6,5,4,3",7,MUX4,16,8,16,Dual 4-to-1 Multiplexer A
+74LS153,2,"10,11,12,13",9,MUX4,16,8,16,Dual 4-to-1 Multiplexer B
+74LS153,3,2,2,SELECT,16,8,16,Select S1 (shared)
+74LS153,4,14,14,SELECT,16,8,16,Select S0 (shared)
+74LS153,5,1,1,ENABLE,16,8,16,Enable E_a for Gate 1
+74LS153,6,15,15,ENABLE,16,8,16,Enable E_b for Gate 2
+74LS157,1,"2,3",4,MUX2,16,8,16,Quad 2-to-1 Multiplexer 1
+74LS157,2,"5,6",7,MUX2,16,8,16,Quad 2-to-1 Multiplexer 2
+74LS157,3,"14,13",12,MUX2,16,8,16,Quad 2-to-1 Multiplexer 3
+74LS157,4,"11,10",9,MUX2,16,8,16,Quad 2-to-1 Multiplexer 4
+74LS157,5,1,1,SELECT,16,8,16,Select A/B (shared)
+74LS157,6,15,15,ENABLE,16,8,16,Enable G (shared)
 CD4051,1,"11,12,13,9,10",3,IC16,16,8,16,8-Channel Analog Multiplexer
 CUSTOM_MUX,1,"1,2,3,4,5,6",13,IC14,14,7,14,Custom 6-input Multiplexer
 74LS47,1,"1,2,6,7",13,IC16,16,8,16,BCD to 7-Segment Decoder

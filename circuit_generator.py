@@ -59,11 +59,16 @@ class SVGCircuitGenerator:
                 display_height = int(ic_height * 1.5)  # Scale factor
                 return display_height + 130  # Add box padding (50 top + 80 bottom)
             else:
-                # Regular gate-based chip
+                # Regular gate-based chip - count only actual gates (not control pins)
                 gate_height = 80
                 gate_spacing = 20
-                num_gates = len(self.datasheets[chip_type])
-                return max(160, 80 + num_gates * (gate_height + gate_spacing))
+                actual_gates = sum(1 for g in self.datasheets[chip_type].values() 
+                                 if g.get('gate_type') not in ['SELECT', 'ENABLE'])
+                num_select_pins = sum(1 for g in self.datasheets[chip_type].values() 
+                                    if g.get('gate_type') == 'SELECT')
+                # Add extra height for SELECT pins if present
+                select_pins_height = 70 if num_select_pins > 0 else 0
+                return max(160, 80 + actual_gates * (gate_height + gate_spacing) + select_pins_height)
         return 200
     
     def generate_circuit(self):
@@ -194,11 +199,21 @@ class SVGCircuitGenerator:
 
 
 if __name__ == "__main__":
+    # Test with MUX chips
+    print("=== Testing MUX Chip Integration ===")
+    generator_mux = SVGCircuitGenerator(
+        chips_csv="I-O/ARCH/chips_mux_test.csv",
+        connections_csv="I-O/ARCH/connections_mux_test.csv",
+        datasheet_csv="I-O/chip_datasheets.csv",
+        output_file="I-O/outputs/circuit_diagram_mux.svg"
+    )
+    generator_mux.generate_circuit()
+    
     # Test with custom IC chips
-    print("=== Testing Custom IC Chip Integration ===")
+    print("\n=== Testing Custom IC Chip Integration ===")
     generator = SVGCircuitGenerator(
-        chips_csv="I-O/chips_custom_test.csv",
-        connections_csv="I-O/connections_custom_test.csv",
+        chips_csv="I-O/ARCH/chips_custom_test.csv",
+        connections_csv="I-O/ARCH/connections_custom_test.csv",
         datasheet_csv="I-O/chip_datasheets.csv",
         output_file="I-O/outputs/circuit_diagram_custom.svg"
     )

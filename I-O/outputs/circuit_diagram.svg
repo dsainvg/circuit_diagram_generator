@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="3700" height="2180" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
   <defs>
+    <symbol id="NOR2" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M116.6 105c40 45.9 60.4 98.4 60.4 151 0 52.6-20.4 105.1-60.4 151H192c34.1 0 81.9-34 119.3-71.4 18.7-18.6 35.1-37.9 46.6-53.3 5.8-7.6 10.4-14.4 13.4-19.4 1.4-2.5 2.5-4.7 3.2-6.1.1-.4.2-.5.2-.8 0-.3-.1-.5-.2-.9-.6-1.4-1.7-3.5-3.2-6-3-5.1-7.5-11.8-13.2-19.5-11.3-15.4-27.5-34.6-46.1-53.2C274.8 139 227.1 105 192 105h-75.4zM16 151v18h202.2c-3-6.1-6.3-12.1-9.9-18H16zM16 343v18h192.3c3.6-5.9 6.9-11.9 9.9-18H16z M380 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M395 247h117v18h-117z"/>
+    </symbol>
     <symbol id="RESISTOR" viewBox="0 0 512 512">
       <path fill="none" stroke="#8B4513" stroke-width="16" stroke-linejoin="round" d="M 16 256 L 120 256 L 140 220 L 160 292 L 180 220 L 200 292 L 220 220 L 240 292 L 260 220 L 280 292 L 300 220 L 320 256 L 496 256"/>
+    </symbol>
+    <symbol id="LED" viewBox="0 0 512 512">
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
     </symbol>
     <symbol id="NOT1" viewBox="0 0 512 512">
       <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 105,111.3 V 400.7 L 365.5,256 Z M 16,247 v 18 h 150 v -18 z m 320,-14 c -12.8,0 -23,10.2 -23,23 0,12.8 10.2,23 23,23 12.8,0 23,-10.2 23,-23 0,-12.8 -10.2,-23 -23,-23 z m 40,14 c 0.6,2.9 1,5.9 1,9 0,3.1 -0.4,6.1 -1,9 h 120 v -18 z"/>
     </symbol>
     <symbol id="NAND2" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105z M16 151v18h89v-18H16z M16 343v18h89v-18H16z M345 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M360 247h152v18h-152z"/>
+      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z"/>
     </symbol>
     <symbol id="IC16" viewBox="0 0 140 240">
 <ns0:g xmlns:ns0="http://www.w3.org/2000/svg">
@@ -23,12 +29,6 @@
     <ns0:path d="M120 205 H140 M120 180 H140 M120 155 H140 M120 130 H140 M120 105 H140 M120 80 H140 M120 55 H140 M120 30 H140" stroke="#000000" stroke-width="2" />
   </ns0:g>
 
-    </symbol>
-    <symbol id="NOR2" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M116.6 105c40 45.9 60.4 98.4 60.4 151 0 52.6-20.4 105.1-60.4 151H192c34.1 0 81.9-34 119.3-71.4 18.7-18.6 35.1-37.9 46.6-53.3 5.8-7.6 10.4-14.4 13.4-19.4 1.4-2.5 2.5-4.7 3.2-6.1.1-.4.2-.5.2-.8 0-.3-.1-.5-.2-.9-.6-1.4-1.7-3.5-3.2-6-3-5.1-7.5-11.8-13.2-19.5-11.3-15.4-27.5-34.6-46.1-53.2C274.8 139 227.1 105 192 105h-75.4zM16 151v18h202.2c-3-6.1-6.3-12.1-9.9-18H16zM16 343v18h192.3c3.6-5.9 6.9-11.9 9.9-18H16z M380 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M395 247h117v18h-117z"/>
-    </symbol>
-    <symbol id="LED" viewBox="0 0 512 512">
-      <path fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M 256,80 C 208,80 170,118 170,166 v 100 h 172 V 166 C 342,118 304,80 256,80 Z M 230,266 v 80 h 52 v -80 z M 210,346 v 20 h 92 v -20 z"/>
     </symbol>
     <symbol id="IC14" viewBox="0 0 140 220">
 <ns0:g xmlns:ns0="http://www.w3.org/2000/svg">
@@ -212,7 +212,7 @@
     <text x="2360" y="677" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="black">74LS00</text>
     <g>
       <g transform="translate(2320, 702) scale(0.15625, 0.15625)">
-        <path d="M105 105v302h151c148 0 148-302 0-302H105z M16 151v18h89v-18H16z M16 343v18h89v-18H16z M345 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M360 247h152v18h-152z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
       </g>
       <text x="2317.5" y="725.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">1</text>
       <text x="2317.5" y="755.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">2</text>
@@ -221,7 +221,7 @@
     </g>
     <g>
       <g transform="translate(2320, 802) scale(0.15625, 0.15625)">
-        <path d="M105 105v302h151c148 0 148-302 0-302H105z M16 151v18h89v-18H16z M16 343v18h89v-18H16z M345 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M360 247h152v18h-152z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
       </g>
       <text x="2317.5" y="825.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">4</text>
       <text x="2317.5" y="855.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">5</text>
@@ -230,7 +230,7 @@
     </g>
     <g>
       <g transform="translate(2320, 902) scale(0.15625, 0.15625)">
-        <path d="M105 105v302h151c148 0 148-302 0-302H105z M16 151v18h89v-18H16z M16 343v18h89v-18H16z M345 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M360 247h152v18h-152z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
       </g>
       <text x="2317.5" y="925.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">9</text>
       <text x="2317.5" y="955.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">10</text>
@@ -239,7 +239,7 @@
     </g>
     <g>
       <g transform="translate(2320, 1002) scale(0.15625, 0.15625)">
-        <path d="M105 105v302h151c148 0 148-302 0-302H105z M16 151v18h89v-18H16z M16 343v18h89v-18H16z M345 241c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z M360 247h152v18h-152z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M105 105v302h151c148 0 148-302 0-302H105zm-89 46v18h150v-18H16zm374 82c-12.8 0-23 10.2-23 23s10.2 23 23 23 23-10.2 23-23-10.2-23-23-23zm40 14c.6 2.9 1 5.9 1 9 0 3.1-.4 6.1-1 9h66v-18h-66zM16 343v18h150v-18H16z" fill="#000000" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
       </g>
       <text x="2317.5" y="1025.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">12</text>
       <text x="2317.5" y="1055.0" font-family="Arial" font-size="12" font-weight="bold" text-anchor="end" fill="blue">13</text>

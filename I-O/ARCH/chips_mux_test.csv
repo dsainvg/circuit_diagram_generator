@@ -1,0 +1,7 @@
+chip_id,chip_type,gate_num,layer
+U1,74LS153,1,1
+U1,74LS153,2,1
+U2,74LS157,1,2
+U2,74LS157,2,2
+U2,74LS157,3,2
+U2,74LS157,4,2

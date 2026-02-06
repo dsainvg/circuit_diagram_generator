@@ -156,6 +156,29 @@ class SVGSymbolManager:
         # Output pin is on the right side around y=256
         
         input_positions = []
+        
+        # Special handling for MUX gates which have different pin layouts
+        if gate_type == 'MUX2':
+            # MUX2: 2 data inputs on left, select at bottom (in actual SVG)
+            input_positions = [
+                {'x': 64, 'y': 200},   # Input A (top)
+                {'x': 64, 'y': 328}    # Input B (bottom)
+            ]
+            output_position = {'x': 384, 'y': 264}
+            return input_positions, output_position
+            
+        elif gate_type == 'MUX4':
+            # MUX4: 4 data inputs on left, selects at bottom (in actual SVG)
+            input_positions = [
+                {'x': 96, 'y': 136},   # Input I0
+                {'x': 96, 'y': 226},   # Input I1
+                {'x': 96, 'y': 316},   # Input I2
+                {'x': 96, 'y': 406}    # Input I3
+            ]
+            output_position = {'x': 416, 'y': 264}
+            return input_positions, output_position
+        
+        # Standard gate pin positions
         if num_inputs == 1:
             input_positions = [{'x': 16, 'y': 256}]  # Single input centered
         elif num_inputs == 2:
@@ -180,4 +203,25 @@ class SVGSymbolManager:
         # Output pin position (right side, centered)
         output_position = {'x': 496, 'y': 256}
         
-        return input_positions, output_position
+        return input_positions, output_position    
+    @staticmethod
+    def get_mux_info(chip_type):
+        """Get MUX-specific information for select pins that are shared across gates
+        Returns: dict with 'select_pins', 'enable_pins', 'pin_labels' for the chip"""
+        mux_info = {
+            '74LS153': {
+                'select_pins': [2, 14],  # S1, S0
+                'select_labels': {2: 'S1', 14: 'S0'},
+                'enable_pins': {1: 'E_a', 15: 'E_b'},  # Gate-specific enables
+                'gate_enable_map': {1: 1, 2: 15},  # gate_num -> enable_pin
+                'description': 'Dual 4:1 MUX'
+            },
+            '74LS157': {
+                'select_pins': [1],  # A/B (S)
+                'select_labels': {1: 'A/B'},
+                'enable_pins': {15: 'G'},  # Common enable for all gates
+                'gate_enable_map': {},  # No per-gate enable
+                'description': 'Quad 2:1 MUX'
+            }
+        }
+        return mux_info.get(chip_type, None)
