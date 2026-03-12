@@ -340,9 +340,9 @@ class SVGRenderer:
                 svg_parts.append(f'    <text x="{label_x}" y="{actual_y + 4}" font-family="Arial" '
                                 f'font-size="10" font-weight="bold" text-anchor="{anchor}" fill="{color}">{pin}</text>')
             elif pin == vcc_pin or pin == gnd_pin:
-                # VCC and GND pins - both on left side
-                label_x = actual_x - 12
-                anchor = 'end'
+                # VCC and GND pins - determine side based on pin number
+                label_x = actual_x - 12 if pin <= (total_pins // 2) else actual_x + 12
+                anchor = 'end' if pin <= (total_pins // 2) else 'start'
                 if pin == vcc_pin:
                     svg_parts.append(f'    <text x="{label_x}" y="{actual_y + 4}" font-family="Arial" '
                                     f'font-size="10" font-weight="bold" text-anchor="{anchor}" fill="#FF5722">VCC</text>')
@@ -439,13 +439,23 @@ class SVGRenderer:
             if sym_data:
                 sx = gate_width / 512
                 sy = gate_height / 512
-                fill = sym_data.get("fill", "black")
-                stroke = sym_data.get("stroke", fill)
-                stroke_width = sym_data.get("stroke_width", "8")
                 
                 svg_parts.append(f'      <g transform="translate({gate_x}, {gate_y}) scale({sx}, {sy})">')
-                svg_parts.append(f'        <path d="{sym_data["path"]}" fill="{fill}" '
-                                f'stroke="{stroke}" stroke-width="{stroke_width}" stroke-linejoin="round"/>')
+                
+                # Handle multiple paths if present
+                paths = sym_data.get('paths', [])
+                if paths:
+                    for path_data in paths:
+                        fill = path_data.get('fill', '#000000')
+                        stroke = path_data.get('stroke', fill)
+                        stroke_width = path_data.get('stroke_width', '8')
+                        stroke_linejoin = path_data.get('stroke_linejoin', 'round')
+                        stroke_linecap = path_data.get('stroke_linecap', 'butt')
+                        
+                        svg_parts.append(f'        <path d="{path_data["path"]}" fill="{fill}" '
+                                        f'stroke="{stroke}" stroke-width="{stroke_width}" '
+                                        f'stroke-linejoin="{stroke_linejoin}" stroke-linecap="{stroke_linecap}"/>')
+                
                 svg_parts.append(f'      </g>')
             else:
                 # Fallback to use if not found (should not happen)
@@ -673,8 +683,15 @@ class SVGRenderer:
                 sy = output_size / 512
                 svg_parts.append(f'    <g transform="rotate(180, {led_center_x}, {led_center_y})">')
                 svg_parts.append(f'      <g transform="translate({output_x}, {output_y}) scale({sx}, {sy})">')
-                svg_parts.append(f'        <path d="{sym_data["path"]}" fill="{sym_data.get("fill", "black")}" '
-                                f'stroke="{sym_data.get("fill", "black")}" stroke-width="8" stroke-linejoin="round"/>')
+                
+                # Handle paths array structure
+                paths = sym_data.get('paths', [])
+                if paths:
+                    for path_data in paths:
+                        fill = path_data.get('fill', 'black')
+                        svg_parts.append(f'        <path d="{path_data["path"]}" fill="{fill}" '
+                                        f'stroke="{fill}" stroke-width="8" stroke-linejoin="round"/>')
+                
                 svg_parts.append(f'      </g>')
                 svg_parts.append(f'    </g>')
             else:

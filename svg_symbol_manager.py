@@ -22,24 +22,33 @@ class SVGSymbolManager:
             
             tree = ET.fromstring(content)
             
-            # Extract the path element content
+            # Extract ALL path elements content
             ns = {'svg': 'http://www.w3.org/2000/svg'}
             # Try with namespace first, then without
-            path_elem = tree.find('.//{http://www.w3.org/2000/svg}path')
-            if path_elem is None:
-                path_elem = tree.find('.//path')
+            path_elems = tree.findall('.//{http://www.w3.org/2000/svg}path')
+            if not path_elems:
+                path_elems = tree.findall('.//path')
             
-            if path_elem is not None:
-                fill = path_elem.get('fill', '#000000')
-                stroke = path_elem.get('stroke', fill)
-                stroke_width = path_elem.get('stroke-width', '8')
+            if path_elems:
+                # Store all paths with their attributes
+                paths = []
+                for path_elem in path_elems:
+                    fill = path_elem.get('fill', '#000000')
+                    stroke = path_elem.get('stroke', fill)
+                    stroke_width = path_elem.get('stroke-width', '8')
+                    stroke_linejoin = path_elem.get('stroke-linejoin', 'round')
+                    stroke_linecap = path_elem.get('stroke-linecap', 'butt')
+                    
+                    paths.append({
+                        'path': path_elem.get('d'),
+                        'fill': fill,
+                        'stroke': stroke,
+                        'stroke_width': stroke_width,
+                        'stroke_linejoin': stroke_linejoin,
+                        'stroke_linecap': stroke_linecap
+                    })
                 
-                return {
-                    'path': path_elem.get('d'),
-                    'fill': fill,
-                    'stroke': stroke,
-                    'stroke_width': stroke_width
-                }
+                return {'paths': paths}
             else:
                 print(f"Warning: No path found in {svg_file}")
         except Exception as e:
@@ -146,13 +155,20 @@ class SVGSymbolManager:
                 if svg_data:
                     self.gate_symbols[gate_type] = svg_data
                     # Create symbol with viewBox matching original SVG (0 0 512 512)
-                    # Add stroke to make lines thicker and more visible
-                    fill = svg_data.get('fill', '#000000')
-                    stroke = svg_data.get('stroke', fill)
-                    stroke_width = svg_data.get('stroke_width', '8')
-                    
                     defs.append(f'    <symbol id="{gate_type}" viewBox="0 0 512 512">')
-                    defs.append(f'      <path fill="{fill}" stroke="{stroke}" stroke-width="{stroke_width}" stroke-linejoin="round" d="{svg_data["path"]}"/>')
+                    
+                    # Add all paths from the gate SVG
+                    for path_data in svg_data.get('paths', []):
+                        fill = path_data.get('fill', '#000000')
+                        stroke = path_data.get('stroke', fill)
+                        stroke_width = path_data.get('stroke_width', '8')
+                        stroke_linejoin = path_data.get('stroke_linejoin', 'round')
+                        stroke_linecap = path_data.get('stroke_linecap', 'butt')
+                        
+                        defs.append(f'      <path fill="{fill}" stroke="{stroke}" stroke-width="{stroke_width}" '
+                                   f'stroke-linejoin="{stroke_linejoin}" stroke-linecap="{stroke_linecap}" '
+                                   f'd="{path_data["path"]}"/>')
+                    
                     defs.append('    </symbol>')
         
         defs.append('  </defs>')
